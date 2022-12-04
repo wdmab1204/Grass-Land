@@ -6,9 +6,11 @@ namespace Movement
 {
     public class MovementActor : MonoBehaviour
     {
-        [SerializeField] private Rigidbody2D rb;
         [SerializeField] private float speed;
+        [SerializeField] private Grid grid;
+        [SerializeField] private TilemapReader tilemapReader;
         private Vector2 direction;
+        private TileDirection tileDirection;
         private Vector2 motion;
 
         private Vector2 CatesianToIsometric(Vector2 cartesian)
@@ -24,44 +26,53 @@ namespace Movement
             return cartPos;
         }
 
-        private void MovementProcess()
+        private IEnumerator MovementProcess()
         {
-            direction = Vector2.zero;
+            while (true)
+            {
+                direction = Vector2.zero;
 
-            if (Input.GetKey(KeyCode.W))
-                direction += Vector2.up;
-            else if (Input.GetKey(KeyCode.S))
-                direction += Vector2.down;
+                //키 입력에 따른 방향 값 대입
+                if (Input.GetKey(KeyCode.W))
+                    direction += Vector2.up;
+                else if (Input.GetKey(KeyCode.S))
+                    direction += Vector2.down;
 
-            if (Input.GetKey(KeyCode.A))
-                direction += Vector2.left;
-            else if (Input.GetKey(KeyCode.D))
-                direction += Vector2.right;
+                if (Input.GetKey(KeyCode.A))
+                    direction += Vector2.left;
+                else if (Input.GetKey(KeyCode.D))
+                    direction += Vector2.right;
 
-            motion = direction.normalized * speed;
-            motion = CatesianToIsometric(motion);
-        }
+                motion = direction.normalized * speed;
+                motion = CatesianToIsometric(motion);
 
-        private void Move(Vector2 motion)
-        {
-            rb.velocity = motion;
+
+                //var nextPosition = tilemapReader.GetNextTilePosition(Vector3.zero, TileDirection.bottomLeft);
+                //while (Vector2.Distance(transform.position,nextPosition) > 0.0f) /* Until you move to next tile */
+                //{
+                //    /* move */
+                //    transform.Translate(motion * Time.deltaTime);
+                //    yield return null;
+                //}
+
+
+                yield return null;
+            }
         }
 
         private void Awake()
         {
-            rb = GetComponent<Rigidbody2D>();
+
+        }
+
+        private void Start()
+        {
+            StartCoroutine(MovementProcess());
         }
 
         private void Update()
         {
-            MovementProcess();
+            transform.Translate(motion * Time.deltaTime);
         }
-
-        private void FixedUpdate()
-        {
-            Move(motion);
-        }
-
-
     }
 }
