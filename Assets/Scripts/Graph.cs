@@ -1,85 +1,69 @@
-﻿// GraphNode 클래스
+﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
-public class GraphNode<T>
+namespace KMolenda.Aisd.Graph
 {
-    private List<GraphNode<T>> _neighbors;
-    private List<int> _weights;
 
-    public T Data { get; set; }
-
-    public GraphNode()
+    /// <summary>
+    /// Implementacja grafu nieskierowanego, nieważonego w formie listy sąsiadów (adjacency list)
+    /// </summary>
+    /// <remarks>
+    /// Założenia:
+    /// 1. graf nieskierowany, nieważony
+    /// 2. węzły są typu <code>T</code> - są to etykiety
+    /// 3. węzły muszą być unikalne
+    /// 4. krawędzie są typu <code>Tuple(T,T)</code>
+    /// </remarks>
+    /// <typeparam name="T"></typeparam>
+    public class Graph<T> : IGraph<T>
     {
-    }
+        // Dictionary: { 1 -> {2, 3}, 2 -> {1}, 3 -> {1} }
+        public Dictionary<T, HashSet<T>> AdjacencyList { get; } = new Dictionary<T, HashSet<T>>();
 
-    public GraphNode(T value)
-    {
-        this.Data = value;
-    }
+        public Graph() { }
 
-    public List<GraphNode<T>> Neighbors
-    {
-        get
+        public Graph(int initialSize)
         {
-            _neighbors = _neighbors ?? new List<GraphNode<T>>();
-            return _neighbors;
+            AdjacencyList = new Dictionary<T, HashSet<T>>(initialSize);
         }
-    }
 
-    public List<int> Weights
-    {
-        get
+        public Graph(IEnumerable<T> vertices, IEnumerable<Tuple<T, T>> edges)
         {
-            _weights = _weights ?? new List<int>();
-            return _weights;
+            foreach (var vertex in vertices) AddVertex(vertex);
+            foreach (var edge in edges) AddEdge(edge);
         }
-    }
-}
 
-// Graph 클래스
-public class Graph<T>
-{
-    private List<GraphNode<T>> _nodeList;
-
-    public Graph()
-    {
-        _nodeList = new List<GraphNode<T>>();
-    }
-
-    public GraphNode<T> AddNode(T data)
-    {
-        GraphNode<T> n = new GraphNode<T>(data);
-        _nodeList.Add(n);
-        return n;
-    }
-
-    public GraphNode<T> AddNode(GraphNode<T> node)
-    {
-        _nodeList.Add(node);
-        return node;
-    }
-
-    public void AddEdge(GraphNode<T> from, GraphNode<T> to, bool oneway = true, int weight = 0)
-    {
-        from.Neighbors.Add(to);
-        from.Weights.Add(weight);
-
-        if (!oneway)
+        public bool AddVertex(T vertex)
         {
-            to.Neighbors.Add(from);
-            to.Weights.Add(weight);
+            if (ContainsVertex(vertex))
+                return false;
+
+            AdjacencyList[vertex] = new HashSet<T>();
+            return true;
         }
-    }
 
-    internal void DebugPrintLinks()
-    {
-        foreach (GraphNode<T> graphNode in _nodeList)
+        public bool ContainsVertex(T vertex) => AdjacencyList.ContainsKey(vertex);
+
+        public IEnumerable<T> Neighbours(T vertex) => AdjacencyList[vertex];
+
+        public IEnumerable<T> Vertices => AdjacencyList.Keys;
+
+        public bool AddEdge(T from, T to) => AddEdge(Tuple.Create(from, to));
+
+        public bool AddEdge(Tuple<T, T> edge)
         {
-            foreach (var n in graphNode.Neighbors)
+            if (AdjacencyList.ContainsKey(edge.Item1) && AdjacencyList.ContainsKey(edge.Item2))
             {
-                string s = graphNode.Data + " - " + n.Data;
-                //Console.WriteLine(s);
+                AdjacencyList[edge.Item1].Add(edge.Item2);
+                AdjacencyList[edge.Item2].Add(edge.Item1);
+                return true;
             }
+
+            return false;
         }
+
+        // public IEnumerable< Tuple<T,T> > Edges {get;} // ToDo
+
     }
 }

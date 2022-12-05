@@ -1,77 +1,86 @@
-using System.Collections;
-using System.Collections.Generic;
+using KMolenda.Aisd.Graph;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using TileData = System.Collections.Generic.Dictionary<UnityEngine.Vector3, int>;
 
-public enum TileDirection
+public struct TileNode
 {
-    topLeft,
-    topRight,
-    bottomLeft,
-    bottomRight
-};
+    public TileNode(Vector3Int localPosition)
+    {
+        this.localPosition = localPosition;
+    }
+
+    public Vector3Int localPosition { get; }
+
+    public override string ToString()
+    {
+        var wynik = new System.Text.StringBuilder("[");
+        wynik.Append($"{localPosition.x}, {localPosition.y}, {localPosition.z}");
+        wynik[wynik.Length - 1] = ' ';
+        return wynik.Append(']').ToString();
+    }
+}
 
 public class TilemapReader : MonoBehaviour
 {
     public Tilemap tilemap = null;
-
-    public TileData availablePlaces;
-
     private bool isPlaying = false;
-
-
-    Vector3Int[,] localPlaces;
+    Graph<TileNode> Graph;
 
     void Start()
     {
         isPlaying = true;
 
         tilemap = transform.GetComponentInParent<Tilemap>();
-        localPlaces = new Vector3Int[tilemap.cellBounds.size.x, tilemap.cellBounds.size.y];
+        InitGraph(this.tilemap);
+        Debug.Log(Graph.ToString<TileNode>());
 
-        for (int n = tilemap.cellBounds.xMin, i = 0; n < tilemap.cellBounds.xMax; n++, i++)
+
+    }
+
+
+    //[x,x,x,x,x]
+    //[x,0,0,0,x]
+    //[x,0,0,0,x]
+    //[x,0,0,0,x]
+    //[x,x,x,x,x]
+    private void InitGraph(Tilemap tilemap)
+    {
+        Graph = new Graph<TileNode>();
+        var arr = new Vector3Int[tilemap.cellBounds.size.x + 2, tilemap.cellBounds.size.y + 2];
+
+        for (int n = tilemap.cellBounds.xMin, i = 1; n < tilemap.cellBounds.xMax; n++, i++)
         {
-            for (int p = tilemap.cellBounds.yMin, j = 0; p < tilemap.cellBounds.yMax; p++, j++)
+            for (int p = tilemap.cellBounds.yMin, j = 1; p < tilemap.cellBounds.yMax; p++, j++)
             {
-                Vector3Int localPlace = (new Vector3Int(n, p, (int)tilemap.transform.position.y));
-                Vector3 place = tilemap.GetCellCenterWorld(localPlace);
-                if (tilemap.HasTile(localPlace))
+                if (tilemap.HasTile(new Vector3Int(n, p, 0))) 
                 {
-                    //Tile at "place"
-                    localPlaces[i, j] = localPlace;
+                    arr[i, j] = new Vector3Int(n, p, 0); //local position
+                    Graph.AddVertex(new TileNode(arr[i,j]));
 
+                    //check surrounding , and add vertices;
+                    if (tilemap.HasTile(new Vector3Int(n - 1, p, 0))) Graph.AddVertex(new TileNode(arr[i - 1, j])); Graph.AddEdge(new TileNode(arr[i, j]), new TileNode(arr[i - 1, j]));
+                    if (tilemap.HasTile(new Vector3Int(n + 1, p, 0))) Graph.AddVertex(new TileNode(arr[i + 1, j])); Graph.AddEdge(new TileNode(arr[i, j]), new TileNode(arr[i + 1, j]));
+                    if (tilemap.HasTile(new Vector3Int(n, p - 1, 0))) Graph.AddVertex(new TileNode(arr[i, j - 1])); Graph.AddEdge(new TileNode(arr[i, j]), new TileNode(arr[i, j - 1]));
+                    if (tilemap.HasTile(new Vector3Int(n, p + 1, 0))) Graph.AddVertex(new TileNode(arr[i, j + 1])); Graph.AddEdge(new TileNode(arr[i, j]), new TileNode(arr[i, j + 1]));
                 }
                 else
                 {
-
-                    //Debug.Log(place);
+                    arr[i, j] = new Vector3Int(n, p, 1); //local position
                 }
             }
         }
 
     }
 
-    public Vector3 GetNextTilePosition(Vector3 currentTile, TileDirection direction)
-    {
-        return Vector3.zero;
-    }
-
     private void OnDrawGizmos()
     {
         if (!isPlaying) return;
 
-        for(int i=0; i<tilemap.size.x; i++)
+        foreach(var v in Graph.Vertices)
         {
-            for(int j=0; j<tilemap.size.y; j++)
-            {
-                var place = tilemap.GetCellCenterWorld(localPlaces[i, j]);
-                //var place = spots[i, j];
-
-                Gizmos.color = Color.red;
-                Gizmos.DrawCube(place, Vector3.one * 0.5f) ;
-
-            }
+            Gizmos.color = Color.red;
+            var worldPosition = tilemap.GetCellCenterWorld(v.localPosition);
+            Gizmos.DrawCube(worldPosition, Vector3.one * 0.5f);
         }
     }
 }
