@@ -10,7 +10,6 @@ namespace Movement
         [SerializeField] private Grid grid;
         [SerializeField] private TilemapReader tilemapReader;
         private Vector2 direction;
-        private TileDirection tileDirection;
         private Vector2 motion;
 
         private Vector2 CatesianToIsometric(Vector2 cartesian)
@@ -29,9 +28,7 @@ namespace Movement
         private IEnumerator MovementProcess()
         {
             while (true)
-            {
-                direction = Vector2.zero;
-
+            { 
                 //키 입력에 따른 방향 값 대입
                 if (Input.GetKey(KeyCode.W))
                     direction += Vector2.up;
@@ -45,15 +42,6 @@ namespace Movement
 
                 motion = direction.normalized * speed;
                 motion = CatesianToIsometric(motion);
-
-
-                //var nextPosition = tilemapReader.GetNextTilePosition(Vector3.zero, TileDirection.bottomLeft);
-                //while (Vector2.Distance(transform.position,nextPosition) > 0.0f) /* Until you move to next tile */
-                //{
-                //    /* move */
-                //    transform.Translate(motion * Time.deltaTime);
-                //    yield return null;
-                //}
 
 
                 yield return null;

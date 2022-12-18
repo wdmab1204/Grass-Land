@@ -125,11 +125,13 @@ namespace KMolenda.Aisd.Graph
             var wynik = new System.Text.StringBuilder("{");
             foreach (var vertex in graph.AdjacencyList)
             {
-                wynik.Append($" {vertex.Key}->{{{string.Join(", ", vertex.Value)}}};"); //To output a { you use {{ and to output a } you use }}.
+                wynik.Append($" {vertex.Key}->{{{string.Join(", ", vertex.Value)}}}; {System.Environment.NewLine}"); //To output a { you use {{ and to output a } you use }}.
+
             }
             wynik[wynik.Length - 1] = ' ';
             return wynik.Append('}').ToString();
         }
+
 
     }
 
