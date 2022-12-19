@@ -16,29 +16,42 @@ using UnityEngine.Tilemaps;
 =========================================================*/
 
 
-public struct TileNode
+public class TileNode
 {
     public TileNode(Vector3Int localPosition)
     {
-        this.localPosition = localPosition;
+        this.position = localPosition;
     }
 
     public TileNode(int x, int y, int z)
     {
-        this.localPosition = new Vector3Int(x, y, z);
+        this.position = new Vector3Int(x, y, z);
     }
 
-    public Vector3Int localPosition { get; }
+    public string ClassName { get => this.GetType().Name; }
+
+    public Vector3Int position { get; }
 
     public override string ToString()
     {
         var wynik = new System.Text.StringBuilder("[");
-        wynik.Append($"{localPosition.x}, {localPosition.y}, {localPosition.z}");
+        wynik.Append($"{position.x}, {position.y}, {position.z}");
         wynik[wynik.Length - 1] = ' ';
         return wynik.Append(']').ToString();
     }
 
-    public string ClassName { get => this.GetType().Name; }
+    public override int GetHashCode()
+    {
+        if (position == null) return 0;
+        return position.GetHashCode();
+    }
+
+    public override bool Equals(object obj)
+    {
+        TileNode tile = obj as TileNode;
+        return tile != null && tile.position == this.position;
+    }
+
 }
 
 public class TilemapReader : MonoBehaviour
@@ -51,9 +64,15 @@ public class TilemapReader : MonoBehaviour
     {
         isPlaying = true;
 
+
         tilemap = transform.GetComponentInParent<Tilemap>();
         InitGraph(this.tilemap);
         Debug.Log(Graph.ToString<TileNode>());
+
+        foreach (var path in Graph.ShortestPath<TileNode>(new TileNode(Vector3Int.zero), new TileNode(3, 3, 0)))
+        {
+            Debug.Log(path.ToString());
+        }
 
 
     }
