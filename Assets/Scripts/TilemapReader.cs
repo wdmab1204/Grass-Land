@@ -36,7 +36,6 @@ public class TileNode
     {
         var wynik = new System.Text.StringBuilder("[");
         wynik.Append($"{position.x}, {position.y}, {position.z}");
-        wynik[wynik.Length - 1] = ' ';
         return wynik.Append(']').ToString();
     }
 
@@ -69,14 +68,12 @@ public class TilemapReader : MonoBehaviour
         InitGraph(this.tilemap);
         Debug.Log(Graph.ToString<TileNode>());
 
-        foreach (var path in Graph.ShortestPath<TileNode>(new TileNode(Vector3Int.zero), new TileNode(3, 3, 0)))
-        {
-            Debug.Log(path.ToString());
-        }
-
+        //foreach (var path in Graph.ShortestPath<TileNode>(new TileNode(Vector3Int.zero), new TileNode(3, 3, 0)))
+        //{
+        //    Debug.Log(path.ToString());
+        //}
 
     }
-
 
     //[x,x,x,x,x]
     //[x,0,0,0,x]
@@ -112,6 +109,9 @@ public class TilemapReader : MonoBehaviour
         }
 
     }
+
+    public void GetWorldPosition(Vector3Int position) => tilemap.GetCellCenterWorld(position);
+
 
     //private void OnDrawGizmos()
     //{

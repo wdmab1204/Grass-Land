@@ -33,11 +33,11 @@ public class AddTileEvent : MonoBehaviour
         }
         isPlaying = true;
     }
-    
+
     private void HighlightTile(Vector3Int tileLocalPosition)
     {
 
-        if (!tilemap.HasTile(tileLocalPosition)) 
+        if (!tilemap.HasTile(tileLocalPosition))
         {
             Debug.LogError("TileNode DOES NOT EXIST" + tilemap.GetCellCenterWorld(tileLocalPosition));
             return;
@@ -82,10 +82,21 @@ public class AddTileEvent : MonoBehaviour
             var start = tilemap.WorldToCell(player.position);
             var end = selectedTileLocalPos;
 
-            //Find shortest path 
-            foreach(var path in TilemapReader.Graph.ShortestPath(new TileNode(start), new TileNode(end)))
+            StartCoroutine(GoDestination(new TileNode(start), new TileNode(end)));
+        }
+    }
+
+    private IEnumerator GoDestination(TileNode start, TileNode end)
+    {
+
+        //Find shortest path 
+        foreach (var next in TilemapReader.Graph.ShortestPath(start, end))
+        {
+            var nextPos = tilemap.GetCellCenterWorld(next.position);
+            while (Vector3.Distance(player.position, nextPos) > 0.0f)
             {
-                Debug.Log(path);
+                player.position = Vector3.MoveTowards(player.position, nextPos, Time.deltaTime);
+                yield return null;
             }
         }
     }
