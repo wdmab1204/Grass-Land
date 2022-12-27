@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8a420dfb725643d6b873bfeb96013c1, type: 3}
-  m_Name: SwitchableTile
+  m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: tile_16
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: -102793941, guid: 3d93881045a764d64b52f1ec86f16041, type: 3}
+  m_Sprite: {fileID: 732863123, guid: 3d93881045a764d64b52f1ec86f16041, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
@@ -34,7 +34,3 @@ MonoBehaviour:
   m_InstancedGameObject: {fileID: 0}
   m_Flags: 1
   m_ColliderType: 1
-  sprites:
-  - {fileID: -102793941, guid: 3d93881045a764d64b52f1ec86f16041, type: 3}
-  - {fileID: -1388816642, guid: 3d93881045a764d64b52f1ec86f16041, type: 3}
-  m_TileColliderType: 1
