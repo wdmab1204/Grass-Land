@@ -27,7 +27,7 @@ namespace CardNameSpace
             this.maxCount = cards.Length;
         }
 
-        private void Shuffle()
+        public void Shuffle()
         {
             Random random = new Random();
 

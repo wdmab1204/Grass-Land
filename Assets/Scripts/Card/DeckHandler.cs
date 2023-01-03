@@ -48,6 +48,7 @@ namespace CardNameSpace
         private void Start()
         {
             this.Deck = new Deck(CreateCardsFromDatabase());
+            Deck.Shuffle();
             DrawCard(3);
         }
     }
