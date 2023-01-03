@@ -17,15 +17,15 @@ namespace CardNameSpace
         public void AddBuffListener(Card item)
         {
             //이미 아이템을 가지고있는가?
-            if (itemDic.ContainsKey(item.info.name))
+            if (itemDic.ContainsKey(item.CardInfo.name))
             {
-                itemDic[item.info.name].Upgrade();
+                itemDic[item.CardInfo.name].Upgrade();
             }
             else
             {
                 //가지고 있지 않다면
-                itemDic.Add(item.info.name, item);
-                itemDic[item.info.name].Start();
+                itemDic.Add(item.CardInfo.name, item);
+                itemDic[item.CardInfo.name].Start();
             }
 
         }

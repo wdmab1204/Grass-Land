@@ -16,8 +16,15 @@ namespace CardNameSpace
         public Deck(Card[] cards, int maxCount)
         {
             originalCardList = cards.ToList();
-            cardQueue = new Queue<Card>();
+            cardQueue = new Queue<Card>(cards);
             this.maxCount = maxCount;
+        }
+
+        public Deck(Card[] cards)
+        {
+            originalCardList = cards.ToList();
+            cardQueue = new Queue<Card>(cards);
+            this.maxCount = cards.Length;
         }
 
         private void Shuffle()
@@ -74,7 +81,7 @@ namespace CardNameSpace
             var wynik = new System.Text.StringBuilder("{");
             foreach (var deckInfo in deckInfos)
             {
-                wynik.Append($"{{{deckInfo.Key.info.name}'s Count : {deckInfo.Value}}} ;");
+                wynik.Append($"{{{deckInfo.Key.CardInfo.name}'s Count : {deckInfo.Value}}} ;");
             }
             return wynik.Append('}').ToString();
         }
