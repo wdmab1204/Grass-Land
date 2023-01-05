@@ -10,6 +10,7 @@ namespace CardNameSpace
     public class CardHandler : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
     {
         private Card card;
+        [SerializeField] CardInfo cardInfo;
         public Card Card
         {   get => card;
             set
@@ -22,8 +23,10 @@ namespace CardNameSpace
                 {
                     privewImage.NameText = value.CardInfo.name;
                     privewImage.DescText = value.CardInfo.desc;
+                    
                 }
                 card = value;
+                this.cardInfo = card?.CardInfo;
             }
         }
 

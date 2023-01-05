@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace CardNameSpace.Base
 {
-
+    [System.Serializable]
     public class CardInfo
     {
         public string name;
