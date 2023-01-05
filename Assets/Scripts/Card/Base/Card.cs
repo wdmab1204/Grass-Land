@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -14,6 +15,14 @@ namespace CardNameSpace.Base
         {
             this.name = name;
             this.desc = desc;
+        }
+
+        public override string ToString()
+        {
+            var wynik = new System.Text.StringBuilder("[");
+            wynik.Append($"{nameof(name)} : {name}, {nameof(desc)} : {desc}");
+            
+            return wynik.Append("]").ToString();
         }
     }
 
@@ -32,6 +41,11 @@ namespace CardNameSpace.Base
         public Card(CardInfo cardInfo)
         {
             this.CardInfo = cardInfo;
+        }
+
+        public override string ToString()
+        {
+            return CardInfo.ToString();
         }
 
     }
