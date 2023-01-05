@@ -16,34 +16,27 @@ namespace CardNameSpace
             {
                 if (value == null)
                 {
-                    nameText.text = "";
-                    descText.text = "";
+                    privewImage.Clear();
                 }
                 else
                 {
-                    nameText.text = value.CardInfo.name;
-                    descText.text = value.CardInfo.desc;
+                    privewImage.NameText = value.CardInfo.name;
+                    privewImage.DescText = value.CardInfo.desc;
                 }
                 card = value;
             }
         }
-        private Image cardImage;
-        [SerializeField] private TMP_Text nameText;
-        [SerializeField] private TMP_Text descText;
-        [SerializeField] private GameObject privewImage;
+
+        public CardPrivew privewImage;
 
         public delegate void ClickEvent();
         public ClickEvent MouseClickEvent;
 
         public bool HasCard() => card != null;
 
-        public void HideImage() => cardImage.enabled = false;
-
-        public void ShowImage() => cardImage.enabled = true;
-
         private void Start()
         {
-            privewImage.SetActive(false);
+            privewImage.HideImage();
         }
 
         // 이미지를 클릭했을 때 
@@ -51,7 +44,7 @@ namespace CardNameSpace
         {
 
             Card = null;
-            HideImage();
+            privewImage.HideImage();
 
             //use card
             MouseClickEvent();
@@ -60,28 +53,27 @@ namespace CardNameSpace
         // 마우스 커서가 이미지 안으로 들어왔을 때
         public void OnPointerEnter(PointerEventData eventData)
         {
-            privewImage.SetActive(true);
+            privewImage.ShowImage();
 
             if (card == null)
             {
                 Debug.LogError("Handler doesn't have a card.");
                 return;
             }
-            nameText.text = card.CardInfo.name;
-            descText.text = card.CardInfo.desc;
+            privewImage.NameText = card.CardInfo.name;
+            privewImage.DescText = card.CardInfo.desc;
         }
 
         // 마우스 커서가 이미지 밖으로 나갈 때
         public void OnPointerExit(PointerEventData eventData)
         {
-            privewImage.SetActive(false);
-            nameText.text = "";
-            descText.text = "";
+            privewImage.HideImage();
+            privewImage.Clear();
         }
 
         private void Awake()
         {
-            cardImage = GetComponent<Image>();
+
         }
     }
 }

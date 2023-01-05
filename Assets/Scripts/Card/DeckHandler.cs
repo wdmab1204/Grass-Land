@@ -61,7 +61,7 @@ namespace CardNameSpace
             foreach (var handler in cardHandlers)
             {
                 handler.MouseClickEvent += () => DrawCard();
-                handler.MouseClickEvent += handler.ShowImage;
+                handler.MouseClickEvent += () => handler.privewImage.ShowImage();
 
                 Debug.Log(handler.Card.ToString());
             }
