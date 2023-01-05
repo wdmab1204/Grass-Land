@@ -25,6 +25,7 @@ namespace CardNameSpace
 
         public bool DrawCard()
         {
+            if (Deck.IsEmpty()) return false;
             var card = Deck.DrawCard();
             for(int i=0; i<cardHandlers.Length; i++)
             {
@@ -48,8 +49,7 @@ namespace CardNameSpace
 
         private Card[] CreateCardsFromDatabase()
         {
-            DB.GameDB gameDB = new DB.GameDB();
-            Card[] result = gameDB.list.ToArray();
+            Card[] result = DB.GameDB.GetDataArrayFromDB();
             return result;
         }
 
@@ -60,8 +60,18 @@ namespace CardNameSpace
             DrawCard(3);
             foreach (var handler in cardHandlers)
             {
-                handler.MouseClickEvent += () => DrawCard();
-                handler.MouseClickEvent += () => handler.privewImage.ShowImage();
+                handler.MouseClickExitEvent += delegate ()
+                {
+                    if (Deck.IsEmpty())
+                    {
+                        this.Deck = new Deck(CreateCardsFromDatabase());
+                        this.Deck.Shuffle();
+                        Debug.Log("덱 리셋 ");
+                    }
+                    DrawCard();
+
+                };
+                handler.MouseClickExitEvent += () => handler.privewImage.ShowImage();
 
                 Debug.Log(handler.Card.ToString());
             }

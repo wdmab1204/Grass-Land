@@ -33,7 +33,8 @@ namespace CardNameSpace
         public CardPrivew privewImage;
 
         public delegate void ClickEvent();
-        public ClickEvent MouseClickEvent;
+        public ClickEvent MouseClickEnterEvent;
+        public ClickEvent MouseClickExitEvent;
 
         public bool HasCard() => card != null;
 
@@ -45,12 +46,15 @@ namespace CardNameSpace
         // 이미지를 클릭했을 때 
         public void OnPointerClick(PointerEventData eventData)
         {
+            MouseClickEnterEvent?.Invoke();
 
+            //use Card
             Card = null;
             privewImage.HideImage();
 
-            //use card
-            MouseClickEvent();
+
+            MouseClickExitEvent?.Invoke();
+
         }
 
         // 마우스 커서가 이미지 안으로 들어왔을 때

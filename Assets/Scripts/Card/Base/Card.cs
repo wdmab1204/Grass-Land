@@ -48,5 +48,10 @@ namespace CardNameSpace.Base
             return CardInfo.ToString();
         }
 
+        public static Card Empty
+        {
+            get => new Card(new CardInfo("", ""));
+        }
+
     }
 }
