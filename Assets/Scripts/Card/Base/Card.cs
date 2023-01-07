@@ -5,16 +5,26 @@ using UnityEngine;
 
 namespace CardNameSpace.Base
 {
+    public enum CardType
+    {
+        ATTACK,
+        MOVE,
+        HEAL,
+        ETC
+    };
+
     [System.Serializable]
     public class CardInfo
     {
         public string name;
         public string desc;
+        public CardType cardType;
 
-        public CardInfo(string name, string desc)
+        public CardInfo(string name, string desc, CardType cardType)
         {
             this.name = name;
             this.desc = desc;
+            this.cardType = cardType;
         }
 
         public override string ToString()
@@ -50,7 +60,7 @@ namespace CardNameSpace.Base
 
         public static Card Empty
         {
-            get => new Card(new CardInfo("", ""));
+            get => new Card(new CardInfo("", "", CardType.ETC));
         }
 
     }

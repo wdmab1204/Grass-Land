@@ -62,7 +62,6 @@ public class TilemapReader : MonoBehaviour
     {
         isPlaying = true;
 
-
         tilemap = transform.GetComponentInParent<Tilemap>();
         InitGraph(this.tilemap);
         Debug.Log(Graph.ToString<TileNode>());
@@ -111,6 +110,11 @@ public class TilemapReader : MonoBehaviour
 
     public void GetWorldPosition(Vector3Int position) => tilemap.GetCellCenterWorld(position);
 
+
+    private void OnDrawGizmos()
+    {
+        
+    }
 
     //private void OnDrawGizmos()
     //{
