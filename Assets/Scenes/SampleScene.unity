@@ -1047,6 +1047,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5378a35f8e8d745a2b57f333bdc6c1fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardInfo:
+    name: 
+    desc: 
   privewImage: {fileID: 120422061}
 --- !u!1 &1268769501
 GameObject:
@@ -2344,6 +2347,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5378a35f8e8d745a2b57f333bdc6c1fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardInfo:
+    name: 
+    desc: 
   privewImage: {fileID: 120422061}
 --- !u!1 &1891593419
 GameObject:
@@ -2434,4 +2440,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5378a35f8e8d745a2b57f333bdc6c1fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardInfo:
+    name: 
+    desc: 
   privewImage: {fileID: 120422061}

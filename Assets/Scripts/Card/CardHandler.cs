@@ -15,15 +15,17 @@ namespace CardNameSpace
         {   get => card;
             set
             {
-                if (value == null)
+                if (value == null || value == Card.Empty)
                 {
                     privewImage.Clear();
+                    smallImage.enabled = false;
                 }
                 else
                 {
                     privewImage.NameText = value.CardInfo.name;
                     privewImage.DescText = value.CardInfo.desc;
-                    
+                    smallImage.enabled = true;
+
                 }
                 card = value;
                 this.cardInfo = card?.CardInfo;
@@ -31,6 +33,7 @@ namespace CardNameSpace
         }
 
         public CardPrivew privewImage;
+        private Image smallImage;
 
         public delegate void ClickEvent();
         public ClickEvent MouseClickEnterEvent;
@@ -80,7 +83,7 @@ namespace CardNameSpace
 
         private void Awake()
         {
-
+            smallImage = GetComponent<Image>();
         }
     }
 }

@@ -53,6 +53,16 @@ namespace CardNameSpace
             return result;
         }
 
+        public bool EmptyHands()
+        {
+            bool b = true;
+            foreach(var handler in cardHandlers)
+            {
+                b = b && !handler.HasCard();
+            }
+            return b;
+        }
+
         private void Start()
         {
             this.Deck = new Deck(CreateCardsFromDatabase());
@@ -62,14 +72,19 @@ namespace CardNameSpace
             {
                 handler.MouseClickExitEvent += delegate ()
                 {
-                    if (Deck.IsEmpty())
+                    bool b = EmptyHands();
+                    Debug.Log("is empty : " + b.ToString());
+                    if (EmptyHands())
                     {
                         this.Deck = new Deck(CreateCardsFromDatabase());
                         this.Deck.Shuffle();
                         Debug.Log("덱 리셋 ");
+                        DrawCard(3);
                     }
-                    DrawCard();
-
+                    else
+                    {
+                        DrawCard();
+                    }
                 };
                 handler.MouseClickExitEvent += () => handler.privewImage.ShowImage();
 
