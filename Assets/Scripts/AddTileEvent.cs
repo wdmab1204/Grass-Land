@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 using KMolenda.Aisd.Graph;
+using TMPro;
 
 
 public class AddTileEvent : MonoBehaviour
@@ -12,59 +13,32 @@ public class AddTileEvent : MonoBehaviour
     private MouseInput mouseInput;
     private HashSet<Vector3Int> highlightedTiles = new HashSet<Vector3Int>();
     [SerializeField] private Transform player;
-    [SerializeField] private TilemapReader TilemapReader;
+    private TilemapReader TilemapReader;
+    [SerializeField] private TMP_Text movePointText;
+    private int movePoint;
+    public int MovePoint
+    {
+        get
+        {
+            return movePoint;
+        }
+        set
+        {
+            movePoint = value;
+            movePointText.text = value.ToString();
+        }
+    }
 
     //Button Click Event
     public void ThrowDice()
     {
         var movePoint = dices[0].GetRandomValue() + dices[1].GetRandomValue();
-        var playerPos = tilemap.WorldToCell(player.position);
-        //주사위만큼 갈수있는 거리를 화면에 타일로 표시
-
-        //debug
-        movePoint = 3;
-        for (int x = 0; x <= movePoint; x++)
-        {
-            int y = movePoint - x;
-            HighlightTile(new Vector3Int(playerPos.x + x, playerPos.y + y, 0));
-            HighlightTile(new Vector3Int(playerPos.x + x, playerPos.y - y, 0));
-            HighlightTile(new Vector3Int(playerPos.x - x, playerPos.y + y, 0));
-            HighlightTile(new Vector3Int(playerPos.x - x, playerPos.y - y, 0));
-        }
-        isPlaying = true;
+        this.MovePoint = movePoint;
     }
 
-    private void HighlightTile(Vector3Int tileLocalPosition)
+    private bool HighlightTile(Vector3Int tilePosition)
     {
-
-        if (!tilemap.HasTile(tileLocalPosition))
-        {
-            Debug.LogError("TileNode DOES NOT EXIST" + tilemap.GetCellCenterWorld(tileLocalPosition));
-            return;
-        }
-
-        //if (highlightedTiles.Contains(tileLocalPosition)) return;
-
-
-        //get tile from tileLocalPosition
-        Tile switchableTile = tilemap.GetTile<Tile>(tileLocalPosition);
-
-
-
-        //if tile does exist and it have SwitchableTile Class
-        if (switchableTile != null && switchableTile is SwitchableTile)
-        {
-            //change sprite
-            Sprite sprite = ((SwitchableTile)switchableTile).GetNextSprite();
-            ((SwitchableTile)switchableTile).sprite = sprite;
-
-
-            tilemap.RefreshTile(tileLocalPosition);
-
-            highlightedTiles.Add(tileLocalPosition);
-
-            Debug.Log(tileLocalPosition);
-        }
+        return true;
     }
 
     private void MouseClickEvent()
