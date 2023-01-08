@@ -2,19 +2,24 @@
 using System.Collections;
 
 using TurnSystem;
+using UnityEngine.SceneManagement;
 
 public class GameRuleSystem : MonoBehaviour
 {
     TurnManager turnManager = new TurnManager();
-    public GameObject[] Actors;
     private Coroutine currentCoroutine = null;
 
     private void Start()
     {
-        foreach(var obj in Actors)
+        var scene = SceneManager.GetActiveScene();
+        var objArr = scene.GetRootGameObjects();
+
+        for (int i = 0; i < objArr.Length; i++)
         {
-            var actor = obj.GetComponent<ITurnActor>();
-            turnManager.JoinActor(actor);
+            if (objArr[i].TryGetComponent<ITurnActor>(out ITurnActor actor))
+            {
+                turnManager.JoinActor(actor);
+            }
         }
 
         if (currentCoroutine != null) StopCoroutine(currentCoroutine);
