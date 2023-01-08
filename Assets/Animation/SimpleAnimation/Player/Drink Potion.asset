@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Drink Potion
   m_EditorClassIdentifier: 
   animationName: animation
-  fps: 5
+  fps: 10
   frames:
   - sprite: {fileID: 1524690960, guid: 6943b8eff805f41869a641ae9b469f58, type: 3}
   - sprite: {fileID: -1953791623, guid: 6943b8eff805f41869a641ae9b469f58, type: 3}

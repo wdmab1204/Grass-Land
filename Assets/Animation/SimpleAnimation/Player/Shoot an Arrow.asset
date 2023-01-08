@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Shoot an Arrow
   m_EditorClassIdentifier: 
   animationName: Shoot an Arrow
-  fps: 4
+  fps: 10
   frames:
   - sprite: {fileID: -203268811, guid: 6943b8eff805f41869a641ae9b469f58, type: 3}
   - sprite: {fileID: -1394059511, guid: 6943b8eff805f41869a641ae9b469f58, type: 3}
