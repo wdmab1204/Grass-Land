@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04e6f6b396aaad8409ac6804e2834b12, type: 3}
+  m_Name: Drink Potion
+  m_EditorClassIdentifier: 
+  animationName: animation
+  fps: 5
+  frames:
+  - sprite: {fileID: 1524690960, guid: 6943b8eff805f41869a641ae9b469f58, type: 3}
+  - sprite: {fileID: -1953791623, guid: 6943b8eff805f41869a641ae9b469f58, type: 3}
+  - sprite: {fileID: 2018716979, guid: 6943b8eff805f41869a641ae9b469f58, type: 3}
+  - sprite: {fileID: -2056260344, guid: 6943b8eff805f41869a641ae9b469f58, type: 3}
+  - sprite: {fileID: 105122737, guid: 6943b8eff805f41869a641ae9b469f58, type: 3}
+  - sprite: {fileID: -1064860753, guid: 6943b8eff805f41869a641ae9b469f58, type: 3}
+  - sprite: {fileID: -116923203, guid: 6943b8eff805f41869a641ae9b469f58, type: 3}
+  - sprite: {fileID: 1462980022, guid: 6943b8eff805f41869a641ae9b469f58, type: 3}
+  - sprite: {fileID: 1742161021, guid: 6943b8eff805f41869a641ae9b469f58, type: 3}
+  - sprite: {fileID: 1742161021, guid: 6943b8eff805f41869a641ae9b469f58, type: 3}
+  spriteAnimationType: 0

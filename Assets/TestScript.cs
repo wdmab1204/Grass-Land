@@ -14,6 +14,6 @@ public class TestScript : MonoBehaviour
 
     private void Start()
     {
-        SpriteAnimation.Play("Test Animation");
+        SpriteAnimation.Play();
     }
 }
