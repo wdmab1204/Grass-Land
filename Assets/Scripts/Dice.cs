@@ -3,8 +3,6 @@ public class Dice<T>
 {
     private T[] values;
 
-    private Dice() { }
-
     public Dice(T[] values)
     {
         this.values = values;

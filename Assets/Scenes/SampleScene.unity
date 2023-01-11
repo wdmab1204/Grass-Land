@@ -345,7 +345,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1551243293}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AddTileEvent, Assembly-CSharp
         m_MethodName: ThrowDice
         m_Mode: 1
@@ -405,7 +405,6 @@ GameObject:
   m_Component:
   - component: {fileID: 657235441}
   - component: {fileID: 657235440}
-  - component: {fileID: 657235443}
   - component: {fileID: 657235442}
   - component: {fileID: 657235444}
   m_Layer: 0
@@ -456,15 +455,15 @@ SpriteRenderer:
   m_SortingLayerID: -1333187667
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1587278728, guid: 78af88fe5d9344aa79c7dfc8d125ce7a, type: 3}
+  m_Sprite: {fileID: -439096029, guid: 6943b8eff805f41869a641ae9b469f58, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 3.125, y: 1.5625}
+  m_Size: {x: 3, y: 3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &657235441
@@ -497,18 +496,6 @@ MonoBehaviour:
   spriteAnimations:
   - {fileID: 11400000, guid: 23effcf4672654b4381ba890664b830c, type: 2}
   playAutomatically: 1
---- !u!114 &657235443
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 657235439}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14cbf5132889c4fcba3dbb36ce2e6175, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &657235444
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -521,6 +508,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ccb35a69c04542619b8bec03e8c393c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tilemapReader: {fileID: 1551243292}
+  highlightTilePrefab: {fileID: 7954182708144548898, guid: c6201588598424872842afe176f4cf3b, type: 3}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1499,7 +1488,6 @@ GameObject:
   - component: {fileID: 1551243291}
   - component: {fileID: 1551243290}
   - component: {fileID: 1551243292}
-  - component: {fileID: 1551243293}
   m_Layer: 0
   m_Name: Tilemap
   m_TagString: Untagged
@@ -2152,21 +2140,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilemap: {fileID: 1551243291}
---- !u!114 &1551243293
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1551243288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2966fdb59a314e48b8af2641f206d51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tilemap: {fileID: 1551243291}
-  player: {fileID: 657235441}
-  movePointText: {fileID: 768064404}
 --- !u!1 &1624878071
 GameObject:
   m_ObjectHideFlags: 0
@@ -2491,7 +2464,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1835366123}
   - component: {fileID: 1835366122}
-  - component: {fileID: 1835366121}
   - component: {fileID: 1835366120}
   - component: {fileID: 1835366119}
   m_Layer: 0
@@ -2528,18 +2500,6 @@ MonoBehaviour:
   spriteAnimations:
   - {fileID: 11400000, guid: 23effcf4672654b4381ba890664b830c, type: 2}
   playAutomatically: 1
---- !u!114 &1835366121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1835366118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14cbf5132889c4fcba3dbb36ce2e6175, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!212 &1835366122
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2581,15 +2541,15 @@ SpriteRenderer:
   m_SortingLayerID: -1333187667
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1587278728, guid: 78af88fe5d9344aa79c7dfc8d125ce7a, type: 3}
+  m_Sprite: {fileID: -439096029, guid: 6943b8eff805f41869a641ae9b469f58, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 3.125, y: 1.5625}
+  m_Size: {x: 3, y: 3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1835366123

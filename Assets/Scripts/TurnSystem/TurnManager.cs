@@ -5,7 +5,7 @@ namespace TurnSystem
 {
 	public class TurnManager
 	{
-		private static Queue<ITurnActor> actors = new Queue<ITurnActor>();
+		private Queue<ITurnActor> actors = new Queue<ITurnActor>();
 		private ITurnActor currentActor;
 		public ITurnActor CurrentActor { get => currentActor; }
 		public TurnManager()
