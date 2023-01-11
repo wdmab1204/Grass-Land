@@ -18,15 +18,15 @@ public class PlayerActor : MonoBehaviour, ITurnActor
     {
         ActorState = ActorState.Start;
 
-        var tilePos = tilemapReader.ChangeWorldToLocalPosition(transform.position);
-        highlightTiles[0].transform.position = tilemapReader.ChangeLocalToWorldPosition(new Vector3Int(tilePos.x + 1, tilePos.y, tilePos.z));
-        highlightTiles[1].transform.position = tilemapReader.ChangeLocalToWorldPosition(new Vector3Int(tilePos.x - 1, tilePos.y, tilePos.z));
-        highlightTiles[2].transform.position = tilemapReader.ChangeLocalToWorldPosition(new Vector3Int(tilePos.x, tilePos.y + 1, tilePos.z));
-        highlightTiles[3].transform.position = tilemapReader.ChangeLocalToWorldPosition(new Vector3Int(tilePos.x, tilePos.y - 1, tilePos.z));
-        highlightTiles[0].Show();
-        highlightTiles[1].Show();
-        highlightTiles[2].Show();
-        highlightTiles[3].Show();
+        var centerPoint = tilemapReader.ChangeWorldToLocalPosition(transform.position);
+        Vector3Int[] directions = new Vector3Int[4] { Vector3Int.right, Vector3Int.left, Vector3Int.up, Vector3Int.down };
+
+        for(int i=0; i<highlightTiles.Length; i++)
+        {
+            var nearbyCoordinate = centerPoint + directions[i];
+            highlightTiles[i].transform.position = tilemapReader.ChangeLocalToWorldPosition(nearbyCoordinate);
+            highlightTiles[i].Show();
+        }
 
         yield return navigation.WaitForClickDestination();
         
@@ -34,14 +34,14 @@ public class PlayerActor : MonoBehaviour, ITurnActor
 
         yield return navigation.GoDestination(end: destination, target: transform);
 
-        highlightTiles[0].Hide();
-        highlightTiles[1].Hide();
-        highlightTiles[2].Hide();
-        highlightTiles[3].Hide();
+        for(int i=0; i<highlightTiles.Length; i++)
+        {
+            highlightTiles[i].Hide();
+        }
 
         ActorState = ActorState.End;
     }
-
+    
     private void Awake()
     {
         Actor = this.gameObject;
@@ -52,15 +52,12 @@ public class PlayerActor : MonoBehaviour, ITurnActor
         var movePoint = dices[0].GetRandomValue() + dices[1].GetRandomValue();
 
         highlightTiles = new HighlightTile[4];
-        highlightTiles[0] = Instantiate(highlightTilePrefab.gameObject).GetComponent<HighlightTile>();
-        highlightTiles[1] = Instantiate(highlightTilePrefab.gameObject).GetComponent<HighlightTile>();
-        highlightTiles[2] = Instantiate(highlightTilePrefab.gameObject).GetComponent<HighlightTile>();
-        highlightTiles[3] = Instantiate(highlightTilePrefab.gameObject).GetComponent<HighlightTile>();
 
-        highlightTiles[0].clickEvent = navigation.CreateDestination;
-        highlightTiles[1].clickEvent = navigation.CreateDestination;
-        highlightTiles[2].clickEvent = navigation.CreateDestination;
-        highlightTiles[3].clickEvent = navigation.CreateDestination;
+        for(int i=0; i<highlightTiles.Length; i++)
+        {
+            highlightTiles[i] = Instantiate(highlightTilePrefab.gameObject).GetComponent<HighlightTile>();
+            highlightTiles[i].clickEvent = navigation.CreateDestination;
+        }
         
     }
 }
