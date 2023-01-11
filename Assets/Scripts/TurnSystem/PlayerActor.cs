@@ -18,30 +18,39 @@ public class PlayerActor : MonoBehaviour, ITurnActor
     {
         ActorState = ActorState.Start;
 
+        yield return MoveAction();
+
+        ActorState = ActorState.End;
+    }
+
+    private IEnumerator MoveAction()
+    {
         var centerPoint = tilemapReader.ChangeWorldToLocalPosition(transform.position);
         Vector3Int[] directions = new Vector3Int[4] { Vector3Int.right, Vector3Int.left, Vector3Int.up, Vector3Int.down };
 
-        for(int i=0; i<highlightTiles.Length; i++)
+        for (int i = 0; i < highlightTiles.Length; i++)
         {
             var nearbyCoordinate = centerPoint + directions[i];
-            highlightTiles[i].transform.position = tilemapReader.ChangeLocalToWorldPosition(nearbyCoordinate);
-            highlightTiles[i].Show();
+            if (tilemapReader.HasTile(nearbyCoordinate))
+            {
+                highlightTiles[i].transform.position = tilemapReader.ChangeLocalToWorldPosition(nearbyCoordinate);
+                highlightTiles[i].Show();
+            }
+            
         }
 
         yield return navigation.WaitForClickDestination();
-        
+
         var destination = navigation.Destination;
 
         yield return navigation.GoDestination(end: destination, target: transform);
 
-        for(int i=0; i<highlightTiles.Length; i++)
+        for (int i = 0; i < highlightTiles.Length; i++)
         {
             highlightTiles[i].Hide();
         }
-
-        ActorState = ActorState.End;
     }
-    
+
     private void Awake()
     {
         Actor = this.gameObject;
