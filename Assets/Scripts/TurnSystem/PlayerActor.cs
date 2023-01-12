@@ -21,9 +21,9 @@ public class PlayerActor : MonoBehaviour, ITurnActor
     {
         ActorState = ActorState.Start;
 
-        //yield return CardAction();
+        yield return CardAction();
 
-        yield return MoveAction();
+        //yield return MoveAction();
 
         ActorState = ActorState.End;
     }
@@ -34,9 +34,11 @@ public class PlayerActor : MonoBehaviour, ITurnActor
         deckHandler.Show();
 
         // card click and use
-        //yield return deckHandler.WaitForClickCard();
+        yield return deckHandler.WaitForClickCard();
 
         // card effect and animation
+        Debug.Log("Card using....!");
+        //yield return new WaitForSeconds(2);
         // end
         deckHandler.Hide();
         yield return null;

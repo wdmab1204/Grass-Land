@@ -12,7 +12,7 @@ namespace CardNameSpace
     {
         private Deck Deck { get; set; }
         [SerializeField] private CardHandler[] cardHandlers;
-
+        private bool isCLickedCard = false;
 
         private void SendToHand(Card card, CardHandler cardHandler)
         {
@@ -64,6 +64,11 @@ namespace CardNameSpace
             return b;
         }
 
+        public IEnumerator WaitForClickCard()
+        {
+            yield return new WaitUntil(() => isCLickedCard);
+        }
+
         private void Start()
         {
             this.Deck = new Deck(CreateCardsFromDatabase());
@@ -87,7 +92,12 @@ namespace CardNameSpace
                         DrawCard();
                     }
                 };
+                handler.MouseClickEnterEvent += () => isCLickedCard = true;
+
                 handler.MouseClickExitEvent += () => handler.privewImage.Show();
+                
+
+                Hide();
 
                 Debug.Log(handler.Card.ToString());
             }
@@ -101,6 +111,7 @@ namespace CardNameSpace
             {
                 cardHandler.Show();
             }
+            isCLickedCard = false;
         }
 
         public void Hide()

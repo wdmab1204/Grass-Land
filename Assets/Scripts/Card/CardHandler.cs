@@ -18,13 +18,11 @@ namespace CardNameSpace
                 if (value == null || value == Card.Empty)
                 {
                     privewImage.Clear();
-                    smallImage.enabled = false;
                 }
                 else
                 {
                     privewImage.NameText = value.CardInfo.name;
                     privewImage.DescText = value.CardInfo.desc;
-                    smallImage.enabled = true;
 
                 }
                 card = value;
@@ -37,6 +35,7 @@ namespace CardNameSpace
 
         public delegate void ClickEvent();
         public ClickEvent MouseClickEnterEvent;
+        public ClickEvent MouseCLickUpdateEvent;
         public ClickEvent MouseClickExitEvent;
 
         public bool HasCard() => card != null;
@@ -54,9 +53,18 @@ namespace CardNameSpace
             Card = null;
             privewImage.Hide();
 
+            MouseClickExitEvent?.Invoke();
+        }
+
+        private IEnumerator StartCardClickEventCoroutine()
+        {
+            MouseClickEnterEvent?.Invoke();
+            //use Card
+            Card = null;
+            privewImage.Hide();
+            yield return new WaitForSeconds(2.0f);
 
             MouseClickExitEvent?.Invoke();
-
         }
 
         // 마우스 커서가 이미지 안으로 들어왔을 때
@@ -87,12 +95,13 @@ namespace CardNameSpace
 
         public void Show()
         {
-            ((IGraphicsDisplay)privewImage).Show();
+            smallImage.enabled = true;
         }
 
         public void Hide()
         {
-            ((IGraphicsDisplay)privewImage).Hide();
+            smallImage.enabled = false;
+            privewImage.Hide();
         }
     }
 }

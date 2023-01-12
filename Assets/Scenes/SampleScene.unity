@@ -510,6 +510,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilemapReader: {fileID: 1551243292}
   highlightTilePrefab: {fileID: 7954182708144548898, guid: c6201588598424872842afe176f4cf3b, type: 3}
+  deckHandler: {fileID: 1511898355}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
