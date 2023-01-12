@@ -1,26 +1,45 @@
 ﻿using UnityEngine;
 using TurnSystem;
 using System.Collections;
+using CardNameSpace;
 
 [DisallowMultipleComponent]
 public class PlayerActor : MonoBehaviour, ITurnActor
 {
     public GameObject Actor { get; set; }
     public ActorState ActorState { get; set; }
-    private Navigation navigation;
     [SerializeField] private TilemapReader tilemapReader;
     private Dice<int>[] dices = new Dice<int>[2];
 
+    private Navigation navigation;
     [SerializeField] private HighlightTile highlightTilePrefab;
     private HighlightTile[] highlightTiles;
+
+    [SerializeField] private DeckHandler deckHandler;
 
     public IEnumerator ActionCoroutine()
     {
         ActorState = ActorState.Start;
 
+        //yield return CardAction();
+
         yield return MoveAction();
 
         ActorState = ActorState.End;
+    }
+
+    private IEnumerator CardAction()
+    {
+        // hand card show
+        deckHandler.Show();
+
+        // card click and use
+        //yield return deckHandler.WaitForClickCard();
+
+        // card effect and animation
+        // end
+        deckHandler.Hide();
+        yield return null;
     }
 
     private IEnumerator MoveAction()

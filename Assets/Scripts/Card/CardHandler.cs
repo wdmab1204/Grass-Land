@@ -7,7 +7,7 @@ using TMPro;
 
 namespace CardNameSpace
 {
-    public class CardHandler : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+    public class CardHandler : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler, IGraphicsDisplay
     {
         private Card card;
         [SerializeField] CardInfo cardInfo;
@@ -43,17 +43,16 @@ namespace CardNameSpace
 
         private void Start()
         {
-            privewImage.HideImage();
+            privewImage.Hide();
         }
 
         // 이미지를 클릭했을 때 
         public void OnPointerClick(PointerEventData eventData)
         {
             MouseClickEnterEvent?.Invoke();
-
             //use Card
             Card = null;
-            privewImage.HideImage();
+            privewImage.Hide();
 
 
             MouseClickExitEvent?.Invoke();
@@ -63,7 +62,7 @@ namespace CardNameSpace
         // 마우스 커서가 이미지 안으로 들어왔을 때
         public void OnPointerEnter(PointerEventData eventData)
         {
-            privewImage.ShowImage();
+            privewImage.Show();
 
             if (card == null)
             {
@@ -77,13 +76,23 @@ namespace CardNameSpace
         // 마우스 커서가 이미지 밖으로 나갈 때
         public void OnPointerExit(PointerEventData eventData)
         {
-            privewImage.HideImage();
+            privewImage.Hide();
             privewImage.Clear();
         }
 
         private void Awake()
         {
             smallImage = GetComponent<Image>();
+        }
+
+        public void Show()
+        {
+            ((IGraphicsDisplay)privewImage).Show();
+        }
+
+        public void Hide()
+        {
+            ((IGraphicsDisplay)privewImage).Hide();
         }
     }
 }

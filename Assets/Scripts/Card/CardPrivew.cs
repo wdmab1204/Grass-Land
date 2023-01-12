@@ -7,7 +7,7 @@ using UnityEngine.UI;
 namespace CardNameSpace
 {
 
-    public class CardPrivew : MonoBehaviour
+    public class CardPrivew : MonoBehaviour, IGraphicsDisplay
     {
         [SerializeField] private TMP_Text nameText;
         [SerializeField] private TMP_Text descText;
@@ -35,14 +35,14 @@ namespace CardNameSpace
             return true;
         }
 
-        public void HideImage()
+        public void Hide()
         {
             cardImage.enabled = false;
             nameText.enabled = false;
             descText.enabled = false;
         }
 
-        public void ShowImage()
+        public void Show()
         {
             cardImage.enabled = true;
             nameText.enabled = true;

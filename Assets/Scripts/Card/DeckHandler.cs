@@ -4,10 +4,11 @@ using System.Linq;
 using System;
 using CardNameSpace.Base;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace CardNameSpace
 {
-    public class DeckHandler : MonoBehaviour
+    public class DeckHandler : MonoBehaviour, IGraphicsDisplay
     {
         private Deck Deck { get; set; }
         [SerializeField] private CardHandler[] cardHandlers;
@@ -86,11 +87,29 @@ namespace CardNameSpace
                         DrawCard();
                     }
                 };
-                handler.MouseClickExitEvent += () => handler.privewImage.ShowImage();
+                handler.MouseClickExitEvent += () => handler.privewImage.Show();
 
                 Debug.Log(handler.Card.ToString());
             }
             
+        }
+
+        public void Show()
+        {
+            GetComponent<Image>().enabled = true;
+            foreach(var cardHandler in cardHandlers)
+            {
+                cardHandler.Show();
+            }
+        }
+
+        public void Hide()
+        {
+            GetComponent<Image>().enabled = false;
+            foreach (var cardHandler in cardHandlers)
+            {
+                cardHandler.Hide();
+            }
         }
     }
 }

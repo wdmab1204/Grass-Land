@@ -104,7 +104,7 @@ public class TilemapReader : MonoBehaviour
 
     public bool HasTile(Vector3Int position) => tilemap.HasTile(position);
 
-    public bool HasTile(Vector3 worldPosition) => tilemap.HasTile(tilemap.WorldToCell(worldPosition));
+    public bool HasTile(Vector3 worldPosition) => tilemap.HasTile(ChangeWorldToLocalPosition(worldPosition));
 
     void Start()
     {

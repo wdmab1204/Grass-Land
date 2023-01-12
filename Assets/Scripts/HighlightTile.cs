@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.EventSystems;
 
-public class HighlightTile : MonoBehaviour
+public class HighlightTile : MonoBehaviour, IGraphicsDisplay
 {
 	private SpriteRenderer sprite;
 	public delegate void HighlightTileClickEvent(HighlightTile hTile);
