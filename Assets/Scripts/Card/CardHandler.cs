@@ -72,11 +72,6 @@ namespace CardNameSpace
         {
             privewImage.Show();
 
-            if (card == null)
-            {
-                Debug.LogError("Handler doesn't have a card.");
-                return;
-            }
             privewImage.NameText = card.CardInfo.name;
             privewImage.DescText = card.CardInfo.desc;
         }
@@ -95,6 +90,11 @@ namespace CardNameSpace
 
         public void Show()
         {
+            if (card == null)
+            {
+                return;
+            }
+
             smallImage.enabled = true;
         }
 
