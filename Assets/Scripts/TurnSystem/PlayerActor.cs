@@ -33,12 +33,11 @@ public class PlayerActor : MonoBehaviour, ITurnActor
         // hand card show
         deckHandler.Show();
 
-        // card click and use
+        /// Wait for player to select and use a card
         yield return deckHandler.WaitForClickCard();
 
         // card effect and animation
         Debug.Log("Card using....!");
-        //yield return new WaitForSeconds(2);
         // end
         deckHandler.Hide();
         yield return null;
@@ -57,7 +56,6 @@ public class PlayerActor : MonoBehaviour, ITurnActor
                 highlightTiles[i].transform.position = tilemapReader.ChangeLocalToWorldPosition(nearbyCoordinate);
                 highlightTiles[i].Show();
             }
-            
         }
 
         yield return navigation.WaitForClickDestination();

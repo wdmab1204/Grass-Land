@@ -19,6 +19,7 @@ public class GameRuleSystem : MonoBehaviour
 
         if (currentCoroutine != null) StopCoroutine(currentCoroutine);
         currentCoroutine = StartCoroutine(StartTurnSystemCoroutine());
+
     }
 
     private IEnumerator StartTurnSystemCoroutine()
@@ -28,7 +29,7 @@ public class GameRuleSystem : MonoBehaviour
             var currentActor = turnManager.UpdateTurn();
 
             // Wait until the Actor finished his action
-            yield return currentActor.ActionCoroutine();
+            yield return currentActor?.ActionCoroutine();
         }
     }
 

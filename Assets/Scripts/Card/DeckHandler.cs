@@ -10,38 +10,34 @@ namespace CardNameSpace
 {
     public class DeckHandler : MonoBehaviour, IGraphicsDisplay
     {
-        private Deck Deck { get; set; }
+        private Deck deck { get; set; }
         [SerializeField] private CardHandler[] cardHandlers;
         private bool isCLickedCard = false;
 
-        private void SendToHand(Card card, CardHandler cardHandler)
+        private void SendCardToHandler(Card card, CardHandler cardHandler)
         {
-            if(card == null)
-            {
-                Debug.LogError("Handler doesn't have a card.");
-                return;
-            }
-            cardHandler.Card = card;
+            cardHandler.Card = card ?? Card.Empty;
         }
 
         public bool DrawCard()
         {
-            if (Deck.IsEmpty()) return false;
-            var card = Deck.DrawCard();
-            for(int i=0; i<cardHandlers.Length; i++)
+            if (deck.IsEmpty()) return false;
+
+            var card = deck.DrawCard();
+            foreach (var handler in cardHandlers)
             {
-                if (!cardHandlers[i].HasCard())
+                if (!handler.HasCard())
                 {
-                    SendToHand(card, cardHandlers[i]);
+                    SendCardToHandler(card, handler);
                     return true;
                 }
             }
             return false;
         }
 
-        public bool DrawCard(int count)
+        public bool DrawCards(int count)
         {
-            while (count-->0)
+            for (int i = 0; i < count; i++)
             {
                 if (!DrawCard()) return false;
             }
@@ -51,17 +47,18 @@ namespace CardNameSpace
         private Card[] CreateCardsFromDatabase()
         {
             Card[] result = DB.GameDB.GetDataArrayFromDB();
+
             return result;
         }
 
-        public bool EmptyHands()
+        public bool AreHandlersEmpty()
         {
-            bool b = true;
-            foreach(var handler in cardHandlers)
+            bool allEmpty = true;
+            foreach (var handler in cardHandlers)
             {
-                b = b && !handler.HasCard();
+                allEmpty = allEmpty && !handler.HasCard();
             }
-            return b;
+            return allEmpty;
         }
 
         public IEnumerator WaitForClickCard()
@@ -71,37 +68,32 @@ namespace CardNameSpace
 
         private void Start()
         {
-            this.Deck = new Deck(CreateCardsFromDatabase());
-            Deck.Shuffle();
-            DrawCard(3);
+            this.deck = new Deck(CreateCardsFromDatabase());
+            deck.Shuffle();
+            DrawCards(3);
             foreach (var handler in cardHandlers)
             {
-                handler.MouseClickExitEvent += delegate ()
-                {
-                    bool b = EmptyHands();
-                    Debug.Log("is empty : " + b.ToString());
-                    if (EmptyHands())
-                    {
-                        this.Deck = new Deck(CreateCardsFromDatabase());
-                        this.Deck.Shuffle();
-                        Debug.Log("덱 리셋 ");
-                        DrawCard(3);
-                    }
-                    else
-                    {
-                        DrawCard();
-                    }
-                };
                 handler.MouseClickEnterEvent += () => isCLickedCard = true;
 
-                handler.MouseClickExitEvent += () => handler.privewImage.Show();
-                
+                handler.MouseClickExitEvent += HandleCardExitEvent;
+                handler.MouseClickExitEvent += () => handler.previewImage.Show();
 
                 Hide();
-
-                Debug.Log(handler.Card.ToString());
             }
-            
+        }
+
+        private void HandleCardExitEvent()
+        {
+            if (AreHandlersEmpty())
+            {
+                deck = new Deck(CreateCardsFromDatabase());
+                deck.Shuffle();
+                DrawCards(3);
+            }
+            else
+            {
+                DrawCard();
+            }
         }
 
         public void Show()

@@ -17,12 +17,12 @@ namespace CardNameSpace
             {
                 if (value == null || value == Card.Empty)
                 {
-                    privewImage.Clear();
+                    previewImage.Clear();
                 }
                 else
                 {
-                    privewImage.NameText = value.CardInfo.name;
-                    privewImage.DescText = value.CardInfo.desc;
+                    previewImage.NameText = value.CardInfo.name ?? "Unknown";
+                    previewImage.DescText = value.CardInfo.desc ?? "No description available.";
 
                 }
                 card = value;
@@ -30,7 +30,7 @@ namespace CardNameSpace
             }
         }
 
-        public CardPrivew privewImage;
+        public CardPrivew previewImage;
         private Image smallImage;
 
         public delegate void ClickEvent();
@@ -42,7 +42,7 @@ namespace CardNameSpace
 
         private void Start()
         {
-            privewImage.Hide();
+            previewImage.Hide();
         }
 
         // 이미지를 클릭했을 때 
@@ -50,18 +50,22 @@ namespace CardNameSpace
         {
             MouseClickEnterEvent?.Invoke();
             //use Card
+
+
+
             Card = null;
-            privewImage.Hide();
+            previewImage.Hide();
 
             MouseClickExitEvent?.Invoke();
         }
+        
 
         private IEnumerator StartCardClickEventCoroutine()
         {
             MouseClickEnterEvent?.Invoke();
             //use Card
             Card = null;
-            privewImage.Hide();
+            previewImage.Hide();
             yield return new WaitForSeconds(2.0f);
 
             MouseClickExitEvent?.Invoke();
@@ -70,17 +74,17 @@ namespace CardNameSpace
         // 마우스 커서가 이미지 안으로 들어왔을 때
         public void OnPointerEnter(PointerEventData eventData)
         {
-            privewImage.Show();
+            previewImage.Show();
 
-            privewImage.NameText = card.CardInfo.name;
-            privewImage.DescText = card.CardInfo.desc;
+            previewImage.NameText = card?.CardInfo.name ?? "Unknown";
+            previewImage.DescText = card?.CardInfo.desc ?? "No description available.";
         }
 
         // 마우스 커서가 이미지 밖으로 나갈 때
         public void OnPointerExit(PointerEventData eventData)
         {
-            privewImage.Hide();
-            privewImage.Clear();
+            previewImage.Hide();
+            previewImage.Clear();
         }
 
         private void Awake()
@@ -101,7 +105,7 @@ namespace CardNameSpace
         public void Hide()
         {
             smallImage.enabled = false;
-            privewImage.Hide();
+            previewImage.Hide();
         }
     }
 }

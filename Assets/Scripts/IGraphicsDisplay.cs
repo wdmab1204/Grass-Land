@@ -1,6 +1,6 @@
-﻿interface IGraphicsDisplay
+﻿public interface IGraphicsDisplay
 {
-    void Show();
-    void Hide();
+    public void Show();
+    public void Hide();
 }
 

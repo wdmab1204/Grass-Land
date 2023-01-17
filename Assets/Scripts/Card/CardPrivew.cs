@@ -11,7 +11,7 @@ namespace CardNameSpace
     {
         [SerializeField] private TMP_Text nameText;
         [SerializeField] private TMP_Text descText;
-        private Image cardImage;
+        [SerializeField] private Image cardImage;
 
         public string NameText
         {

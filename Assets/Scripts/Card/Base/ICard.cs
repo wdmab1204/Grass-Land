@@ -4,10 +4,11 @@ using CardNameSpace.Base;
 public interface ICard
 {
     public CardInfo CardInfo { get; set; }
-    protected object User { get; set; }
-    public void Start();
-    public void Update();
-    public void Exit();
-    public void Upgrade();
+    public object User { get; set; }
+
+    public virtual void Start() { }
+    public virtual void Update() { }
+    public virtual void Exit() { }
+    public virtual void Upgrade() { }
 }
 
