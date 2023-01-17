@@ -4,6 +4,7 @@ using CardNameSpace.Base;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
+using SimpleSpriteAnimator;
 
 namespace CardNameSpace
 {
@@ -40,6 +41,8 @@ namespace CardNameSpace
 
         public bool HasCard() => card != null;
 
+        public SpriteAnimator animator;
+
         private void Start()
         {
             previewImage.Hide();
@@ -51,7 +54,9 @@ namespace CardNameSpace
             MouseClickEnterEvent?.Invoke();
             //use Card
 
-
+            var dics = AnimationConverter.GetDics();
+            var animationName = dics[card.CardInfo.name];
+            animator.Play(animationName);
 
             Card = null;
             previewImage.Hide();

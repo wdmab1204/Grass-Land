@@ -216,6 +216,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameText: {fileID: 1662203933}
   descText: {fileID: 742056150}
+  cardImage: {fileID: 120422058}
 --- !u!1 &221673621
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,6 +496,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteAnimations:
   - {fileID: 11400000, guid: 23effcf4672654b4381ba890664b830c, type: 2}
+  - {fileID: 11400000, guid: ec5f83f9f0e3143509e97052f5a4d939, type: 2}
+  - {fileID: 11400000, guid: a2f3c42d78a484cb38787218b7c42f13, type: 2}
+  - {fileID: 11400000, guid: 1425d56befb434eeb8612de3d7fa55f6, type: 2}
+  - {fileID: 11400000, guid: 6b3f730df9253432990c8e2f63373bce, type: 2}
   playAutomatically: 1
 --- !u!114 &657235444
 MonoBehaviour:
@@ -511,6 +516,7 @@ MonoBehaviour:
   tilemapReader: {fileID: 1551243292}
   highlightTilePrefab: {fileID: 7954182708144548898, guid: c6201588598424872842afe176f4cf3b, type: 3}
   deckHandler: {fileID: 1511898355}
+  SpriteAnimator: {fileID: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1218,7 +1224,9 @@ MonoBehaviour:
     name: 
     desc: 
     cardType: 0
-  privewImage: {fileID: 120422061}
+    rangesString: 
+  previewImage: {fileID: 120422061}
+  animator: {fileID: 657235442}
 --- !u!1 &1268769501
 GameObject:
   m_ObjectHideFlags: 0
@@ -1474,7 +1482,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardHandlers:
-  - {fileID: 0}
+  - {fileID: 1889499778}
   - {fileID: 1891593424}
   - {fileID: 1184374588}
 --- !u!1 &1551243288
@@ -2654,26 +2662,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1889499774}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Script: {fileID: 11500000, guid: 5378a35f8e8d745a2b57f333bdc6c1fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 0
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: 
-          m_MethodName: 
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: 
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+  cardInfo:
+    name: 
+    desc: 
+    cardType: 0
+    rangesString: 
+  previewImage: {fileID: 120422061}
+  animator: {fileID: 657235442}
 --- !u!1 &1891593419
 GameObject:
   m_ObjectHideFlags: 0
@@ -2767,4 +2765,6 @@ MonoBehaviour:
     name: 
     desc: 
     cardType: 0
-  privewImage: {fileID: 120422061}
+    rangesString: 
+  previewImage: {fileID: 120422061}
+  animator: {fileID: 657235442}

@@ -2,6 +2,25 @@
 using TurnSystem;
 using System.Collections;
 using CardNameSpace;
+using System.Collections.Generic;
+using SimpleSpriteAnimator;
+
+public static class AnimationConverter
+{
+
+    public static Dictionary<string,string> GetDics()
+    {
+        Dictionary<string, string> animationDics = new Dictionary<string, string>();
+        animationDics.Add("검기 발사", "Swing Sword");
+        animationDics.Add("파이어 볼", "Throw Fireball");
+        animationDics.Add("자가 치유", "Drink Potion");
+        animationDics.Add("화살 발사", "Shoot an Arrow");
+        animationDics.Add("아이스 스피어", "Throw Icespear");
+
+        return animationDics;
+    }
+}
+
 
 [DisallowMultipleComponent]
 public class PlayerActor : MonoBehaviour, ITurnActor
@@ -16,6 +35,8 @@ public class PlayerActor : MonoBehaviour, ITurnActor
     private HighlightTile[] highlightTiles;
 
     [SerializeField] private DeckHandler deckHandler;
+
+    public SpriteAnimator SpriteAnimator;
 
     public IEnumerator ActionCoroutine()
     {
@@ -86,7 +107,6 @@ public class PlayerActor : MonoBehaviour, ITurnActor
             highlightTiles[i] = Instantiate(highlightTilePrefab.gameObject).GetComponent<HighlightTile>();
             highlightTiles[i].clickEvent = navigation.CreateDestination;
         }
-        
     }
 }
 

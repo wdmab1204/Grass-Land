@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 namespace SimpleSpriteAnimator
 {
@@ -97,7 +98,7 @@ namespace SimpleSpriteAnimator
                 }
             }
 
-            return null;
+            throw new ArgumentException($"Animation does not exist. : {{{name}}}");
         }
     }
 }
