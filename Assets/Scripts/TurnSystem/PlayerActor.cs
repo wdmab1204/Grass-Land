@@ -31,7 +31,10 @@ public class PlayerActor : MonoBehaviour, ITurnActor
     private Dice<int>[] dices = new Dice<int>[2];
 
     private Navigation navigation;
-    [SerializeField] private HighlightTile highlightTilePrefab;
+    [SerializeField] private HighlightTile highlightTilePrefab0;
+    [SerializeField] private HighlightTile highlightTilePrefab1;
+    [SerializeField] private HighlightTile highlightTilePrefab2;
+    [SerializeField] private HighlightTile highlightTilePrefab3;
     private HighlightTile[] highlightTiles;
 
     [SerializeField] private DeckHandler deckHandler;
@@ -102,11 +105,15 @@ public class PlayerActor : MonoBehaviour, ITurnActor
 
         highlightTiles = new HighlightTile[4];
 
-        for(int i=0; i<highlightTiles.Length; i++)
-        {
-            highlightTiles[i] = Instantiate(highlightTilePrefab.gameObject).GetComponent<HighlightTile>();
-            highlightTiles[i].clickEvent = navigation.CreateDestination;
-        }
+        highlightTiles[0] = Instantiate(highlightTilePrefab0.gameObject).GetComponent<HighlightTile>();
+        highlightTiles[0].clickEvent = navigation.CreateDestination;
+        highlightTiles[1] = Instantiate(highlightTilePrefab1.gameObject).GetComponent<HighlightTile>();
+        highlightTiles[1].clickEvent = navigation.CreateDestination;
+        highlightTiles[2] = Instantiate(highlightTilePrefab2.gameObject).GetComponent<HighlightTile>();
+        highlightTiles[2].clickEvent = navigation.CreateDestination;
+        highlightTiles[3] = Instantiate(highlightTilePrefab3.gameObject).GetComponent<HighlightTile>();
+        highlightTiles[3].clickEvent = navigation.CreateDestination;
+
     }
 }
 

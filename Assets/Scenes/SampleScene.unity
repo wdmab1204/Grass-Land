@@ -442,7 +442,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilemapReader: {fileID: 1551243292}
-  highlightTilePrefab: {fileID: 7954182708144548898, guid: c6201588598424872842afe176f4cf3b, type: 3}
+  highlightTilePrefab0: {fileID: 7954182708144548898, guid: adf93a39d21f242f2a265dde79e56b5f, type: 3}
+  highlightTilePrefab1: {fileID: 7954182708144548898, guid: e78402ec697f240f08315c72c338144c, type: 3}
+  highlightTilePrefab2: {fileID: 7954182708144548898, guid: c6201588598424872842afe176f4cf3b, type: 3}
+  highlightTilePrefab3: {fileID: 7954182708144548898, guid: 811f67f5a3e9e4391a845c18c4421d88, type: 3}
   deckHandler: {fileID: 1511898355}
   SpriteAnimator: {fileID: 846782859}
 --- !u!1 &705507993
@@ -1091,7 +1094,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 889558717}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.04, z: 0}
+  m_LocalPosition: {x: 0, y: -0.03999996, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
