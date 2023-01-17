@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Golem-Attack
   m_EditorClassIdentifier: 
   animationName: Golem-Attack
-  fps: 4
+  fps: 6
   frames:
   - sprite: {fileID: 1629821270, guid: a220d734c6fdd48a3b849f53b11d9a53, type: 3}
   - sprite: {fileID: -1313054096, guid: a220d734c6fdd48a3b849f53b11d9a53, type: 3}

@@ -42,9 +42,9 @@ public class PlayerActor : MonoBehaviour, ITurnActor
     {
         ActorState = ActorState.Start;
 
-        yield return CardAction();
+        //yield return CardAction();
 
-        //yield return MoveAction();
+        yield return MoveAction();
 
         ActorState = ActorState.End;
     }
