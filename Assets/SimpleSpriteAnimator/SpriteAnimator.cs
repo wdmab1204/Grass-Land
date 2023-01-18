@@ -44,6 +44,8 @@ namespace SimpleSpriteAnimator
             spriteRenderer = GetComponent<SpriteRenderer>();
 
             spriteAnimationHelper = new SpriteAnimationHelper();
+
+            Debug.Log(spriteAnimationHelper);
         }
 
         private void Start()
