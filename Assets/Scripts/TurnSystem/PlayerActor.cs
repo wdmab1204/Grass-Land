@@ -31,11 +31,11 @@ public class PlayerActor : MonoBehaviour, ITurnActor
     private Dice<int>[] dices = new Dice<int>[2];
 
     private Navigation navigation;
-    [SerializeField] private HighlightTile highlightTilePrefab0;
-    [SerializeField] private HighlightTile highlightTilePrefab1;
-    [SerializeField] private HighlightTile highlightTilePrefab2;
-    [SerializeField] private HighlightTile highlightTilePrefab3;
-    private HighlightTile[] highlightTiles;
+    [SerializeField] private DestinationTile highlightTilePrefab0;
+    [SerializeField] private DestinationTile highlightTilePrefab1;
+    [SerializeField] private DestinationTile highlightTilePrefab2;
+    [SerializeField] private DestinationTile highlightTilePrefab3;
+    private DestinationTile[] highlightTiles;
 
     [SerializeField] private DeckHandler deckHandler;
 
@@ -103,15 +103,15 @@ public class PlayerActor : MonoBehaviour, ITurnActor
         dices[1] = new Dice<int>(new int[6] { 1, 2, 3, 4, 5, 6 });
         var movePoint = dices[0].GetRandomValue() + dices[1].GetRandomValue();
 
-        highlightTiles = new HighlightTile[4];
+        highlightTiles = new DestinationTile[4];
 
-        highlightTiles[0] = Instantiate(highlightTilePrefab0.gameObject).GetComponent<HighlightTile>();
+        highlightTiles[0] = Instantiate(highlightTilePrefab0.gameObject).GetComponent<DestinationTile>();
         highlightTiles[0].clickEvent = navigation.CreateDestination;
-        highlightTiles[1] = Instantiate(highlightTilePrefab1.gameObject).GetComponent<HighlightTile>();
+        highlightTiles[1] = Instantiate(highlightTilePrefab1.gameObject).GetComponent<DestinationTile>();
         highlightTiles[1].clickEvent = navigation.CreateDestination;
-        highlightTiles[2] = Instantiate(highlightTilePrefab2.gameObject).GetComponent<HighlightTile>();
+        highlightTiles[2] = Instantiate(highlightTilePrefab2.gameObject).GetComponent<DestinationTile>();
         highlightTiles[2].clickEvent = navigation.CreateDestination;
-        highlightTiles[3] = Instantiate(highlightTilePrefab3.gameObject).GetComponent<HighlightTile>();
+        highlightTiles[3] = Instantiate(highlightTilePrefab3.gameObject).GetComponent<DestinationTile>();
         highlightTiles[3].clickEvent = navigation.CreateDestination;
 
     }

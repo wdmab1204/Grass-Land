@@ -46,7 +46,7 @@ public class Navigation
 		yield return GoDestination(end: (TileNode)endPosition, target);
 	}
 
-	public void CreateDestination(HighlightTile hTile)
+	public void CreateDestination(DestinationTile hTile)
 	{
 		var worldPosition = hTile.transform.position;
 		var destination = TilemapReader.ChangeWorldToLocalPosition(worldPosition);
