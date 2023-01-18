@@ -1258,7 +1258,7 @@ MonoBehaviour:
     cardType: 0
     rangesString: 
   previewImage: {fileID: 120422061}
-  animator: {fileID: 0}
+  animator: {fileID: 1289227041}
 --- !u!1 &1268769501
 GameObject:
   m_ObjectHideFlags: 0
@@ -2739,7 +2739,7 @@ MonoBehaviour:
     cardType: 0
     rangesString: 
   previewImage: {fileID: 120422061}
-  animator: {fileID: 0}
+  animator: {fileID: 1289227041}
 --- !u!1 &1891593419
 GameObject:
   m_ObjectHideFlags: 0
@@ -2835,4 +2835,4 @@ MonoBehaviour:
     cardType: 0
     rangesString: 
   previewImage: {fileID: 120422061}
-  animator: {fileID: 0}
+  animator: {fileID: 1289227041}
