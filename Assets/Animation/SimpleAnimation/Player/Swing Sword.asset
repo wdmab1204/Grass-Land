@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e6f6b396aaad8409ac6804e2834b12, type: 3}
   m_Name: Swing Sword
   m_EditorClassIdentifier: 
-  animationName: Sword Swing
+  animationName: Swing Sword
   fps: 10
   frames:
   - sprite: {fileID: -1391698924, guid: 6943b8eff805f41869a641ae9b469f58, type: 3}
@@ -21,4 +21,4 @@ MonoBehaviour:
   - sprite: {fileID: 550951263, guid: 6943b8eff805f41869a641ae9b469f58, type: 3}
   - sprite: {fileID: 136867049, guid: 6943b8eff805f41869a641ae9b469f58, type: 3}
   - sprite: {fileID: -1479047457, guid: 6943b8eff805f41869a641ae9b469f58, type: 3}
-  spriteAnimationType: 1
+  spriteAnimationType: 0

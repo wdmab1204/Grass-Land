@@ -57,6 +57,7 @@ namespace CardNameSpace
             var dics = AnimationConverter.GetDics();
             var animationName = dics[card.CardInfo.name];
             animator.Play(animationName);
+            Debug.Log(card.Coverage.Length);
 
             Card = null;
             previewImage.Hide();

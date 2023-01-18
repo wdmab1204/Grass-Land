@@ -46,13 +46,16 @@ namespace CardNameSpace.Base
     ///</Summary>
     public class CoordConverter
     {
-        private static readonly char coordPrefix = '/';
         private static readonly string coordHead = "[";
         private static readonly string coordTail = "]";
         private static readonly string coordDelimiter = ",";
+        private static readonly int coordMinX = -100;
+        private static readonly int coordMaxX = 100;
+        private static readonly int coordMinY = -100;
+        private static readonly int coordMaxY = 100;
 
         /// <summary>
-        /// ConvertToCoords method converts string of coordinates "[x1,y1]/[x2,y2]/[x3,y3]" into an array of Coord objects.
+        /// ConvertToCoords method converts string of coordinates "[x1,y1][x2,y2][x3,y3]" into an array of Coord objects.
         ///Input string must be in correct format and x, y should be between 0 and 100
         /// </summary>
         /// <param name="coordsString"></param>
@@ -65,18 +68,18 @@ namespace CardNameSpace.Base
             // check if the input string is in the correct format
             if (!coordsString.StartsWith(coordHead) || !coordsString.EndsWith(coordTail))
             {
-                throw new ArgumentException("Invalid input format. Expected format: [x1,y1]/[x2,y2]/[x3,y3]");
+                throw new ArgumentException("Invalid input format. Expected format: [x1,y1][x2,y2][x3,y3]");
             }
 
             var coordList = new List<Coord>();
             int start = 0;
-            int end = coordsString.IndexOf(coordPrefix);
+            int end = coordsString.IndexOf(coordTail);
             while (end > 0)
             {
-                var coordString = coordsString.Substring(start, end - start + 1);
+                var coordString = coordsString.Substring(start, end - start);
                 coordString = coordString.Replace(coordHead, "").Replace(coordTail, "");
                 var coordValues = coordString.Split(coordDelimiter);
-                if (coordValues.Length == 2 && int.TryParse(coordValues[0], out int x) && int.TryParse(coordValues[1], out int y) && x >= 0 && x <= 100 && y >= 0 && y <= 100)
+                if (coordValues.Length == 2 && int.TryParse(coordValues[0], out int x) && int.TryParse(coordValues[1], out int y) && x >= coordMinX && x <= coordMaxX && y >= coordMinY && y <= coordMaxY)
                 {
                     var coord = new Coord(x, y);
                     if (!coordList.Contains(coord))
@@ -86,10 +89,10 @@ namespace CardNameSpace.Base
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid input format. Expected format: [x1,y1]/[x2,y2]/[x3,y3]");
+                    throw new ArgumentException("Invalid input format. Expected format: [x1,y1][x2,y2][x3,y3]");
                 }
                 start = end + 1;
-                end = coordsString.IndexOf(coordPrefix, start);
+                end = coordsString.IndexOf(coordTail, start);
             }
 
             return coordList.ToArray();

@@ -45,9 +45,9 @@ public class PlayerActor : MonoBehaviour, ITurnActor
     {
         ActorState = ActorState.Start;
 
-        //yield return CardAction();
+        yield return CardAction();
 
-        yield return MoveAction();
+        //yield return MoveAction();
 
         ActorState = ActorState.End;
     }
@@ -71,7 +71,7 @@ public class PlayerActor : MonoBehaviour, ITurnActor
     {
         var centerPoint = tilemapReader.ChangeWorldToLocalPosition(transform.position);
         Vector3Int[] directions = new Vector3Int[4] { Vector3Int.right, Vector3Int.left, Vector3Int.up, Vector3Int.down };
-
+        //rightup, leftdown, leftup, rightdown
         for (int i = 0; i < highlightTiles.Length; i++)
         {
             var nearbyCoordinate = centerPoint + directions[i];

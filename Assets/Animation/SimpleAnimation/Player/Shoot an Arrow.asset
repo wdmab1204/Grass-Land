@@ -19,4 +19,4 @@ MonoBehaviour:
   - sprite: {fileID: -1394059511, guid: 6943b8eff805f41869a641ae9b469f58, type: 3}
   - sprite: {fileID: -1548602430, guid: 6943b8eff805f41869a641ae9b469f58, type: 3}
   - sprite: {fileID: 1323807008, guid: 6943b8eff805f41869a641ae9b469f58, type: 3}
-  spriteAnimationType: 1
+  spriteAnimationType: 0
