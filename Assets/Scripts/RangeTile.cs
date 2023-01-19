@@ -6,12 +6,12 @@ public class RangeTile : MonoBehaviour, IGraphicsDisplay
 {
     private SpriteRenderer spriteRenderer;
 
-    void IGraphicsDisplay.Hide()
+    public void Hide()
     {
         spriteRenderer.enabled = false;
     }
 
-    void IGraphicsDisplay.Show()
+    public void Show()
     {
         spriteRenderer.enabled = true;
     }

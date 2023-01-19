@@ -33,6 +33,8 @@ public class GameRuleSystem : MonoBehaviour
         }
     }
 
+    public ITurnActor CurrentActor { get => turnManager.CurrentActor; }
+
     private void OnDisable()
     {
         StopCoroutine(currentCoroutine);

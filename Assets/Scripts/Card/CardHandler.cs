@@ -43,9 +43,20 @@ namespace CardNameSpace
 
         public SpriteAnimator animator;
 
+        public RangeTile rangeTilePrefab;
+        private RangeTile[] rangeTiles;
+        public GameRuleSystem TurnSystem;
+        public TilemapReader TilemapReader;
+
         private void Start()
         {
             previewImage.Hide();
+            rangeTiles = new RangeTile[10];
+            for(int i=0; i<rangeTiles.Length; i++)
+            {
+                rangeTiles[i] = Instantiate(rangeTilePrefab);
+                rangeTiles[i].Hide();
+            }
         }
 
         // 이미지를 클릭했을 때 
@@ -84,6 +95,22 @@ namespace CardNameSpace
 
             previewImage.NameText = card?.CardInfo.name ?? "Unknown";
             previewImage.DescText = card?.CardInfo.desc ?? "No description available.";
+
+            if (string.IsNullOrWhiteSpace(card.CardInfo.rangesString)) return;
+
+            for(int i=0; i<card.Coverage.Length; i++)
+            {
+                var coord = card.Coverage[i];
+                var currentActor = TurnSystem.CurrentActor;
+                var worldPosition = currentActor.Actor.transform.position;
+
+                var localPosition = TilemapReader.ChangeWorldToLocalPosition(worldPosition);
+                var rangePosition = localPosition + (Vector3Int)coord;
+                var rangeWorldPosition = TilemapReader.ChangeLocalToWorldPosition(rangePosition);
+
+                rangeTiles[i].transform.position = rangeWorldPosition;
+                rangeTiles[i].Show();
+            }
         }
 
         // 마우스 커서가 이미지 밖으로 나갈 때
@@ -91,6 +118,7 @@ namespace CardNameSpace
         {
             previewImage.Hide();
             previewImage.Clear();
+            for (int i = 0; i < rangeTiles.Length; i++) rangeTiles[i].Hide();
         }
 
         private void Awake()
