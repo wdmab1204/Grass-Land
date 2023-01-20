@@ -271,8 +271,8 @@ MonoBehaviour:
     y: 0
     width: 411
     height: 841
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 71}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 19}
@@ -402,9 +402,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 2afbffff145e00001e5e0000
+      m_SelectedIDs: 1e5e0000
+      m_LastClickedID: 24094
+      m_ExpandedIDs: 2afbffffb25d0000c25d0000145e00001e5e0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -420,7 +420,7 @@ MonoBehaviour:
         m_IsRenaming: 0
         m_OriginalEventType: 11
         m_IsRenamingFilename: 0
-        m_ClientGUIView: {fileID: 0}
+        m_ClientGUIView: {fileID: 8}
       m_SearchString: 
     m_ExpandedScenes: []
     m_CurrenRootInstanceID: 0
@@ -708,9 +708,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -1.1266619, y: 1.1748824, z: -0.08858861}
+    m_Target: {x: 496.9138, y: 371.17215, z: -3.9321191}
     speed: 2
-    m_Value: {x: -1.1266619, y: 1.1748824, z: -0.08858861}
+    m_Value: {x: 496.9138, y: 371.17215, z: -3.9321191}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -761,9 +761,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 5.8542395
+    m_Target: 417.61868
     speed: 2
-    m_Value: 5.8542395
+    m_Value: 417.61868
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -921,22 +921,22 @@ MonoBehaviour:
     m_SkipHidden: 1
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/TurnSystem
+    - Assets/Prefab
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 85
   m_LastFolders:
-  - Assets/Scripts/TurnSystem
+  - Assets/Prefab
   m_LastFoldersGridSize: 85
   m_LastProjectPath: /Users/baggeon-u/Documents/GitHub/Isomatric-Pixel-Roguelike
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 6}
-    m_SelectedIDs: 06660000
-    m_LastClickedID: 26118
-    m_ExpandedIDs: 00000000f85f00000e60000000ca9a3b
+    scrollPos: {x: 0, y: 0}
+    m_SelectedIDs: 08600000
+    m_LastClickedID: 24584
+    m_ExpandedIDs: 00000000f65f00000c6000001660000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -964,7 +964,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000f85f0000
+    m_ExpandedIDs: 00000000f65f0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -989,10 +989,10 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 345e0000
-    m_LastClickedInstanceID: 24116
+    m_SelectedInstanceIDs: fa600000
+    m_LastClickedInstanceID: 24826
     m_HadKeyboardFocusLastEvent: 1
-    m_ExpandedInstanceIDs: c6230000965a0000a45a0000985a0000345e0000dc5d0000146100007c5e00006a5e0000a85e00004e7f0000bc5e0000b48c0000986e0000
+    m_ExpandedInstanceIDs: c6230000965a0000a45a0000985a0000345e0000dc5d0000146100007c5e00006a5e0000a85e00004e7f0000bc5e0000b48c0000986e0000965e0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1083,7 +1083,7 @@ MonoBehaviour:
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
   m_LastInspectedObjectInstanceID: -1
-  m_LastVerticalScrollValue: 0
+  m_LastVerticalScrollValue: 364
   m_GlobalObjectId: 
   m_InspectorMode: 0
   m_LockTracker:

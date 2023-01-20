@@ -67,7 +67,6 @@ public class TileNode
 public class TilemapReader : MonoBehaviour
 {
     public Tilemap tilemap = null;
-    private bool isPlaying = false;
     public Graph<TileNode> Graph { get; private set; }
 
     private Graph<TileNode> CreateGraphWithTilemap(Tilemap tilemap)
@@ -108,10 +107,7 @@ public class TilemapReader : MonoBehaviour
 
     void Start()
     {
-        isPlaying = true;
-
         tilemap = transform.GetComponentInParent<Tilemap>();
         Graph = CreateGraphWithTilemap(this.tilemap);
-        Debug.Log(Graph.ToString<TileNode>());
     }
 }

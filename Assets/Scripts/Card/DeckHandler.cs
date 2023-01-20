@@ -31,24 +31,49 @@ namespace CardNameSpace
             var handler = Instantiate<CardHandler>(cardHandlerPrefab, this.transform);
             cardHandlerList.Add(handler);
             handler.Card = card ?? Card.Empty;
-            handler.PointerEnterEvent += ShowPriviewImage;
-            handler.PointerEnterEvent += ShowRangeTiles;
-            handler.MouseClickEnterEvent += PlayAnimation;
-            handler.PointerExitEvent += HidePriviewImage;
-            handler.PointerExitEvent += HideRangeTiles;
+
+
+            handler.PointerEnterEvent += ShowPriviewImageDelegate;
+            handler.PointerEnterEvent += ShowRangeTilesDelegate;
+            
+            handler.PointerExitEvent += HidePriviewImageDelegate;
+            handler.PointerExitEvent += HideRangeTilesDelegate;
+
+            handler.MouseClickEnterEvent += PlayAnimationDelegate;
+            handler.MouseClickEnterEvent += (card) => isCLickedCard = true;
+            handler.MouseClickExitEvent += HandleCardExitEvent;
 
             return true;
         }
 
-        private void PlayAnimation(CardInfo card)
+        private void RemoveCardHandler(CardHandler handler)
         {
+            HidePriviewImageDelegate(handler);
+            HideRangeTilesDelegate(handler);
+            cardHandlerList.Remove(handler);
+            Destroy(handler.gameObject);
+        }
+
+        public bool DrawCards(int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                if (!DrawCard()) return false;
+            }
+            return true;
+        }
+
+        private void PlayAnimationDelegate(CardHandler handler)
+        {
+            var card = handler.Card.CardInfo;
             var dics = AnimationConverter.GetDics();
             var animationName = dics[card.name];
             animator.Play(animationName);
         }
 
-        private void ShowPriviewImage(CardInfo card)
+        private void ShowPriviewImageDelegate(CardHandler handler)
         {
+            var card = handler.Card.CardInfo;
             priviewImage.Show();
             priviewImage.NameText = card.name ?? "Unknown";
             priviewImage.DescText = card.desc ?? "No description available.";
@@ -56,8 +81,9 @@ namespace CardNameSpace
             
         }
 
-        private void ShowRangeTiles(CardInfo card)
+        private void ShowRangeTilesDelegate(CardHandler handler)
         {
+            var card = handler.Card.CardInfo;
             if (card.Coverage.Length == 0) return;
 
             for (int i = 0; i < card.Coverage.Length; i++)
@@ -75,24 +101,15 @@ namespace CardNameSpace
             }
         }
 
-        private void HidePriviewImage(CardInfo card)
+        private void HidePriviewImageDelegate(CardHandler handler)
         {
             priviewImage.Clear();
             priviewImage.Hide();
         }
 
-        private void HideRangeTiles(CardInfo card)
+        private void HideRangeTilesDelegate(CardHandler handler)
         {
             for (int i = 0; i < rangeTiles.Length; i++) rangeTiles[i].Hide();
-        }
-
-        public bool DrawCards(int count)
-        {
-            for (int i = 0; i < count; i++)
-            {
-                if (!DrawCard()) return false;
-            }
-            return true;
         }
 
         private Card[] CreateCardsFromDatabase()
@@ -117,39 +134,18 @@ namespace CardNameSpace
             yield return new WaitUntil(() => isCLickedCard);
         }
 
-        private void Awake()
+        private void HandleCardExitEvent(CardHandler handler)
         {
-            this.deck = new Deck(CreateCardsFromDatabase());
-            deck.Shuffle();
-            DrawCards(CardHandlerCount);
-            foreach (var handler in cardHandlerList)
-            {
-                handler.MouseClickEnterEvent += (card) => isCLickedCard = true;
+            RemoveCardHandler(handler);
 
-                handler.MouseClickExitEvent += HandleCardExitEvent;
-
-                Hide();
-            }
-        }
-
-        private void Start()
-        {
-            for(int i=0; i<rangeTiles.Length; i++)
-            {
-                rangeTiles[i] = Instantiate<RangeTile>(rangeTilePrefab);
-                rangeTiles[i].Hide();
-            }
-            priviewImage.Hide();
-        }
-
-        private void HandleCardExitEvent(CardInfo card)
-        {
+            // 손이 모두 비어있다면 덱을 다시 리필하고 3장 드로우
             if (AreHandlersEmpty())
             {
                 deck = new Deck(CreateCardsFromDatabase());
                 deck.Shuffle();
                 DrawCards(CardHandlerCount);
             }
+            // 덱에 카드가 남아있다면 1장 드로우
             else
             {
                 DrawCard();
@@ -173,6 +169,24 @@ namespace CardNameSpace
             {
                 cardHandler.Hide();
             }
+        }
+
+        private void Start()
+        {
+            for (int i = 0; i < rangeTiles.Length; i++)
+            {
+                rangeTiles[i] = Instantiate<RangeTile>(rangeTilePrefab);
+                rangeTiles[i].Hide();
+            }
+            priviewImage.Hide();
+        }
+
+        private void Awake()
+        {
+            this.deck = new Deck(CreateCardsFromDatabase());
+            deck.Shuffle();
+            DrawCards(CardHandlerCount);
+            Hide();
         }
     }
 }

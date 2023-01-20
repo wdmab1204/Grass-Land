@@ -23,7 +23,7 @@ namespace CardNameSpace
 
         private Image cardImage;
 
-        public delegate void ClickEvent(CardInfo card);
+        public delegate void ClickEvent(CardHandler handler);
         public ClickEvent PointerEnterEvent;
         public ClickEvent PointerExitEvent;
         public ClickEvent MouseClickEnterEvent;
@@ -52,36 +52,37 @@ namespace CardNameSpace
         // 이미지를 클릭했을 때 
         public void OnPointerClick(PointerEventData eventData)
         {
-            MouseClickEnterEvent?.Invoke(this.cardInfo);
+            MouseClickEnterEvent?.Invoke(this);
             //use Card
 
             Card = null;
 
-            MouseClickExitEvent?.Invoke(this.cardInfo);
+            MouseClickExitEvent?.Invoke(this);
+            Destroy(this.gameObject);
         }
         
 
         private IEnumerator StartCardClickEventCoroutine()
         {
-            MouseClickEnterEvent?.Invoke(this.cardInfo);
+            MouseClickEnterEvent?.Invoke(this);
             //use Card
             Card = null;
             yield return new WaitForSeconds(2.0f);
 
-            MouseClickExitEvent?.Invoke(this.cardInfo);
+            MouseClickExitEvent?.Invoke(this);
         }
 
         // 마우스 커서가 이미지 안으로 들어왔을 때
         public void OnPointerEnter(PointerEventData eventData)
         {
-            PointerEnterEvent?.Invoke(this.cardInfo);
+            PointerEnterEvent?.Invoke(this);
 
         }
 
         // 마우스 커서가 이미지 밖으로 나갈 때
         public void OnPointerExit(PointerEventData eventData)
         {
-            PointerExitEvent?.Invoke(this.cardInfo);
+            PointerExitEvent?.Invoke(this);
         }
 
         private void Awake()
