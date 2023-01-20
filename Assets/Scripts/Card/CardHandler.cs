@@ -16,25 +16,16 @@ namespace CardNameSpace
         {   get => card;
             set
             {
-                if (value == null || value == Card.Empty)
-                {
-                    previewImage.Clear();
-                }
-                else
-                {
-                    previewImage.NameText = value.CardInfo.name ?? "Unknown";
-                    previewImage.DescText = value.CardInfo.desc ?? "No description available.";
-
-                }
                 card = value;
                 this.cardInfo = card?.CardInfo;
             }
         }
 
-        public CardPrivew previewImage;
-        private Image smallImage;
+        private Image cardImage;
 
-        public delegate void ClickEvent();
+        public delegate void ClickEvent(CardInfo card);
+        public ClickEvent PointerEnterEvent;
+        public ClickEvent PointerExitEvent;
         public ClickEvent MouseClickEnterEvent;
         public ClickEvent MouseCLickUpdateEvent;
         public ClickEvent MouseClickExitEvent;
@@ -42,6 +33,9 @@ namespace CardNameSpace
         public bool HasCard() => card != null;
 
         public SpriteAnimator animator;
+        public Sprite attackCard;
+        public Sprite moveCard;
+        public Sprite healCard;
 
         public RangeTile rangeTilePrefab;
         private RangeTile[] rangeTiles;
@@ -50,19 +44,27 @@ namespace CardNameSpace
 
         private void Start()
         {
-            previewImage.Hide();
             rangeTiles = new RangeTile[10];
             for(int i=0; i<rangeTiles.Length; i++)
             {
                 rangeTiles[i] = Instantiate(rangeTilePrefab);
                 rangeTiles[i].Hide();
             }
+
+            UpdateCardSprite();
+        }
+
+        private void UpdateCardSprite()
+        {
+            if (this.card.CardInfo.cardType == CardType.ATTACK) cardImage.sprite = attackCard;
+            else if (this.card.CardInfo.cardType == CardType.MOVE) cardImage.sprite = moveCard;
+            else if (this.card.CardInfo.cardType == CardType.HEAL) cardImage.sprite = healCard;
         }
 
         // 이미지를 클릭했을 때 
         public void OnPointerClick(PointerEventData eventData)
         {
-            MouseClickEnterEvent?.Invoke();
+            MouseClickEnterEvent?.Invoke(this.cardInfo);
             //use Card
 
             var dics = AnimationConverter.GetDics();
@@ -71,30 +73,25 @@ namespace CardNameSpace
             Debug.Log(card.Coverage.Length);
 
             Card = null;
-            previewImage.Hide();
 
-            MouseClickExitEvent?.Invoke();
+            MouseClickExitEvent?.Invoke(this.cardInfo);
         }
         
 
         private IEnumerator StartCardClickEventCoroutine()
         {
-            MouseClickEnterEvent?.Invoke();
+            MouseClickEnterEvent?.Invoke(this.cardInfo);
             //use Card
             Card = null;
-            previewImage.Hide();
             yield return new WaitForSeconds(2.0f);
 
-            MouseClickExitEvent?.Invoke();
+            MouseClickExitEvent?.Invoke(this.cardInfo);
         }
 
         // 마우스 커서가 이미지 안으로 들어왔을 때
         public void OnPointerEnter(PointerEventData eventData)
         {
-            previewImage.Show();
-
-            previewImage.NameText = card?.CardInfo.name ?? "Unknown";
-            previewImage.DescText = card?.CardInfo.desc ?? "No description available.";
+            PointerEnterEvent?.Invoke(this.cardInfo);
 
             if (string.IsNullOrWhiteSpace(card.CardInfo.rangesString)) return;
 
@@ -116,14 +113,13 @@ namespace CardNameSpace
         // 마우스 커서가 이미지 밖으로 나갈 때
         public void OnPointerExit(PointerEventData eventData)
         {
-            previewImage.Hide();
-            previewImage.Clear();
+            PointerExitEvent?.Invoke(this.cardInfo);
             for (int i = 0; i < rangeTiles.Length; i++) rangeTiles[i].Hide();
         }
 
         private void Awake()
         {
-            smallImage = GetComponent<Image>();
+            cardImage = GetComponent<Image>();
         }
 
         public void Show()
@@ -133,13 +129,12 @@ namespace CardNameSpace
                 return;
             }
 
-            smallImage.enabled = true;
+            cardImage.enabled = true;
         }
 
         public void Hide()
         {
-            smallImage.enabled = false;
-            previewImage.Hide();
+            cardImage.enabled = false;
         }
     }
 }
