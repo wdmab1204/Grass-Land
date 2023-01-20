@@ -22,14 +22,14 @@ namespace CardNameSpace.Base
         public string name;
         public string desc;
         public CardType cardType;
-        public string rangesString;
+        public Coord[] Coverage { get; set; }
 
         public CardInfo(string name, string desc, CardType cardType, string rangesString)
         {
             this.name = name;
             this.desc = desc;
             this.cardType = cardType;
-            this.rangesString = rangesString;
+            this.Coverage = CoordConverter.ConvertToCoords(rangesString);
         }
 
         public override string ToString()
@@ -104,7 +104,6 @@ namespace CardNameSpace.Base
     {
         public CardInfo CardInfo { get; set; }
         public object User { get; set; }
-        public Coord[] Coverage { get; set; }
 
         public virtual void Start() { }
         public virtual void Update() { }
@@ -114,7 +113,6 @@ namespace CardNameSpace.Base
         public Card(CardInfo cardInfo)
         {
             this.CardInfo = cardInfo;
-            this.Coverage = CoordConverter.ConvertToCoords(cardInfo.rangesString);
         }
 
 

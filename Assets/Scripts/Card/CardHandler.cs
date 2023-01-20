@@ -37,20 +37,9 @@ namespace CardNameSpace
         public Sprite moveCard;
         public Sprite healCard;
 
-        public RangeTile rangeTilePrefab;
-        private RangeTile[] rangeTiles;
-        public GameRuleSystem TurnSystem;
-        public TilemapReader TilemapReader;
 
         private void Start()
         {
-            rangeTiles = new RangeTile[10];
-            for(int i=0; i<rangeTiles.Length; i++)
-            {
-                rangeTiles[i] = Instantiate(rangeTilePrefab);
-                rangeTiles[i].Hide();
-            }
-
             UpdateCardSprite();
         }
 
@@ -70,8 +59,6 @@ namespace CardNameSpace
             var dics = AnimationConverter.GetDics();
             var animationName = dics[card.CardInfo.name];
             animator.Play(animationName);
-            Debug.Log(card.Coverage.Length);
-
             Card = null;
 
             MouseClickExitEvent?.Invoke(this.cardInfo);
@@ -93,28 +80,12 @@ namespace CardNameSpace
         {
             PointerEnterEvent?.Invoke(this.cardInfo);
 
-            if (string.IsNullOrWhiteSpace(card.CardInfo.rangesString)) return;
-
-            for(int i=0; i<card.Coverage.Length; i++)
-            {
-                var coord = card.Coverage[i];
-                var currentActor = TurnSystem.CurrentActor;
-                var worldPosition = currentActor.Actor.transform.position;
-
-                var localPosition = TilemapReader.ChangeWorldToLocalPosition(worldPosition);
-                var rangePosition = localPosition + (Vector3Int)coord;
-                var rangeWorldPosition = TilemapReader.ChangeLocalToWorldPosition(rangePosition);
-
-                rangeTiles[i].transform.position = rangeWorldPosition;
-                rangeTiles[i].Show();
-            }
         }
 
         // 마우스 커서가 이미지 밖으로 나갈 때
         public void OnPointerExit(PointerEventData eventData)
         {
             PointerExitEvent?.Invoke(this.cardInfo);
-            for (int i = 0; i < rangeTiles.Length; i++) rangeTiles[i].Hide();
         }
 
         private void Awake()

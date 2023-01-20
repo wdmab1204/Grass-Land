@@ -17,6 +17,8 @@ namespace CardNameSpace
         [SerializeField] private CardPrivew priviewImage;
         [SerializeField] private RangeTile rangeTilePrefab;
         private RangeTile[] rangeTiles = new RangeTile[10];
+        [SerializeField] private TilemapReader TilemapReader;
+        [SerializeField] private GameRuleSystem GameRuleSystem;
 
         public bool DrawCard()
         {
@@ -27,7 +29,9 @@ namespace CardNameSpace
             cardHandlerList.Add(handler);
             handler.Card = card ?? Card.Empty;
             handler.PointerEnterEvent += ShowPriviewImage;
+            handler.PointerEnterEvent += ShowRangeTiles;
             handler.PointerExitEvent += HidePriviewImage;
+            handler.PointerExitEvent += HideRangeTiles;
 
             return true;
         }
@@ -37,6 +41,27 @@ namespace CardNameSpace
             priviewImage.Show();
             priviewImage.NameText = card.name ?? "Unknown";
             priviewImage.DescText = card.desc ?? "No description available.";
+
+            
+        }
+
+        private void ShowRangeTiles(CardInfo card)
+        {
+            if (card.Coverage.Length == 0) return;
+
+            for (int i = 0; i < card.Coverage.Length; i++)
+            {
+                var coord = card.Coverage[i];
+                var currentActor = GameRuleSystem.CurrentActor;
+                var worldPosition = currentActor.Actor.transform.position;
+
+                var localPosition = TilemapReader.ChangeWorldToLocalPosition(worldPosition);
+                var rangePosition = localPosition + (Vector3Int)coord;
+                var rangeWorldPosition = TilemapReader.ChangeLocalToWorldPosition(rangePosition);
+
+                rangeTiles[i].transform.position = rangeWorldPosition;
+                rangeTiles[i].Show();
+            }
         }
 
         private void HidePriviewImage(CardInfo card)
@@ -45,6 +70,10 @@ namespace CardNameSpace
             priviewImage.Hide();
         }
 
+        private void HideRangeTiles(CardInfo card)
+        {
+            for (int i = 0; i < rangeTiles.Length; i++) rangeTiles[i].Hide();
+        }
 
         public bool DrawCards(int count)
         {
