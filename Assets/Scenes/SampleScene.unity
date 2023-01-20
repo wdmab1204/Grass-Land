@@ -406,6 +406,7 @@ GameObject:
   m_Component:
   - component: {fileID: 657235441}
   - component: {fileID: 657235444}
+  - component: {fileID: 657235445}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -448,6 +449,18 @@ MonoBehaviour:
   highlightTilePrefab3: {fileID: 7954182708144548898, guid: 811f67f5a3e9e4391a845c18c4421d88, type: 3}
   deckHandler: {fileID: 1511898355}
   SpriteAnimator: {fileID: 0}
+--- !u!114 &657235445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 657235439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e33c8638dc044e878ca10922216d4c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -2513,6 +2526,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1835366123}
   - component: {fileID: 1835366119}
+  - component: {fileID: 1835366124}
   m_Layer: 0
   m_Name: Monster
   m_TagString: Untagged
@@ -2548,3 +2562,15 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1835366124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1835366118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcd88388023ea4c8f9b37d39933ca66b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
