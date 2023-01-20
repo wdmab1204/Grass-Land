@@ -2,6 +2,6 @@
 {
     public abstract class Entity : UnityEngine.MonoBehaviour
     {
-        protected int hp;
+        protected int maxHp;
     }
 }

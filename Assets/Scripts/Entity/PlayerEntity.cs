@@ -5,16 +5,21 @@ namespace GameEntity
 {
     public class PlayerEntity : Entity
     {
-        // Use this for initialization
-        void Start()
-        {
+        [SerializeField] private int hp;
 
+        public void TakeDamage(int damage)
+        {
+            hp -= damage;
         }
 
-        // Update is called once per frame
-        void Update()
+        public void Recovery(int amount)
         {
+            hp += amount;
+        }
 
+        private void Awake()
+        {
+            this.maxHp = hp;
         }
     }
 }
