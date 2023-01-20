@@ -1523,6 +1523,8 @@ MonoBehaviour:
   rangeTilePrefab: {fileID: 2667704628365121922, guid: 9c55025fe0a814424a5ba5f38b128fd2, type: 3}
   TilemapReader: {fileID: 1551243292}
   GameRuleSystem: {fileID: 1624878072}
+  CardHandlerCount: 3
+  animator: {fileID: 1289227041}
 --- !u!1 &1551243288
 GameObject:
   m_ObjectHideFlags: 0

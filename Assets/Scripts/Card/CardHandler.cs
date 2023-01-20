@@ -32,7 +32,6 @@ namespace CardNameSpace
 
         public bool HasCard() => card != null;
 
-        public SpriteAnimator animator;
         public Sprite attackCard;
         public Sprite moveCard;
         public Sprite healCard;
@@ -56,9 +55,6 @@ namespace CardNameSpace
             MouseClickEnterEvent?.Invoke(this.cardInfo);
             //use Card
 
-            var dics = AnimationConverter.GetDics();
-            var animationName = dics[card.CardInfo.name];
-            animator.Play(animationName);
             Card = null;
 
             MouseClickExitEvent?.Invoke(this.cardInfo);

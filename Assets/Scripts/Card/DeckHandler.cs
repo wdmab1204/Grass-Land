@@ -5,6 +5,7 @@ using System;
 using CardNameSpace.Base;
 using UnityEngine;
 using UnityEngine.UI;
+using SimpleSpriteAnimator;
 
 namespace CardNameSpace
 {
@@ -19,6 +20,8 @@ namespace CardNameSpace
         private RangeTile[] rangeTiles = new RangeTile[10];
         [SerializeField] private TilemapReader TilemapReader;
         [SerializeField] private GameRuleSystem GameRuleSystem;
+        [SerializeField] private int CardHandlerCount = 3;
+        [SerializeField] private SpriteAnimator animator;
 
         public bool DrawCard()
         {
@@ -30,10 +33,18 @@ namespace CardNameSpace
             handler.Card = card ?? Card.Empty;
             handler.PointerEnterEvent += ShowPriviewImage;
             handler.PointerEnterEvent += ShowRangeTiles;
+            handler.MouseClickEnterEvent += PlayAnimation;
             handler.PointerExitEvent += HidePriviewImage;
             handler.PointerExitEvent += HideRangeTiles;
 
             return true;
+        }
+
+        private void PlayAnimation(CardInfo card)
+        {
+            var dics = AnimationConverter.GetDics();
+            var animationName = dics[card.name];
+            animator.Play(animationName);
         }
 
         private void ShowPriviewImage(CardInfo card)
@@ -110,7 +121,7 @@ namespace CardNameSpace
         {
             this.deck = new Deck(CreateCardsFromDatabase());
             deck.Shuffle();
-            DrawCards(3);
+            DrawCards(CardHandlerCount);
             foreach (var handler in cardHandlerList)
             {
                 handler.MouseClickEnterEvent += (card) => isCLickedCard = true;
@@ -128,6 +139,7 @@ namespace CardNameSpace
                 rangeTiles[i] = Instantiate<RangeTile>(rangeTilePrefab);
                 rangeTiles[i].Hide();
             }
+            priviewImage.Hide();
         }
 
         private void HandleCardExitEvent(CardInfo card)
@@ -136,7 +148,7 @@ namespace CardNameSpace
             {
                 deck = new Deck(CreateCardsFromDatabase());
                 deck.Shuffle();
-                DrawCards(3);
+                DrawCards(CardHandlerCount);
             }
             else
             {
