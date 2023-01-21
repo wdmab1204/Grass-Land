@@ -3,19 +3,24 @@ using System.Collections;
 
 namespace GameEntity
 {
-	public class MonsterEntity : Entity
-	{
-		// Use this for initialization
-		void Start()
-		{
+    public class MonsterEntity : Entity
+    {
+        [SerializeField] private int hp;
 
-		}
+        public override void TakeDamage(int damage)
+        {
+            hp -= damage;
+        }
 
-		// Update is called once per frame
-		void Update()
-		{
+        public override void Recovery(int amount)
+        {
+            hp += amount;
+        }
 
-		}
-	}
+        private void Awake()
+        {
+            this.maxHp = hp;
+        }
+    }
 }
 

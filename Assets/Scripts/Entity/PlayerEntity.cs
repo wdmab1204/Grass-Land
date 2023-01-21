@@ -7,12 +7,12 @@ namespace GameEntity
     {
         [SerializeField] private int hp;
 
-        public void TakeDamage(int damage)
+        public override void TakeDamage(int damage)
         {
             hp -= damage;
         }
 
-        public void Recovery(int amount)
+        public override void Recovery(int amount)
         {
             hp += amount;
         }

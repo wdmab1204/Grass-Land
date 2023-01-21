@@ -25,7 +25,7 @@ public static class AnimationConverter
 [DisallowMultipleComponent]
 public class PlayerActor : MonoBehaviour, ITurnActor
 {
-    public GameObject Actor { get; set; }
+    public GameObject ActorObject { get; set; }
     public ActorState ActorState { get; set; }
     [SerializeField] private TilemapReader tilemapReader;
     private Dice<int>[] dices = new Dice<int>[2];
@@ -38,8 +38,6 @@ public class PlayerActor : MonoBehaviour, ITurnActor
     private DestinationTile[] highlightTiles;
 
     [SerializeField] private DeckHandler deckHandler;
-
-    public SpriteAnimator SpriteAnimator;
 
     public IEnumerator ActionCoroutine()
     {
@@ -96,7 +94,7 @@ public class PlayerActor : MonoBehaviour, ITurnActor
 
     private void Awake()
     {
-        Actor = this.gameObject;
+        ActorObject = this.gameObject;
         navigation = new Navigation(tilemapReader);
 
         dices[0] = new Dice<int>(new int[6] { 1, 2, 3, 4, 5, 6 });

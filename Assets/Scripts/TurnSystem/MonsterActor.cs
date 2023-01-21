@@ -5,7 +5,7 @@ using System.Collections;
 [DisallowMultipleComponent]
 public class MonsterActor : MonoBehaviour, ITurnActor
 {
-    public GameObject Actor { get; set; }
+    public GameObject ActorObject { get; set; }
     public ActorState ActorState { get; set; }
 
     public IEnumerator ActionCoroutine()
@@ -20,7 +20,7 @@ public class MonsterActor : MonoBehaviour, ITurnActor
 
     private void Awake()
     {
-        Actor = this.gameObject;
+        ActorObject = this.gameObject;
     }
 }
 

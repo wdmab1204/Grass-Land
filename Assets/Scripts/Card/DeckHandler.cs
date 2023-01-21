@@ -6,6 +6,7 @@ using CardNameSpace.Base;
 using UnityEngine;
 using UnityEngine.UI;
 using SimpleSpriteAnimator;
+using GameEntity;
 
 namespace CardNameSpace
 {
@@ -22,6 +23,7 @@ namespace CardNameSpace
         [SerializeField] private GameRuleSystem GameRuleSystem;
         [SerializeField] private int CardHandlerCount = 3;
         [SerializeField] private SpriteAnimator animator;
+        [SerializeField] private EntityManager EntityManager;
 
         public bool DrawCard()
         {
@@ -40,10 +42,39 @@ namespace CardNameSpace
             handler.PointerExitEvent += HideRangeTilesDelegate;
 
             handler.MouseClickEnterEvent += PlayAnimationDelegate;
+            handler.MouseClickEnterEvent += EntityInteractionEventDelegate;
             handler.MouseClickEnterEvent += (card) => isCLickedCard = true;
             handler.MouseClickExitEvent += HandleCardExitEvent;
 
             return true;
+        }
+
+        //적들과 상호작용하는 이벤트. ex) 카드 효과 구현
+        private void EntityInteractionEventDelegate(CardHandler handler)
+        {
+            var card = handler.Card;
+            var currentActorObject = GameRuleSystem.CurrentActor.ActorObject;
+
+            switch (card.CardInfo.cardType)
+            {
+                case CardType.ATTACK:
+                    foreach(var tilePosition in card.CardInfo.Ranges)
+                    {
+                        var rangeLocalPosition = TilemapReader.ChangeWorldToLocalPosition(currentActorObject.transform.position) + (Vector3Int)tilePosition;
+                        //공격범위 안에 적이 있는가 ?
+                        if (EntityManager.TryGetEntityOnTile<MonsterEntity>(rangeLocalPosition, out Entity target))
+                        {
+                            ((MonsterEntity)target).TakeDamage(100);
+                        }
+                    }
+                    break;
+                case CardType.MOVE:
+                    break;
+                case CardType.HEAL:
+                    var currentActorEntity = currentActorObject.GetComponent<Entity>();
+                    currentActorEntity.Recovery(33);
+                    break;
+            }
         }
 
         private void RemoveCardHandler(CardHandler handler)
@@ -77,20 +108,18 @@ namespace CardNameSpace
             priviewImage.Show();
             priviewImage.NameText = card.name ?? "Unknown";
             priviewImage.DescText = card.desc ?? "No description available.";
-
-            
         }
 
         private void ShowRangeTilesDelegate(CardHandler handler)
         {
             var card = handler.Card.CardInfo;
-            if (card.Coverage.Length == 0) return;
+            if (card.Ranges.Length == 0) return;
 
-            for (int i = 0; i < card.Coverage.Length; i++)
+            for (int i = 0; i < card.Ranges.Length; i++)
             {
-                var coord = card.Coverage[i];
+                var coord = card.Ranges[i];
                 var currentActor = GameRuleSystem.CurrentActor;
-                var worldPosition = currentActor.Actor.transform.position;
+                var worldPosition = currentActor.ActorObject.transform.position;
 
                 var localPosition = TilemapReader.ChangeWorldToLocalPosition(worldPosition);
                 var rangePosition = localPosition + (Vector3Int)coord;
