@@ -19,31 +19,28 @@ public class Navigation
 		this.TilemapReader = tilemapReader;
     }
 
-	public IEnumerator GoDestination(TileNode start, TileNode end, Transform actor)
+	public IEnumerator GoDestination(TileNode start, TileNode end, Transform actor, int pathLength = 999)
 	{
-        foreach (var next in TilemapReader.Graph.ShortestPath(start, end))
-        {
+		foreach (var next in TilemapReader.Graph.ShortestPath(start, end))
+		{
+			if (start.Equals(next)) continue;
+			if (pathLength <= 0) break;
 			var nextWorldPos = TilemapReader.ChangeLocalToWorldPosition(next.position);
-            while (Vector3.Distance(actor.position, nextWorldPos) > 0.0f)
-            {
-                actor.position = Vector3.MoveTowards(actor.position, nextWorldPos, Time.deltaTime);
-                yield return null;
-            }
-        }
+			while (Vector3.Distance(actor.position, nextWorldPos) > 0.0f)
+			{
+				actor.position = Vector3.MoveTowards(actor.position, nextWorldPos, Time.deltaTime);
+				yield return null;
+			}
+			pathLength--;
+		}
 
 		destination = null;
-    }
+	}
 
 	public IEnumerator GoDestination(TileNode end, Transform actor)
 	{
 		var targetPosition = TilemapReader.ChangeWorldToLocalPosition(actor.position);
 		yield return GoDestination(start: (TileNode)targetPosition, end, actor);
-	}
-
-	public IEnumerator GoDestination(Vector3 end, Transform actor)
-	{
-		var endPosition = TilemapReader.ChangeWorldToLocalPosition(end);
-		yield return GoDestination(end: (TileNode)endPosition, actor);
 	}
 
 	public void SetDestination(Vector3 tileWorldPosition)

@@ -16,8 +16,9 @@ public class MonsterActor : MonoBehaviour, ITurnActor
         "[-1,2][-1,1][-1,0][-1,-1][-1,-2]" +
         "[-2,2][-2,1][-2,0][-2,-1][-2,-2]";
     private Vector2Int[] coords;
-    private bool isFollowing = false;
+    [SerializeField] private bool isFollowing = false;
     private Navigation navigation;
+    private Vector3Int LocalPosition { get => TilemapReader.ChangeWorldToLocalPosition(this.transform.position); }
     [SerializeField] private GameObject scanRagneTilePrefab;
     [SerializeField] private TilemapReader TilemapReader;
     [SerializeField] private EntityManager EntityManager;
@@ -28,11 +29,15 @@ public class MonsterActor : MonoBehaviour, ITurnActor
     public IEnumerator ActionCoroutine()
     {
         ActorState = ActorState.Start;
-
+        
         if (isFollowing)
         {
             //시야범위안에 있다면 쫒아감.
-            yield return navigation.GoDestination(end: navigation.Destination, this.transform);
+            Debug.Log("Monster Turn..!");
+            var dest = navigation.Destination;
+            yield return navigation.GoDestination((TileNode)LocalPosition, end: navigation.Destination, this.transform, 1);
+            navigation.SetDestination(dest.position);
+            
         }
         else
         {
@@ -59,8 +64,7 @@ public class MonsterActor : MonoBehaviour, ITurnActor
         foreach(var r in coords)
         {
             var obj = Instantiate(scanRagneTilePrefab);
-            var actorLocalPosition = TilemapReader.ChangeWorldToLocalPosition(this.transform.position);
-            obj.transform.position = TilemapReader.ChangeLocalToWorldPosition(actorLocalPosition + (Vector3Int)r);
+            obj.transform.position = TilemapReader.ChangeLocalToWorldPosition(LocalPosition + (Vector3Int)r);
         }
     }
 }

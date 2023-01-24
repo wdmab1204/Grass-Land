@@ -12,7 +12,7 @@ namespace GameEntity
 		private List<Entity> entityList = new List<Entity>();
         [SerializeField] private TilemapReader TilemapReader;
 
-        private void Start()
+        private void Awake()
         {
             var objArr = SceneManager.GetActiveScene().GetRootGameObjects();
             for (int i = 0; i < objArr.Length; i++)
