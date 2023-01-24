@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2667704628365121922}
   - component: {fileID: 7372501557887406721}
   m_Layer: 0
-  m_Name: RangeTile
+  m_Name: Attack-Range-Tile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

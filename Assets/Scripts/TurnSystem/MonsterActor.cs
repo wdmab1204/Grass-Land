@@ -8,6 +8,8 @@ public class MonsterActor : MonoBehaviour, ITurnActor
     public GameObject ActorObject { get; set; }
     public ActorState ActorState { get; set; }
 
+    
+
     public IEnumerator ActionCoroutine()
     {
         ActorState = ActorState.Start;
