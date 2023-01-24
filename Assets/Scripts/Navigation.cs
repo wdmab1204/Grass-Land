@@ -19,14 +19,14 @@ public class Navigation
 		this.TilemapReader = tilemapReader;
     }
 
-	public IEnumerator GoDestination(TileNode start, TileNode end, Transform target)
+	public IEnumerator GoDestination(TileNode start, TileNode end, Transform actor)
 	{
         foreach (var next in TilemapReader.Graph.ShortestPath(start, end))
         {
 			var nextWorldPos = TilemapReader.ChangeLocalToWorldPosition(next.position);
-            while (Vector3.Distance(target.position, nextWorldPos) > 0.0f)
+            while (Vector3.Distance(actor.position, nextWorldPos) > 0.0f)
             {
-                target.position = Vector3.MoveTowards(target.position, nextWorldPos, Time.deltaTime);
+                actor.position = Vector3.MoveTowards(actor.position, nextWorldPos, Time.deltaTime);
                 yield return null;
             }
         }
@@ -34,22 +34,21 @@ public class Navigation
 		destination = null;
     }
 
-	public IEnumerator GoDestination(TileNode end, Transform target)
+	public IEnumerator GoDestination(TileNode end, Transform actor)
 	{
-		var targetPosition = TilemapReader.ChangeWorldToLocalPosition(target.position);
-		yield return GoDestination(start: (TileNode)targetPosition, end, target);
+		var targetPosition = TilemapReader.ChangeWorldToLocalPosition(actor.position);
+		yield return GoDestination(start: (TileNode)targetPosition, end, actor);
 	}
 
-	public IEnumerator GoDestination(Vector3 end, Transform target)
+	public IEnumerator GoDestination(Vector3 end, Transform actor)
 	{
 		var endPosition = TilemapReader.ChangeWorldToLocalPosition(end);
-		yield return GoDestination(end: (TileNode)endPosition, target);
+		yield return GoDestination(end: (TileNode)endPosition, actor);
 	}
 
-	public void CreateDestination(DestinationTile hTile)
+	public void SetDestination(Vector3 tileWorldPosition)
 	{
-		var worldPosition = hTile.transform.position;
-		var destination = TilemapReader.ChangeWorldToLocalPosition(worldPosition);
+		var destination = TilemapReader.ChangeWorldToLocalPosition(tileWorldPosition);
 
 		this.destination = (TileNode)destination;
 	}
@@ -57,6 +56,17 @@ public class Navigation
 	public IEnumerator WaitForClickDestination()
 	{
 		yield return new WaitUntil(() => destination != null);
+	}
+
+	public TileNode[] GetShortestPathCoordArray(TileNode start, TileNode end)
+	{
+		List<TileNode> coordList = new List<TileNode>();
+		foreach(var coord in TilemapReader.Graph.ShortestPath(start, end))
+		{
+			coordList.Add(coord);
+		}
+
+		return coordList.ToArray();
 	}
 }
 

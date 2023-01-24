@@ -84,7 +84,7 @@ public class PlayerActor : MonoBehaviour, ITurnActor
 
         var destination = navigation.Destination;
 
-        yield return navigation.GoDestination(end: destination, target: transform);
+        yield return navigation.GoDestination(end: destination, actor: transform);
 
         for (int i = 0; i < highlightTiles.Length; i++)
         {
@@ -104,13 +104,13 @@ public class PlayerActor : MonoBehaviour, ITurnActor
         highlightTiles = new DestinationTile[4];
 
         highlightTiles[0] = Instantiate(highlightTilePrefab0.gameObject).GetComponent<DestinationTile>();
-        highlightTiles[0].clickEvent = navigation.CreateDestination;
+        highlightTiles[0].clickEvent = navigation.SetDestination;
         highlightTiles[1] = Instantiate(highlightTilePrefab1.gameObject).GetComponent<DestinationTile>();
-        highlightTiles[1].clickEvent = navigation.CreateDestination;
+        highlightTiles[1].clickEvent = navigation.SetDestination;
         highlightTiles[2] = Instantiate(highlightTilePrefab2.gameObject).GetComponent<DestinationTile>();
-        highlightTiles[2].clickEvent = navigation.CreateDestination;
+        highlightTiles[2].clickEvent = navigation.SetDestination;
         highlightTiles[3] = Instantiate(highlightTilePrefab3.gameObject).GetComponent<DestinationTile>();
-        highlightTiles[3].clickEvent = navigation.CreateDestination;
+        highlightTiles[3].clickEvent = navigation.SetDestination;
 
     }
 }

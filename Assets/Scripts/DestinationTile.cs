@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class DestinationTile : MonoBehaviour, IGraphicsDisplay, IPointerClickHandler
 {
 	private SpriteRenderer spriteRenderer;
-	public delegate void HighlightTileClickEvent(DestinationTile hTile);
+	public delegate void HighlightTileClickEvent(Vector3 tileWorldPosition);
 	public HighlightTileClickEvent clickEvent;
 
 	public void Show()
@@ -27,7 +27,7 @@ public class DestinationTile : MonoBehaviour, IGraphicsDisplay, IPointerClickHan
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        clickEvent?.Invoke(this);
+		clickEvent?.Invoke(this.transform.position);
     }
 }
 
