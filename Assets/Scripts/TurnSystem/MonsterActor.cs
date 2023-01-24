@@ -2,6 +2,7 @@
 using TurnSystem;
 using System.Collections;
 using GameEntity;
+using System.Collections.Generic;
 
 [DisallowMultipleComponent]
 public class MonsterActor : MonoBehaviour, ITurnActor
@@ -22,6 +23,7 @@ public class MonsterActor : MonoBehaviour, ITurnActor
     [SerializeField] private GameObject scanRagneTilePrefab;
     [SerializeField] private TilemapReader TilemapReader;
     [SerializeField] private EntityManager EntityManager;
+    private List<RangeTile> rangeTileList = new List<RangeTile>();
 
     private int pathIndex = 0;
     
@@ -37,8 +39,8 @@ public class MonsterActor : MonoBehaviour, ITurnActor
             var dest = navigation.Destination;
             yield return navigation.GoDestination((TileNode)LocalPosition, end: navigation.Destination, this.transform, 1);
             navigation.SetDestination(dest.position);
-            
         }
+
         else
         {
             //플레이어가 시야범위안에 들어왔는지 체크
@@ -50,7 +52,6 @@ public class MonsterActor : MonoBehaviour, ITurnActor
                     navigation.SetDestination(target.transform.position);
                 }
             }
-
         }
         ActorState = ActorState.End;
     }
@@ -65,6 +66,8 @@ public class MonsterActor : MonoBehaviour, ITurnActor
         {
             var obj = Instantiate(scanRagneTilePrefab);
             obj.transform.position = TilemapReader.ChangeLocalToWorldPosition(LocalPosition + (Vector3Int)r);
+            rangeTileList.Add(obj.GetComponent<RangeTile>());
+
         }
     }
 }

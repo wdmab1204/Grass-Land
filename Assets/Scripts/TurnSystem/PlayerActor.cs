@@ -43,9 +43,9 @@ public class PlayerActor : MonoBehaviour, ITurnActor
     {
         ActorState = ActorState.Start;
 
-        yield return CardAction();
+        //yield return CardAction();
 
-        //yield return MoveAction();
+        yield return MoveAction();
 
         ActorState = ActorState.End;
     }
@@ -96,6 +96,7 @@ public class PlayerActor : MonoBehaviour, ITurnActor
     {
         ActorObject = this.gameObject;
         navigation = new Navigation(tilemapReader);
+        this.transform.position = tilemapReader.RepositioningTheWorld(this.transform.position);
 
         dices[0] = new Dice<int>(new int[6] { 1, 2, 3, 4, 5, 6 });
         dices[1] = new Dice<int>(new int[6] { 1, 2, 3, 4, 5, 6 });
