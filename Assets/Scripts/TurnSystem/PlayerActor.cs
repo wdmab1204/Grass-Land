@@ -84,12 +84,13 @@ public class PlayerActor : MonoBehaviour, ITurnActor
 
         var destination = navigation.Destination;
 
-        yield return navigation.GoDestination(end: destination, actor: transform);
-
         for (int i = 0; i < highlightTiles.Length; i++)
         {
             highlightTiles[i].Hide();
         }
+
+        yield return navigation.GoDestination(end: destination, actor: transform);
+        
     }
 
     private void Awake()

@@ -49,6 +49,7 @@ public class MonsterActor : MonoBehaviour, ITurnActor
                 {
                     isFollowing = true;
                     this.target = target;
+                    foreach (var rangeTile in rangeTileList) rangeTile.Hide();
                     navigation.SetDestination(target.transform.position);
                     yield return navigation.GoDestination((TileNode)LocalPosition, end: navigation.Destination, this.transform, 1);
 
