@@ -24,6 +24,7 @@ public class MonsterActor : MonoBehaviour, ITurnActor
     [SerializeField] private TilemapReader TilemapReader;
     [SerializeField] private EntityManager EntityManager;
     private List<RangeTile> rangeTileList = new List<RangeTile>();
+    private Entity target = null;
 
     private int pathIndex = 0;
     
@@ -35,10 +36,8 @@ public class MonsterActor : MonoBehaviour, ITurnActor
         if (isFollowing)
         {
             //시야범위안에 있다면 쫒아감.
-            Debug.Log("Monster Turn..!");
-            var dest = navigation.Destination;
+            navigation.SetDestination(target.transform.position);
             yield return navigation.GoDestination((TileNode)LocalPosition, end: navigation.Destination, this.transform, 1);
-            navigation.SetDestination(dest.position);
         }
 
         else
@@ -46,10 +45,13 @@ public class MonsterActor : MonoBehaviour, ITurnActor
             //플레이어가 시야범위안에 들어왔는지 체크
             foreach (var coord in coords)
             {
-                if (EntityManager.TryGetEntityOnTile<PlayerEntity>((Vector3Int)coord, out Entity target))
+                if (EntityManager.TryGetEntityOnTile<PlayerEntity>((Vector3Int)coord + LocalPosition, out Entity target))
                 {
                     isFollowing = true;
+                    this.target = target;
                     navigation.SetDestination(target.transform.position);
+                    yield return navigation.GoDestination((TileNode)LocalPosition, end: navigation.Destination, this.transform, 1);
+
                 }
             }
         }
