@@ -16,14 +16,18 @@ public class MonsterActor : MonoBehaviour, ITurnActor
         "[0,2][0,1][0,0][0,-1][0,-2]" +
         "[-1,2][-1,1][-1,0][-1,-1][-1,-2]" +
         "[-2,2][-2,1][-2,0][-2,-1][-2,-2]";
-    private Vector2Int[] coords;
+    private Vector2Int[] scanRangeCoords;
+    private readonly string attackRangeString =
+        "[-1,1][0,1][1,1]" +
+        "[-1,0]     [0,1]" +
+        "[-1,-1][-1,0][-1,1]";
     [SerializeField] private bool isFollowing = false;
     private Navigation navigation;
     private Vector3Int LocalPosition { get => TilemapReader.ChangeWorldToLocalPosition(this.transform.position); }
-    [SerializeField] private GameObject scanRagneTilePrefab;
+    [SerializeField] private VisibilityTile scanRagneTilePrefab;
     [SerializeField] private TilemapReader TilemapReader;
     [SerializeField] private EntityManager EntityManager;
-    private List<RangeTile> rangeTileList = new List<RangeTile>();
+    [SerializeField] private TileGroup TileGroup;
     private Entity target = null;
 
     private int pathIndex = 0;
@@ -43,13 +47,13 @@ public class MonsterActor : MonoBehaviour, ITurnActor
         else
         {
             //플레이어가 시야범위안에 들어왔는지 체크
-            foreach (var coord in coords)
+            foreach (var coord in scanRangeCoords)
             {
                 if (EntityManager.TryGetEntityOnTile<PlayerEntity>((Vector3Int)coord + LocalPosition, out Entity target))
                 {
                     isFollowing = true;
                     this.target = target;
-                    foreach (var rangeTile in rangeTileList) rangeTile.Hide();
+                    TileGroup.Hide();
                     navigation.SetDestination(target.transform.position);
                     yield return navigation.GoDestination((TileNode)LocalPosition, end: navigation.Destination, this.transform, 1);
 
@@ -64,14 +68,12 @@ public class MonsterActor : MonoBehaviour, ITurnActor
         navigation = new Navigation(TilemapReader);
         this.transform.position = TilemapReader.RepositioningTheWorld(this.transform.position);
         ActorObject = this.gameObject;
-        coords = CardNameSpace.Base.CoordConverter.ConvertToCoords(scanRangeString);
-        foreach(var r in coords)
-        {
-            var obj = Instantiate(scanRagneTilePrefab);
-            obj.transform.position = TilemapReader.ChangeLocalToWorldPosition(LocalPosition + (Vector3Int)r);
-            rangeTileList.Add(obj.GetComponent<RangeTile>());
+        scanRangeCoords = CardNameSpace.Base.CoordConverter.ConvertToCoords(scanRangeString);
+    }
 
-        }
+    private void Start()
+    {
+        TileGroup.CreateClones(scanRagneTilePrefab, scanRangeCoords, LocalPosition);
     }
 }
 

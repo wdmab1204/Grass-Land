@@ -70,6 +70,7 @@ namespace CardNameSpace.Base
             {
                 throw new ArgumentException("Invalid input format. Expected format: [x1,y1][x2,y2][x3,y3]");
             }
+            coordsString = coordsString.Trim();
 
             var coordList = new List<Coord>();
             int start = 0;
