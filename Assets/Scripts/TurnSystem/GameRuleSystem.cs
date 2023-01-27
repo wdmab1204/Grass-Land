@@ -9,6 +9,7 @@ public class GameRuleSystem : MonoBehaviour
 {
     TurnManager turnManager = new TurnManager();
     private Coroutine currentCoroutine = null;
+    [SerializeField] private string CurrentActorName = "";
 
     private void Start()
     {
@@ -27,6 +28,7 @@ public class GameRuleSystem : MonoBehaviour
         while (true)
         {
             var currentActor = turnManager.UpdateTurn();
+            CurrentActorName = currentActor.ActorObject.name;
 
             // Wait until the Actor finished his action
             yield return currentActor?.ActionCoroutine();

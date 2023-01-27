@@ -3,6 +3,7 @@ using TurnSystem;
 using System.Collections;
 using GameEntity;
 using System.Collections.Generic;
+using SimpleSpriteAnimator;
 
 [DisallowMultipleComponent]
 public class MonsterActor : MonoBehaviour, ITurnActor
@@ -10,7 +11,7 @@ public class MonsterActor : MonoBehaviour, ITurnActor
     enum BehaviourState { IDLE,FOLLOW,ATTACK };
 
     public GameObject ActorObject { get; set; }
-    public ActorState ActorState { get; set; }
+    [SerializeField] private ActorState ActorState;
 
     private readonly string scanRangeString =
         "[2,2][2,1][2,0][2,-1][2,-2]" +
@@ -34,7 +35,7 @@ public class MonsterActor : MonoBehaviour, ITurnActor
     [SerializeField] private TileGroup TileGroup;
     private Entity target = null;
 
-    private int pathIndex = 0;
+    [SerializeField] private SpriteAnimator SpriteAnimator;
     
 
     public IEnumerator ActionCoroutine()
@@ -74,6 +75,13 @@ public class MonsterActor : MonoBehaviour, ITurnActor
         else if(behaviour == BehaviourState.ATTACK)
         {
             target.TakeDamage(100);
+            SpriteAnimator.Play("Golem-Attack");
+            Debug.Log(SpriteAnimator.AnimationLength);
+            for (float frame = 0.0f; frame <= SpriteAnimator.AnimationLength; frame += Time.deltaTime)
+            {
+                yield return null;
+            }
+            SpriteAnimator.Play("Golem-Idle");
         }
 
         ActorState = ActorState.End;
@@ -92,6 +100,8 @@ public class MonsterActor : MonoBehaviour, ITurnActor
     {
         TileGroup.CreateClones(scanRagneTilePrefab, scanRangeCoords, LocalPosition);
         TileGroup.CreateClones(attackRangeTilePrefab, attackRangeCoords, LocalPosition);
+
+        SpriteAnimator.Play("Golem-Idle");
     }
 }
 

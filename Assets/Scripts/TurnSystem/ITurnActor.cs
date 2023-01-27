@@ -3,7 +3,6 @@
     public interface ITurnActor
     {
         public UnityEngine.GameObject ActorObject { get; set; }
-        public ActorState ActorState { get; set; }
         public System.Collections.IEnumerator ActionCoroutine();
     }
 }

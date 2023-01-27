@@ -1070,7 +1070,7 @@ MonoBehaviour:
   spriteAnimations:
   - {fileID: 11400000, guid: 366439445d63b4b70b47a925afa7dafb, type: 2}
   - {fileID: 11400000, guid: 3fcc59eb4cf0d4378923077de22670f9, type: 2}
-  playAutomatically: 1
+  playAutomatically: 0
 --- !u!212 &889558720
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2615,6 +2615,7 @@ MonoBehaviour:
   TilemapReader: {fileID: 1551243292}
   EntityManager: {fileID: 1902137600}
   TileGroup: {fileID: 502781569}
+  SpriteAnimator: {fileID: 889558719}
 --- !u!4 &1835366123
 Transform:
   m_ObjectHideFlags: 0
