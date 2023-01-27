@@ -4,6 +4,8 @@ using System.Collections;
 using CardNameSpace;
 using System.Collections.Generic;
 using SimpleSpriteAnimator;
+using GameEntity;
+using System;
 
 public static class AnimationConverter
 {
@@ -38,6 +40,8 @@ public class PlayerActor : MonoBehaviour, ITurnActor
     private DestinationTile[] highlightTiles;
 
     [SerializeField] private DeckHandler deckHandler;
+    [SerializeField] private PlayerEntity playerEntity;
+    [SerializeField] private SpriteAnimator SpriteAnimator;
 
     public IEnumerator ActionCoroutine()
     {
@@ -113,6 +117,10 @@ public class PlayerActor : MonoBehaviour, ITurnActor
         highlightTiles[2].clickEvent = navigation.SetDestination;
         highlightTiles[3] = Instantiate(highlightTilePrefab3.gameObject).GetComponent<DestinationTile>();
         highlightTiles[3].clickEvent = navigation.SetDestination;
+        playerEntity.deathAction = () =>
+        {
+            SpriteAnimator.Play("Player-Death");
+        };
 
     }
 }

@@ -74,13 +74,13 @@ public class MonsterActor : MonoBehaviour, ITurnActor
         }
         else if(behaviour == BehaviourState.ATTACK)
         {
-            target.TakeDamage(100);
             SpriteAnimator.Play("Golem-Attack");
             Debug.Log(SpriteAnimator.AnimationLength);
             for (float frame = 0.0f; frame <= SpriteAnimator.AnimationLength; frame += Time.deltaTime)
             {
                 yield return null;
             }
+            target.TakeDamage(100);
             SpriteAnimator.Play("Golem-Idle");
         }
 

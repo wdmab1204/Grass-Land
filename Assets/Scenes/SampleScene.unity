@@ -493,6 +493,8 @@ MonoBehaviour:
   highlightTilePrefab2: {fileID: 7954182708144548898, guid: c6201588598424872842afe176f4cf3b, type: 3}
   highlightTilePrefab3: {fileID: 7954182708144548898, guid: 811f67f5a3e9e4391a845c18c4421d88, type: 3}
   deckHandler: {fileID: 1511898355}
+  playerEntity: {fileID: 657235445}
+  SpriteAnimator: {fileID: 1289227041}
 --- !u!114 &657235445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1320,6 +1322,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a2f3c42d78a484cb38787218b7c42f13, type: 2}
   - {fileID: 11400000, guid: 1425d56befb434eeb8612de3d7fa55f6, type: 2}
   - {fileID: 11400000, guid: 6b3f730df9253432990c8e2f63373bce, type: 2}
+  - {fileID: 11400000, guid: 98ebc6de3accd48a083332cc7737452a, type: 2}
   playAutomatically: 1
 --- !u!212 &1289227042
 SpriteRenderer:
@@ -2294,6 +2297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0390c48ec4584d08bb293c90bec018c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentActorName: 
 --- !u!4 &1624878073
 Transform:
   m_ObjectHideFlags: 0
@@ -2609,6 +2613,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c34948852863491683435cda3569e46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ActorState: 0
   behaviour: 0
   scanRagneTilePrefab: {fileID: 2560490859828915807, guid: 01cc8c25025f646f384b94675494d703, type: 3}
   attackRangeTilePrefab: {fileID: 2667704628365121922, guid: 9c55025fe0a814424a5ba5f38b128fd2, type: 3}

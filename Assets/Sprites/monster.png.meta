@@ -204,8 +204,8 @@ TextureImporter:
       name: monster_4
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
+        x: 192
+        y: 48
         width: 48
         height: 48
       alignment: 0
@@ -225,7 +225,7 @@ TextureImporter:
       name: monster_5
       rect:
         serializedVersion: 2
-        x: 48
+        x: 0
         y: 0
         width: 48
         height: 48
@@ -246,7 +246,7 @@ TextureImporter:
       name: monster_6
       rect:
         serializedVersion: 2
-        x: 96
+        x: 48
         y: 0
         width: 48
         height: 48
@@ -267,7 +267,7 @@ TextureImporter:
       name: monster_7
       rect:
         serializedVersion: 2
-        x: 144
+        x: 96
         y: 0
         width: 48
         height: 48
@@ -288,7 +288,7 @@ TextureImporter:
       name: monster_8
       rect:
         serializedVersion: 2
-        x: 192
+        x: 144
         y: 0
         width: 48
         height: 48
@@ -301,6 +301,27 @@ TextureImporter:
       bones: []
       spriteID: 73cb4c0e14f5a46d595b0131b3d48672
       internalID: -1964282224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: monster_9
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 880db7565edc14dedbd84f7d81f476c3
+      internalID: -2013669220
       vertices: []
       indices: 
       edges: []
@@ -323,6 +344,7 @@ TextureImporter:
       monster_6: -1313054096
       monster_3: 1113572962
       monster_4: 54520562
+      monster_9: -2013669220
       monster_2: 1460680711
       monster_0: -1808014342
   spritePackingTag: 
