@@ -99,6 +99,7 @@ public class MonsterActor : MonoBehaviour, ITurnActor
         MonsterEntity.deathAction = () =>
         {
             SpriteAnimator.Play("Golem-Death");
+            Destroy(this.gameObject, SpriteAnimator.AnimationLength);
         };
     }
 
