@@ -1072,6 +1072,7 @@ MonoBehaviour:
   spriteAnimations:
   - {fileID: 11400000, guid: 366439445d63b4b70b47a925afa7dafb, type: 2}
   - {fileID: 11400000, guid: 3fcc59eb4cf0d4378923077de22670f9, type: 2}
+  - {fileID: 11400000, guid: 42dc05b6fb78b4066a579f95c4b064e8, type: 2}
   playAutomatically: 0
 --- !u!212 &889558720
 SpriteRenderer:
@@ -2621,6 +2622,7 @@ MonoBehaviour:
   EntityManager: {fileID: 1902137600}
   TileGroup: {fileID: 502781569}
   SpriteAnimator: {fileID: 889558719}
+  MonsterEntity: {fileID: 1835366124}
 --- !u!4 &1835366123
 Transform:
   m_ObjectHideFlags: 0
@@ -2629,7 +2631,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1835366118}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.9, y: 0.56, z: 0}
+  m_LocalPosition: {x: 0.32, y: 3.77, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

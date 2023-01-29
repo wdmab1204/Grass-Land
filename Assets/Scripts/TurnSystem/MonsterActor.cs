@@ -36,6 +36,7 @@ public class MonsterActor : MonoBehaviour, ITurnActor
     private Entity target = null;
 
     [SerializeField] private SpriteAnimator SpriteAnimator;
+    [SerializeField] private MonsterEntity MonsterEntity;
     
 
     public IEnumerator ActionCoroutine()
@@ -94,6 +95,11 @@ public class MonsterActor : MonoBehaviour, ITurnActor
         ActorObject = this.gameObject;
         scanRangeCoords = CardNameSpace.Base.CoordConverter.ConvertToCoords(scanRangeString);
         attackRangeCoords = CardNameSpace.Base.CoordConverter.ConvertToCoords(attackRangeString);
+
+        MonsterEntity.deathAction = () =>
+        {
+            SpriteAnimator.Play("Golem-Death");
+        };
     }
 
     private void Start()
