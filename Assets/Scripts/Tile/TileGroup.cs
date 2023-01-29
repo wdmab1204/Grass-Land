@@ -14,8 +14,10 @@ public class TileGroup : MonoBehaviour, IEnumerable, IGraphicsDisplay
         if (center == default) center = Vector3Int.zero;
         foreach(var coord in coords)
         {
+            var tileWorldPosition = center + (Vector3Int)coord;
+            if (!TilemapReader.HasTile(tileWorldPosition)) continue;
             var visibilityTile = Instantiate(tilePrefab, this.transform).GetComponent<VisibilityTile>();
-            visibilityTile.transform.position = TilemapReader.ChangeLocalToWorldPosition(center + (Vector3Int)coord);
+            visibilityTile.transform.position = TilemapReader.ChangeLocalToWorldPosition(tileWorldPosition);
             if (tileDictionary.ContainsKey(coord))
             {
                 Destroy(tileDictionary[coord].gameObject);
