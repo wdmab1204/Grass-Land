@@ -6,24 +6,32 @@ namespace GameEntity
 {
     public class PlayerEntity : Entity
     {
-        [SerializeField] private int hp;
+        public override int Hp
+        {
+            get => base.Hp;
+            protected set
+            {
+                base.Hp = value;
+                OnHealthChanged(Hp);
+            }
+        }
         public Action deathAction;
         public override void TakeDamage(int damage)
         {
-            hp -= damage;
-
-            if(hp<=0)
+            Hp -= damage;
+            OnHealthChanged(this.Hp);
+            if(Hp<=0)
                 deathAction();
         }
 
         public override void Recovery(int amount)
         {
-            hp += amount;
+            Hp += amount;
         }
 
         private void Awake()
         {
-            this.maxHp = hp;
+            this.MaxHp = Hp;
         }
     }
 }

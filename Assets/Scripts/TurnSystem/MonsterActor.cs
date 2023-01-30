@@ -81,7 +81,7 @@ public class MonsterActor : MonoBehaviour, ITurnActor
             {
                 yield return null;
             }
-            target.TakeDamage(100);
+            target.TakeDamage(1);
             SpriteAnimator.Play("Golem-Idle");
         }
 
