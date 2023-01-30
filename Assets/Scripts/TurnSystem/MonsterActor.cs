@@ -8,7 +8,7 @@ using SimpleSpriteAnimator;
 [DisallowMultipleComponent]
 public class MonsterActor : MonoBehaviour, ITurnActor
 {
-    enum BehaviourState { IDLE,FOLLOW,ATTACK };
+    enum BehaviourState { IDLE,CHASE,ATTACK };
 
     public GameObject ActorObject { get; set; }
     [SerializeField] private ActorState ActorState;
@@ -25,7 +25,7 @@ public class MonsterActor : MonoBehaviour, ITurnActor
         "[-1,0]     [1,0]" +
         "[-1,-1][0,-1][1,-1]";
     private Vector2Int[] attackRangeCoords;
-    [SerializeField] private BehaviourState behaviour = BehaviourState.IDLE;
+    [SerializeField] private BehaviourState currentState = BehaviourState.IDLE;
     private Navigation navigation;
     private Vector3Int LocalPosition { get => TilemapReader.ChangeWorldToLocalPosition(this.transform.position); }
     [SerializeField] private VisibilityTile scanRagneTilePrefab;
@@ -43,49 +43,70 @@ public class MonsterActor : MonoBehaviour, ITurnActor
     {
         ActorState = ActorState.Start;
 
-        //플레이어가 시야범위안에 들어왔는지 체크
-        foreach (var coord in scanRangeCoords)
+        if(currentState == BehaviourState.IDLE)
         {
-            if (EntityManager.TryGetEntityOnTile<PlayerEntity>((Vector3Int)coord + LocalPosition, out Entity target))
+            if (AttackReady())
             {
-                behaviour = BehaviourState.FOLLOW;
-                this.target = target;
+                currentState = BehaviourState.ATTACK;
                 TileGroup.Hide();
-                break;
             }
-        }
-
-        foreach(var coord in attackRangeCoords)
-        {
-            if (this.target == null) break;
-
-            if (EntityManager.TryGetEntityOnTile<PlayerEntity>((Vector3Int)coord + LocalPosition, out Entity target))
+            else if (PlayerDetected())
             {
-                behaviour = BehaviourState.ATTACK;
-                this.target = target;
-                break;
+                currentState = BehaviourState.CHASE;
+                TileGroup.Hide();
             }
         }
 
-        if (behaviour == BehaviourState.FOLLOW)
+        switch (currentState)
         {
-            //시야범위안에 있다면 쫒아감.
-            navigation.SetDestination(target.transform.position);
-            yield return navigation.GoDestination((TileNode)LocalPosition, end: navigation.Destination, this.transform, 1);
-        }
-        else if(behaviour == BehaviourState.ATTACK)
-        {
-            SpriteAnimator.Play("Golem-Attack");
-            Debug.Log(SpriteAnimator.AnimationLength);
-            for (float frame = 0.0f; frame <= SpriteAnimator.AnimationLength; frame += Time.deltaTime)
-            {
-                yield return null;
-            }
-            target.TakeDamage(1);
-            SpriteAnimator.Play("Golem-Idle");
+            case BehaviourState.CHASE:
+                navigation.SetDestination(target.transform.position);
+                yield return navigation.GoDestination((TileNode)LocalPosition, end: navigation.Destination, this.transform, 1);
+                currentState = BehaviourState.IDLE;
+                break;
+            case BehaviourState.ATTACK:
+                SpriteAnimator.Play("Golem-Attack");
+                for (float frame = 0.0f; frame <= SpriteAnimator.AnimationLength; frame += Time.deltaTime)
+                {
+                    yield return null;
+                }
+                target.TakeDamage(1);
+                SpriteAnimator.Play("Golem-Idle");
+                currentState = BehaviourState.IDLE;
+                break;
         }
 
         ActorState = ActorState.End;
+    }
+
+    private bool PlayerDetected()
+    {
+        this.target = null;
+        foreach (var coord in scanRangeCoords)
+        {
+            if (EntityManager.TryGetEntityOnTile<PlayerEntity>((Vector3Int)coord + LocalPosition, out Entity player))
+            {
+                this.target = player;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool AttackReady()
+    {
+        foreach (var coord in attackRangeCoords)
+        {
+            if (this.target == null) return false;
+
+            if (EntityManager.TryGetEntityOnTile<PlayerEntity>((Vector3Int)coord + LocalPosition, out Entity target))
+            {
+                this.target = target;
+                currentState = BehaviourState.ATTACK;
+                return true;
+            }
+        }
+        return false;
     }
 
     private void Awake()
