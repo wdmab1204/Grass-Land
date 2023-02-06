@@ -37,7 +37,9 @@ public class MonsterActor : MonoBehaviour, ITurnActor
 
     [SerializeField] private SpriteAnimator SpriteAnimator;
     [SerializeField] private MonsterEntity MonsterEntity;
-    
+    [SerializeField] private string AnimPreifxName = "Golem";
+
+
 
     public IEnumerator ActionCoroutine()
     {
@@ -65,13 +67,13 @@ public class MonsterActor : MonoBehaviour, ITurnActor
                 currentState = BehaviourState.IDLE;
                 break;
             case BehaviourState.ATTACK:
-                SpriteAnimator.Play("Golem-Attack");
+                SpriteAnimator.Play($"{AnimPreifxName}-Attack");
                 for (float frame = 0.0f; frame <= SpriteAnimator.AnimationLength; frame += Time.deltaTime)
                 {
                     yield return null;
                 }
                 target.TakeDamage(1);
-                SpriteAnimator.Play("Golem-Idle");
+                SpriteAnimator.Play($"{AnimPreifxName}-Idle");
                 currentState = BehaviourState.IDLE;
                 break;
         }
@@ -119,7 +121,7 @@ public class MonsterActor : MonoBehaviour, ITurnActor
 
         MonsterEntity.deathAction = () =>
         {
-            SpriteAnimator.Play("Golem-Death");
+            SpriteAnimator.Play($"{AnimPreifxName}-Death");
             Destroy(this.gameObject, SpriteAnimator.AnimationLength);
         };
     }
@@ -129,7 +131,7 @@ public class MonsterActor : MonoBehaviour, ITurnActor
         TileGroup.CreateClones(scanRagneTilePrefab, scanRangeCoords, LocalPosition);
         TileGroup.CreateClones(attackRangeTilePrefab, attackRangeCoords, LocalPosition);
 
-        SpriteAnimator.Play("Golem-Idle");
+        SpriteAnimator.Play($"{AnimPreifxName}-Idle");
     }
 }
 

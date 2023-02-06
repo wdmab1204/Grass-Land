@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 04e6f6b396aaad8409ac6804e2834b12, type: 3}
-  m_Name: Golem-Death
+  m_Name: Slime-Attack
   m_EditorClassIdentifier: 
-  animationName: Golem-Death
-  fps: 1
+  animationName: Slime-Attack
+  fps: 4
   frames:
-  - sprite: {fileID: 1634150213, guid: a220d734c6fdd48a3b849f53b11d9a53, type: 3}
+  - sprite: {fileID: -2013669220, guid: a220d734c6fdd48a3b849f53b11d9a53, type: 3}
+  - sprite: {fileID: 1982784752, guid: a220d734c6fdd48a3b849f53b11d9a53, type: 3}
   spriteAnimationType: 1

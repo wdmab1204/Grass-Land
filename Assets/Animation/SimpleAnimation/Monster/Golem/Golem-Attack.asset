@@ -15,11 +15,11 @@ MonoBehaviour:
   animationName: Golem-Attack
   fps: 6
   frames:
-  - sprite: {fileID: 1629821270, guid: a220d734c6fdd48a3b849f53b11d9a53, type: 3}
-  - sprite: {fileID: -1313054096, guid: a220d734c6fdd48a3b849f53b11d9a53, type: 3}
-  - sprite: {fileID: -1730580192, guid: a220d734c6fdd48a3b849f53b11d9a53, type: 3}
-  - sprite: {fileID: -1730580192, guid: a220d734c6fdd48a3b849f53b11d9a53, type: 3}
-  - sprite: {fileID: -1730580192, guid: a220d734c6fdd48a3b849f53b11d9a53, type: 3}
-  - sprite: {fileID: -1964282224, guid: a220d734c6fdd48a3b849f53b11d9a53, type: 3}
-  - sprite: {fileID: -1964282224, guid: a220d734c6fdd48a3b849f53b11d9a53, type: 3}
+  - sprite: {fileID: -1433830336, guid: a220d734c6fdd48a3b849f53b11d9a53, type: 3}
+  - sprite: {fileID: -939648175, guid: a220d734c6fdd48a3b849f53b11d9a53, type: 3}
+  - sprite: {fileID: 728206787, guid: a220d734c6fdd48a3b849f53b11d9a53, type: 3}
+  - sprite: {fileID: -265913110, guid: a220d734c6fdd48a3b849f53b11d9a53, type: 3}
+  - sprite: {fileID: -265913110, guid: a220d734c6fdd48a3b849f53b11d9a53, type: 3}
+  - sprite: {fileID: -112152170, guid: a220d734c6fdd48a3b849f53b11d9a53, type: 3}
+  - sprite: {fileID: -112152170, guid: a220d734c6fdd48a3b849f53b11d9a53, type: 3}
   spriteAnimationType: 1
