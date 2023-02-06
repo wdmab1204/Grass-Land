@@ -10,6 +10,7 @@ public class GameRuleSystem : MonoBehaviour
     TurnManager turnManager = new TurnManager();
     private Coroutine currentCoroutine = null;
     [SerializeField] private string CurrentActorName = "";
+    [SerializeField] private FollowCamera camera;
 
     private void Start()
     {
@@ -29,6 +30,7 @@ public class GameRuleSystem : MonoBehaviour
         {
             var currentActor = turnManager.UpdateTurn();
             CurrentActorName = currentActor.ActorObject.name;
+            camera.target = currentActor.ActorObject.transform;
 
             // Wait until the Actor finished his action
             yield return currentActor?.ActionCoroutine();
