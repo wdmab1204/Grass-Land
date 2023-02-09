@@ -47,9 +47,20 @@ public class PlayerActor : MonoBehaviour, ITurnActor
     {
         ActorState = ActorState.Start;
 
-        //yield return CardAction();
-
-        yield return MoveAction();
+        while (true)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                yield return CardAction();
+                break;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                yield return MoveAction();
+                break;
+            }
+            yield return null;
+        }
 
         ActorState = ActorState.End;
     }
