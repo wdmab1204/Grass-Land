@@ -19,7 +19,6 @@ namespace GameEntity
         public override void TakeDamage(int damage)
         {
             Hp -= damage;
-            OnHealthChanged(this.Hp);
             if(Hp<=0)
                 deathAction();
         }

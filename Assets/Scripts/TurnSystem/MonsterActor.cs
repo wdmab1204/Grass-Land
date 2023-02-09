@@ -39,6 +39,9 @@ public class MonsterActor : MonoBehaviour, ITurnActor
     [SerializeField] private MonsterEntity MonsterEntity;
     [SerializeField] private string AnimPreifxName = "Golem";
 
+    [SerializeField] private bool isThrowing = false;
+    [SerializeField] private GameObject throwObject;
+    [SerializeField] private float moveTime;
 
 
     public IEnumerator ActionCoroutine()
@@ -71,6 +74,19 @@ public class MonsterActor : MonoBehaviour, ITurnActor
                 for (float frame = 0.0f; frame <= SpriteAnimator.AnimationLength; frame += Time.deltaTime)
                 {
                     yield return null;
+                }
+                if(isThrowing)
+                {
+                    var obj = Instantiate(throwObject);
+                    obj.transform.position = this.transform.position;
+                    var nVector = (target.transform.position - obj.transform.position).normalized;
+                    while (Vector3.Distance(TilemapReader.ChangeWorldToLocalPosition(obj.transform.position), TilemapReader.ChangeWorldToLocalPosition(target.transform.position)) > 0.0f)
+                    {
+                        Debug.Log(Vector3.Distance(obj.transform.position, target.transform.position));
+                        obj.transform.position += nVector * Time.deltaTime * 1.0f;
+                        yield return null;
+                    }
+                    Destroy(obj.gameObject);
                 }
                 target.TakeDamage(1);
                 SpriteAnimator.Play($"{AnimPreifxName}-Idle");

@@ -2370,7 +2370,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6940485642278723844, guid: c272055006dc6445bbeffb1c0d26fe42, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.32
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6940485642278723844, guid: c272055006dc6445bbeffb1c0d26fe42, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2433,6 +2433,14 @@ PrefabInstance:
       propertyPath: TilemapReader
       value: 
       objectReference: {fileID: 1551243292}
+    - target: {fileID: 477794682381969766, guid: f274628e9f872417a8cffd2f3d1c83f8, type: 3}
+      propertyPath: isThrowing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 477794682381969766, guid: f274628e9f872417a8cffd2f3d1c83f8, type: 3}
+      propertyPath: throwObject
+      value: 
+      objectReference: {fileID: 2555588436571584396, guid: 9c55025fe0a814424a5ba5f38b128fd2, type: 3}
     - target: {fileID: 477794682381969766, guid: f274628e9f872417a8cffd2f3d1c83f8, type: 3}
       propertyPath: EntityManager
       value: 
