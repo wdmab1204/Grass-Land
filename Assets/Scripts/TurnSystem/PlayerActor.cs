@@ -42,6 +42,7 @@ public class PlayerActor : MonoBehaviour, ITurnActor
     [SerializeField] private DeckHandler deckHandler;
     [SerializeField] private PlayerEntity playerEntity;
     [SerializeField] private SpriteAnimator SpriteAnimator;
+    [SerializeField] private EntityManager EntityManager;
 
     public IEnumerator ActionCoroutine()
     {
@@ -105,6 +106,11 @@ public class PlayerActor : MonoBehaviour, ITurnActor
         }
 
         yield return navigation.GoDestination(end: destination, actor: transform);
+
+        if(EntityManager.TryGetEntityOnTile<Portal>(playerEntity.LocalPosition, out Entity portal))
+        {
+            ((Portal)portal).LoadScene();
+        }
         
     }
 

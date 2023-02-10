@@ -1,6 +1,8 @@
-﻿namespace GameEntity
+﻿using UnityEngine;
+
+namespace GameEntity
 {
-    public abstract class Entity : UnityEngine.MonoBehaviour
+    public abstract class Entity : MonoBehaviour
     {
         private int maxHp;
         public virtual int MaxHp { get => maxHp; protected set => maxHp = value; }
@@ -12,6 +14,9 @@
             }
         }
         public System.Action<int> OnHealthChanged;
+        [SerializeField] protected TilemapReader TilemapReader;
+        public Vector3Int LocalPosition => TilemapReader.ChangeWorldToLocalPosition(this.transform.position);
+        public Vector3 WorldPosition => this.transform.position;
         public abstract void TakeDamage(int damage);
         public abstract void Recovery(int amount);
     }
