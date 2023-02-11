@@ -10,14 +10,11 @@ public class RandomTilemap : MonoBehaviour
     private readonly int width = 15;
     private readonly int height = 15;
 
-    private void Awake()
+
+    void Awake()
     {
         tilemap = GetComponent<Tilemap>();
-    }
-
-    void Start()
-    {
-        for(int i=0; i<width; i++)
+        for (int i=0; i<width; i++)
         {
             for(int j=0; j<height; j++)
             {
