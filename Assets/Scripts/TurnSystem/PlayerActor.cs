@@ -44,6 +44,8 @@ public class PlayerActor : MonoBehaviour, ITurnActor
     [SerializeField] private SpriteAnimator SpriteAnimator;
     [SerializeField] private EntityManager EntityManager;
 
+    public Action OnExitTurn;
+
     public IEnumerator ActionCoroutine()
     {
         ActorState = ActorState.Start;
@@ -62,6 +64,8 @@ public class PlayerActor : MonoBehaviour, ITurnActor
             }
             yield return null;
         }
+
+        OnExitTurn?.Invoke();
 
         ActorState = ActorState.End;
     }
@@ -134,7 +138,7 @@ public class PlayerActor : MonoBehaviour, ITurnActor
         highlightTiles[2].clickEvent = navigation.SetDestination;
         highlightTiles[3] = Instantiate(highlightTilePrefab3.gameObject).GetComponent<DestinationTile>();
         highlightTiles[3].clickEvent = navigation.SetDestination;
-        playerEntity.deathAction = () =>
+        playerEntity.OnDeath = () =>
         {
             SpriteAnimator.Play("Player-Death");
         };

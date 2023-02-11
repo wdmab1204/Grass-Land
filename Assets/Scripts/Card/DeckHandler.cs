@@ -25,6 +25,8 @@ namespace CardNameSpace
         [SerializeField] private SpriteAnimator animator;
         [SerializeField] private EntityManager EntityManager;
 
+        public Action OnAttackTarget;
+
         public bool DrawCard()
         {
             if (deck.IsEmpty()) return false;
@@ -65,6 +67,7 @@ namespace CardNameSpace
                         if (EntityManager.TryGetEntityOnTile<MonsterEntity>(rangeLocalPosition, out Entity target))
                         {
                             ((MonsterEntity)target).TakeDamage(100);
+                            OnAttackTarget?.Invoke();
                         }
                     }
                     break;

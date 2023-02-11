@@ -15,12 +15,13 @@ namespace GameEntity
                 OnHealthChanged(Hp);
             }
         }
-        public Action deathAction;
+        public Action OnDeath;
+        public Action OnTakeDamage;
         public override void TakeDamage(int damage)
         {
             Hp -= damage;
             if(Hp<=0)
-                deathAction();
+                OnDeath();
         }
 
         public override void Recovery(int amount)

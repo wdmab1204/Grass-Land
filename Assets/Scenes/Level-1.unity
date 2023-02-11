@@ -155,6 +155,7 @@ MonoBehaviour:
   playerEntity: {fileID: 657235445}
   playerActor: {fileID: 657235444}
   deckHandler: {fileID: 1511898355}
+  image: {fileID: 0}
 --- !u!4 &39380579
 Transform:
   m_ObjectHideFlags: 0
