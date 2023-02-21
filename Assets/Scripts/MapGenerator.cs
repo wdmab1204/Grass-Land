@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class RandomTilemap : MonoBehaviour
+public class MapGenerator : MonoBehaviour
 {
     private Tilemap tilemap;
     [SerializeField] private TileBase[] tiles;
