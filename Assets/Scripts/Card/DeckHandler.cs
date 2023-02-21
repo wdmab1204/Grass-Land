@@ -24,6 +24,7 @@ namespace CardNameSpace
         [SerializeField] private int CardHandlerCount = 3;
         [SerializeField] private SpriteAnimator animator;
         [SerializeField] private EntityManager EntityManager;
+        [SerializeField] private PlayerEntity PlayerEntity;
 
         public Action OnAttackTarget;
 
@@ -66,7 +67,7 @@ namespace CardNameSpace
                         //공격범위 안에 적이 있는가 ?
                         if (EntityManager.TryGetEntityOnTile<MonsterEntity>(rangeLocalPosition, out Entity target))
                         {
-                            ((MonsterEntity)target).TakeDamage(100);
+                            ((MonsterEntity)target).TakeDamage(PlayerEntity, 100);
                             OnAttackTarget?.Invoke();
                         }
                     }

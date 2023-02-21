@@ -7,7 +7,7 @@ namespace GameEntity
     public class MonsterEntity : Entity
     {
         public Action deathAction;
-        public override void TakeDamage(int damage)
+        public override void TakeDamage(Entity attacker, int damage)
         {
             Hp -= damage;
             OnHealthChanged(this.Hp);

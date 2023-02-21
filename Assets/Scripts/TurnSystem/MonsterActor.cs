@@ -88,7 +88,7 @@ public class MonsterActor : MonoBehaviour, ITurnActor
                     }
                     Destroy(obj.gameObject);
                 }
-                target.TakeDamage(1);
+                target.TakeDamage(this.MonsterEntity, 1);
                 SpriteAnimator.Play($"{AnimPreifxName}-Idle");
                 currentState = BehaviourState.IDLE;
                 break;

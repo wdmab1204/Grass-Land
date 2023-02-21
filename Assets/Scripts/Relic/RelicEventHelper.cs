@@ -36,11 +36,40 @@ public class RelicEventHelper : MonoBehaviour
         reliclist.Add(new Relic("망원경", "활을 사용한 공격을 할때 사거리가 증가합니다.",                          sprites[15]));
         //reliclist.Add(new Relic("태양의 메달", "체력과 회복량이 늘어납니다.",                                   sprites[16]));
         //reliclist.Add(new Relic("독 묻은 단검", "기습 공격의 데미지가 늘어납니다.",                              sprites[17]));
+
+
+
+
+        int id = 0;
+        if (id == 0)
+        {
+            OnTakeDamage((attacker, player) =>
+            {
+                if (player.Hp <= 0)
+                {
+                    var percentage = UnityEngine.Random.Range(0, 100);
+                    if (percentage <= 10)
+                    {
+                        player.Hp = 1;
+                    }
+                }
+            });
+        }
+        else if(id == 1)
+        {
+
+        }
+        else if (id == 2)
+        {
+            OnTakeDamage((attacker, player) =>
+            {
+                attacker.TakeDamage(null, 2);
+            });
+        }
     }
 
     public void OnChangePlayerHealth(Action<int> action)
     {
-        //기합의 머리띠
         playerEntity.OnHealthChanged += action;
     }
 
@@ -50,7 +79,7 @@ public class RelicEventHelper : MonoBehaviour
         deckHandler.OnAttackTarget += action;
     }
 
-    public void OnTakeDamage(Action action)
+    public void OnTakeDamage(Action<MonsterEntity,PlayerEntity> action)
     {
         //고슴도치 갑옷
         playerEntity.OnTakeDamage += action;

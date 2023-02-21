@@ -11,7 +11,7 @@ public class Portal : Entity
         throw new System.NotImplementedException();
     }
 
-    public override void TakeDamage(int damage)
+    public override void TakeDamage(Entity attacker, int damage)
     {
         throw new System.NotImplementedException();
     }

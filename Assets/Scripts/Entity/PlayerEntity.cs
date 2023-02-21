@@ -9,17 +9,18 @@ namespace GameEntity
         public override int Hp
         {
             get => base.Hp;
-            protected set
+            set
             {
                 base.Hp = value;
                 OnHealthChanged(Hp);
             }
         }
         public Action OnDeath;
-        public Action OnTakeDamage;
-        public override void TakeDamage(int damage)
+        public Action<MonsterEntity, PlayerEntity> OnTakeDamage;
+        public override void TakeDamage(Entity attacker, int damage)
         {
             Hp -= damage;
+            OnTakeDamage((MonsterEntity)attacker, this);
             if(Hp<=0)
                 OnDeath();
         }
