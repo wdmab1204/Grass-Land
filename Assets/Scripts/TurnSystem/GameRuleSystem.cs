@@ -12,12 +12,17 @@ public class GameRuleSystem : MonoBehaviour
     [SerializeField] private string CurrentActorName = "";
     [SerializeField] private FollowCamera camera;
 
+    [Space(10)]
+    [SerializeField] private MapGenerator mapGenerator;
+
     private void Start()
     {
         var objArr = SceneManager.GetActiveScene().GetRootGameObjects();
         for (int i = 0; i < objArr.Length; i++)
             if (objArr[i].TryGetComponent<ITurnActor>(out ITurnActor actor))
                 turnManager.JoinActor(actor);
+
+        mapGenerator.CreateMapAndApply(Room.ThemeType.Grassland, Room.RoomType.Normal, (15, 15), Vector3Int.zero);
 
         if (currentCoroutine != null) StopCoroutine(currentCoroutine);
         currentCoroutine = StartCoroutine(StartTurnSystemCoroutine());

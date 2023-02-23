@@ -46,3 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentActorName: 
   camera: {fileID: 0}
+  mapGenerator: {fileID: 0}

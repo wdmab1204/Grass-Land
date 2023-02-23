@@ -892,6 +892,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6314619e3c19344a98864f1b6a674392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1551243294 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1993382295, guid: a05b11e9607f34440b9ea9d4b7f8a4a8, type: 3}
+  m_PrefabInstance: {fileID: 5831088259482422184}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1ebe97bd6ca0426a96604035aae7bec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1624878072 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7390153452749296387, guid: f495b23f64d3e4f1da17557ec7d130e0, type: 3}
@@ -1153,6 +1164,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 221673623}
     m_Modifications:
+    - target: {fileID: 2715915438771032724, guid: a05b11e9607f34440b9ea9d4b7f8a4a8, type: 3}
+      propertyPath: grassland.doors.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2715915438771032724, guid: a05b11e9607f34440b9ea9d4b7f8a4a8, type: 3}
+      propertyPath: grassland.grounds.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2715915438771032724, guid: a05b11e9607f34440b9ea9d4b7f8a4a8, type: 3}
+      propertyPath: grassland.doors.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: dfc8835a3c43d4e93831f1a3ecd8b7a9, type: 2}
+    - target: {fileID: 2715915438771032724, guid: a05b11e9607f34440b9ea9d4b7f8a4a8, type: 3}
+      propertyPath: grassland.grounds.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 612aa654a1d1040d8983d3ac98fa03ea, type: 2}
+    - target: {fileID: 2715915438771032724, guid: a05b11e9607f34440b9ea9d4b7f8a4a8, type: 3}
+      propertyPath: grassland.grounds.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 77eae4ae62be44a409a856f6f63af833, type: 2}
+    - target: {fileID: 2715915438771032724, guid: a05b11e9607f34440b9ea9d4b7f8a4a8, type: 3}
+      propertyPath: grassland.grounds.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: f82eedd00df2c4deba1b2f51ab1acb1a, type: 2}
+    - target: {fileID: 2715915438771032724, guid: a05b11e9607f34440b9ea9d4b7f8a4a8, type: 3}
+      propertyPath: grassland.grounds.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5d90b6b9fdad04e2f8cd070fbabaf29e, type: 2}
     - target: {fileID: 5831088260751856560, guid: a05b11e9607f34440b9ea9d4b7f8a4a8, type: 3}
       propertyPath: m_Name
       value: Tilemap
@@ -1331,6 +1370,10 @@ PrefabInstance:
       propertyPath: camera
       value: 
       objectReference: {fileID: 963194231}
+    - target: {fileID: 7390153452749296387, guid: f495b23f64d3e4f1da17557ec7d130e0, type: 3}
+      propertyPath: mapGenerator
+      value: 
+      objectReference: {fileID: 1551243294}
     - target: {fileID: 7390153452749296396, guid: f495b23f64d3e4f1da17557ec7d130e0, type: 3}
       propertyPath: m_Name
       value: Game Rule System
