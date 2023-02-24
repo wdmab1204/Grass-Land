@@ -19,11 +19,10 @@ public class GameRuleSystem : MonoBehaviour
     {
         var objArr = SceneManager.GetActiveScene().GetRootGameObjects();
         for (int i = 0; i < objArr.Length; i++)
-            if (objArr[i].TryGetComponent<ITurnActor>(out ITurnActor actor))
+            if (objArr[i].TryGetComponent<TurnActor>(out TurnActor actor) && actor.isActiveAndEnabled)
                 turnManager.JoinActor(actor);
 
-        mapGenerator.CreateMapAndApply(Room.ThemeType.Grassland, Room.RoomType.Normal, (15, 15), Vector3Int.zero);
-
+        mapGenerator.CreateMapAndApply(Room.ThemeType.Grassland, Room.RoomType.Normal, (15, 15));
         if (currentCoroutine != null) StopCoroutine(currentCoroutine);
         currentCoroutine = StartCoroutine(StartTurnSystemCoroutine());
 
@@ -34,15 +33,15 @@ public class GameRuleSystem : MonoBehaviour
         while (true)
         {
             var currentActor = turnManager.UpdateTurn();
-            CurrentActorName = currentActor.ActorObject.name;
-            camera.target = currentActor.ActorObject.transform;
+            CurrentActorName = currentActor.name;
+            camera.target = currentActor.transform;
 
             // Wait until the Actor finished his action
             yield return currentActor?.ActionCoroutine();
         }
     }
 
-    public ITurnActor CurrentActor { get => turnManager.CurrentActor; }
+    public TurnActor CurrentActor { get => turnManager.CurrentActor; }
 
     private void OnDisable()
     {

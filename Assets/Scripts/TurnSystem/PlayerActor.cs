@@ -25,7 +25,7 @@ public static class AnimationConverter
 
 
 [DisallowMultipleComponent]
-public class PlayerActor : MonoBehaviour, ITurnActor
+public class PlayerActor : TurnActor
 {
     public GameObject ActorObject { get; set; }
     public ActorState ActorState { get; set; }
@@ -46,7 +46,7 @@ public class PlayerActor : MonoBehaviour, ITurnActor
 
     public Action OnExitTurn;
 
-    public IEnumerator ActionCoroutine()
+    public override IEnumerator ActionCoroutine()
     {
         ActorState = ActorState.Start;
 
@@ -103,6 +103,12 @@ public class PlayerActor : MonoBehaviour, ITurnActor
         yield return navigation.WaitForClickDestination();
 
         var destination = navigation.Destination;
+
+        var worldDestinationPosition = tilemapReader.ChangeLocalToWorldPosition(destination.position);
+
+        var coll = Physics2D.OverlapPoint(worldDestinationPosition);
+
+        coll.GetComponent<Interactive>()?.Do(this.transform);
 
         for (int i = 0; i < highlightTiles.Length; i++)
         {

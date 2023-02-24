@@ -5,20 +5,20 @@ namespace TurnSystem
 {
 	public class TurnManager
 	{
-		private Queue<ITurnActor> actors = new Queue<ITurnActor>();
-		private ITurnActor currentActor;
-		public ITurnActor CurrentActor { get => currentActor; }
+		private Queue<TurnActor> actors = new Queue<TurnActor>();
+		private TurnActor currentActor;
+		public TurnActor CurrentActor { get => currentActor; }
 		public TurnManager()
 		{
 			
 		}
 
-		public void JoinActor(ITurnActor turnActor)
+		public void JoinActor(TurnActor turnActor)
 		{
 			actors.Enqueue(turnActor);
 		}
 
-		public ITurnActor UpdateTurn()
+		public TurnActor UpdateTurn()
 		{
 			var actor = actors.Dequeue();
 			currentActor = actor;

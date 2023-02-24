@@ -56,7 +56,7 @@ namespace CardNameSpace
         private void EntityInteractionEventDelegate(CardHandler handler)
         {
             var card = handler.Card;
-            var currentActorObject = GameRuleSystem.CurrentActor.ActorObject;
+            var currentActorObject = GameRuleSystem.CurrentActor;
 
             switch (card.CardInfo.cardType)
             {
@@ -123,7 +123,7 @@ namespace CardNameSpace
             {
                 var coord = card.Ranges[i];
                 var currentActor = GameRuleSystem.CurrentActor;
-                var worldPosition = currentActor.ActorObject.transform.position;
+                var worldPosition = currentActor.transform.position;
 
                 var localPosition = TilemapReader.ChangeWorldToLocalPosition(worldPosition);
                 var rangePosition = localPosition + (Vector3Int)coord;

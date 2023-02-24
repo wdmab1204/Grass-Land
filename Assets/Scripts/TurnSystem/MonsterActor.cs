@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using SimpleSpriteAnimator;
 
 [DisallowMultipleComponent]
-public class MonsterActor : MonoBehaviour, ITurnActor
+public class MonsterActor : TurnActor
 {
     enum BehaviourState { IDLE,CHASE,ATTACK };
 
@@ -44,7 +44,7 @@ public class MonsterActor : MonoBehaviour, ITurnActor
     [SerializeField] private float moveTime;
 
 
-    public IEnumerator ActionCoroutine()
+    public override IEnumerator ActionCoroutine()
     {
         ActorState = ActorState.Start;
 

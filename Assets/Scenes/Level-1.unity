@@ -341,7 +341,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 657235439}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6, y: 5.24, z: 0}
+  m_LocalPosition: {x: -1.01, y: 12.92, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1107,6 +1107,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Yellow Slime
       objectReference: {fileID: 0}
+    - target: {fileID: 3452696308256716631, guid: 5070b88f90bf64149a33601a4fde8329, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3452696308256716634, guid: 5070b88f90bf64149a33601a4fde8329, type: 3}
       propertyPath: m_RootOrder
       value: 11
@@ -1164,6 +1168,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 221673623}
     m_Modifications:
+    - target: {fileID: 1993382295, guid: a05b11e9607f34440b9ea9d4b7f8a4a8, type: 3}
+      propertyPath: doorPrefab
+      value: 
+      objectReference: {fileID: 1478191026351243900, guid: c48e7c42b4eba48d3a484c00d6873f43, type: 3}
     - target: {fileID: 2715915438771032724, guid: a05b11e9607f34440b9ea9d4b7f8a4a8, type: 3}
       propertyPath: grassland.doors.Array.size
       value: 1
@@ -1313,6 +1321,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Golem
       objectReference: {fileID: 0}
+    - target: {fileID: 6940485642278723849, guid: c272055006dc6445bbeffb1c0d26fe42, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c272055006dc6445bbeffb1c0d26fe42, type: 3}
 --- !u!1001 &7390153454354053371
@@ -1410,6 +1422,10 @@ PrefabInstance:
     - target: {fileID: 477794682381969767, guid: f274628e9f872417a8cffd2f3d1c83f8, type: 3}
       propertyPath: m_Name
       value: Green Slime
+      objectReference: {fileID: 0}
+    - target: {fileID: 477794682381969767, guid: f274628e9f872417a8cffd2f3d1c83f8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 477794682381969770, guid: f274628e9f872417a8cffd2f3d1c83f8, type: 3}
       propertyPath: m_RootOrder

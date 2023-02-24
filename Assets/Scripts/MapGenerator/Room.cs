@@ -9,37 +9,42 @@ public class Room
     public enum RoomType { Normal, BossRoom };
 
 	(int width, int height) size;
-	(int x, int y) start;
+	(int x, int y) position;
 	(int x, int y) door;
 
 	ThemeType themeType;
 	RoomType roomType;
 	TileBase[,] tileBases;
 
-	public Room(int width, int height, ThemeType themeType, RoomType roomType, TileBase[,] tileBases, (int, int) door)
+	public (int x, int y) Door { get => door; }
+	public (int x, int y) Position { get => position; }
+
+	public Room((int, int) size, ThemeType themeType, RoomType roomType, TileBase[,] tileBases, (int, int) door, (int, int) position)
 	{
-		this.size.width = width;
-		this.size.height = height;
+		this.size = size;
 		this.themeType = themeType;
 		this.roomType = roomType;
 		this.tileBases = tileBases;
 		this.door = door;
+		this.position = position;
 	}
 
-	public static Room CreateRandomRoom(int width, int height, ThemeType themeType, RoomType roomType, TileBase[] groundTiles, TileBase[] wallTiles, TileBase door)
+	public static Room CreateRandomRoom((int width, int height) size, ThemeType themeType, RoomType roomType, TileBase[] groundTiles, TileBase[] wallTiles, TileBase door, (int x, int y) roomPosition)
 	{
-		TileBase[,] tileBases = new TileBase[width, height];
+		TileBase[,] tileBases = new TileBase[size.width, size.height];
 		Random rand = new Random();
-		for(int w = 0; w<width; w++)
+		for(int w = 0; w<size.width; w++)
 		{
-			for(int h=0; h<height; h++)
+			for(int h=0; h<size.height; h++)
 			{
-				if(IsWall(w,width,h,height))
+				if(IsWall(w,size.width,h,size.height))
 				{
+					//벽 타일을 배열에 삽입
                     //tileBases[w, h] = wallTiles[rand.Next(wallTiles.Length)];
                 }
 				else
 				{
+					//바닥 타일을 배열에 삽입
 					tileBases[w, h] = groundTiles[rand.Next(groundTiles.Length)];
 				}
 			}
@@ -47,28 +52,28 @@ public class Room
 
         bool IsWall(int w, int weight, int h, int height) => ((w == weight - 1) || (h == height - 1));
 
-		(int x, int y) doorPos = GetRandomTopRightEdgeCoordinate(width, height);
+		(int x, int y) doorPos = GetRandomTopRightEdgeCoordinate(size);
 
 		tileBases[doorPos.x,doorPos.y] = door;
 
-		Room room = new Room(width, height, themeType, roomType, tileBases, doorPos);
+		Room room = new Room(size, themeType, roomType, tileBases, doorPos, roomPosition);
 
 		return room;
     }
 
 	public TileBase GetTile(int x, int y) => tileBases[x, y];
 
-    static (int, int) GetRandomTopRightEdgeCoordinate(int width, int height)
+    static (int, int) GetRandomTopRightEdgeCoordinate((int width, int height) size)
     {
-		(int, int)[] edges = new (int, int)[width + height - 1];
+		(int, int)[] edges = new (int, int)[size.width + size.height - 1];
         int index = 0;
-        for (int i = 0; i < width; i++)
+        for (int i = 0; i < size.width; i++)
         {
-			edges[index++] = (i, height - 1);
+			edges[index++] = (i, size.height - 1);
         }
-        for (int j = 0; j < height-1; j++)
+        for (int j = 0; j < size.height-1; j++)
         {
-			edges[index++] = (width - 1, j);
+			edges[index++] = (size.width - 1, j);
         }
         Random random = new Random();
 		

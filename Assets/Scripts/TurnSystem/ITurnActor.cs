@@ -1,8 +1,9 @@
-﻿namespace TurnSystem
+﻿using UnityEngine;
+
+namespace TurnSystem
 {
-    public interface ITurnActor
+    public abstract class TurnActor : MonoBehaviour
     {
-        public UnityEngine.GameObject ActorObject { get; set; }
-        public System.Collections.IEnumerator ActionCoroutine();
+        public abstract System.Collections.IEnumerator ActionCoroutine();
     }
 }
