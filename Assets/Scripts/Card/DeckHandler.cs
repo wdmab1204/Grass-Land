@@ -19,7 +19,7 @@ namespace CardNameSpace
         [SerializeField] private CardPrivew priviewImage;
         [SerializeField] private RangeTile rangeTilePrefab;
         private RangeTile[] rangeTiles = new RangeTile[10];
-        [SerializeField] private TilemapReader TilemapReader;
+        [SerializeField] private TilemapManager TilemapManager;
         [SerializeField] private GameRuleSystem GameRuleSystem;
         [SerializeField] private int CardHandlerCount = 3;
         [SerializeField] private SpriteAnimator animator;
@@ -63,7 +63,7 @@ namespace CardNameSpace
                 case CardType.ATTACK:
                     foreach(var tilePosition in card.CardInfo.Ranges)
                     {
-                        var rangeLocalPosition = TilemapReader.ChangeWorldToLocalPosition(currentActorObject.transform.position) + (Vector3Int)tilePosition;
+                        var rangeLocalPosition = TilemapManager.ChangeWorldToLocalPosition(currentActorObject.transform.position) + (Vector3Int)tilePosition;
                         //공격범위 안에 적이 있는가 ?
                         if (EntityManager.TryGetEntityOnTile<MonsterEntity>(rangeLocalPosition, out Entity target))
                         {
@@ -125,9 +125,9 @@ namespace CardNameSpace
                 var currentActor = GameRuleSystem.CurrentActor;
                 var worldPosition = currentActor.transform.position;
 
-                var localPosition = TilemapReader.ChangeWorldToLocalPosition(worldPosition);
+                var localPosition = TilemapManager.ChangeWorldToLocalPosition(worldPosition);
                 var rangePosition = localPosition + (Vector3Int)coord;
-                var rangeWorldPosition = TilemapReader.ChangeLocalToWorldPosition(rangePosition);
+                var rangeWorldPosition = TilemapManager.ChangeLocalToWorldPosition(rangePosition);
 
                 rangeTiles[i].transform.position = rangeWorldPosition;
                 rangeTiles[i].Show();

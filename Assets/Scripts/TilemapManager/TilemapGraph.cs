@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using KMolenda.Aisd.Graph;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -64,28 +64,25 @@ public class TileNode
 
 }
 
-public class TilemapReader : MonoBehaviour
+public class TilemapGraph : Graph<TileNode>
 {
-    public Tilemap tilemap = null;
-    public Graph<TileNode> Graph { get; private set; }
+    public Tilemap tilemap;
 
-    private Graph<TileNode> CreateGraphWithTilemap(Tilemap tilemap)
+    private void InitializeGraphWithTilemap(Tilemap tilemap)
     {
-        Graph<TileNode> graph = new Graph<TileNode>();
-
         for (int n = tilemap.cellBounds.xMin, i = 0; n < tilemap.cellBounds.xMax; n++, i++)
         {
             for (int p = tilemap.cellBounds.yMin, j = 0; p < tilemap.cellBounds.yMax; p++, j++)
             {
                 if (tilemap.HasTile(new Vector3Int(n, p, 0)))
                 {
-                    graph.AddVertex(new TileNode(n, p, 0));
+                    AddVertex(new TileNode(n, p, 0));
 
                     //check surrounding , and add vertices;
-                    if (tilemap.HasTile(new Vector3Int(n - 1, p, 0)))    graph.AddVertex(new TileNode(n - 1, p, 0)); graph.AddEdge(new TileNode(n, p, 0), new TileNode(n - 1, p, 0));
-                    if (tilemap.HasTile(new Vector3Int(n + 1, p, 0)))    graph.AddVertex(new TileNode(n + 1, p, 0)); graph.AddEdge(new TileNode(n, p, 0), new TileNode(n + 1, p, 0));
-                    if (tilemap.HasTile(new Vector3Int(n, p - 1, 0)))    graph.AddVertex(new TileNode(n, p - 1, 0)); graph.AddEdge(new TileNode(n, p, 0), new TileNode(n, p - 1, 0));
-                    if (tilemap.HasTile(new Vector3Int(n, p + 1, 0)))    graph.AddVertex(new TileNode(n, p + 1, 0)); graph.AddEdge(new TileNode(n, p, 0), new TileNode(n, p + 1, 0));
+                    if (tilemap.HasTile(new Vector3Int(n - 1, p, 0))) AddVertex(new TileNode(n - 1, p, 0)); AddEdge(new TileNode(n, p, 0), new TileNode(n - 1, p, 0));
+                    if (tilemap.HasTile(new Vector3Int(n + 1, p, 0))) AddVertex(new TileNode(n + 1, p, 0)); AddEdge(new TileNode(n, p, 0), new TileNode(n + 1, p, 0));
+                    if (tilemap.HasTile(new Vector3Int(n, p - 1, 0))) AddVertex(new TileNode(n, p - 1, 0)); AddEdge(new TileNode(n, p, 0), new TileNode(n, p - 1, 0));
+                    if (tilemap.HasTile(new Vector3Int(n, p + 1, 0))) AddVertex(new TileNode(n, p + 1, 0)); AddEdge(new TileNode(n, p, 0), new TileNode(n, p + 1, 0));
                 }
                 else
                 {
@@ -93,23 +90,17 @@ public class TilemapReader : MonoBehaviour
                 }
             }
         }
-
-        return graph;
     }
 
-    public Vector3 ChangeLocalToWorldPosition(Vector3Int position) => tilemap.GetCellCenterWorld(position);
-
-    public Vector3Int ChangeWorldToLocalPosition(Vector3 worldPosition) => tilemap.WorldToCell(worldPosition);
-
-    public Vector3 RepositioningTheWorld(Vector3 worldPosition) => tilemap.GetCellCenterWorld(tilemap.WorldToCell(worldPosition));
-
-    public bool HasTile(Vector3Int position) => tilemap.HasTile(position);
-
-    public bool HasTile(Vector3 worldPosition) => tilemap.HasTile(ChangeWorldToLocalPosition(worldPosition));
-
-    void Start()
+    public TilemapGraph(Tilemap tilemap)
     {
-        tilemap = transform.GetComponentInParent<Tilemap>();
-        Graph = CreateGraphWithTilemap(this.tilemap);
+        this.tilemap = tilemap;
+        InitializeGraphWithTilemap(tilemap);
+    }
+
+    public TilemapGraph(Tilemap tilemap, int initialSize) : base(initialSize)
+    {
+        this.tilemap = tilemap;
+        InitializeGraphWithTilemap(tilemap);
     }
 }

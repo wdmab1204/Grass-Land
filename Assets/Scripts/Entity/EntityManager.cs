@@ -10,7 +10,7 @@ namespace GameEntity
 	public class EntityManager : MonoBehaviour
 	{
 		private List<Entity> entityList = new List<Entity>();
-        [SerializeField] private TilemapReader TilemapReader;
+        [SerializeField] private TilemapManager TilemapManager;
 
         private void Awake()
         {
@@ -22,11 +22,11 @@ namespace GameEntity
 
         public bool IsEntityOnTile<T>(Vector3Int tileLocalPosition) where T : Entity
         {
-            if (TilemapReader.HasTile(tileLocalPosition)) return false;
+            if (TilemapManager.HasTile(tileLocalPosition)) return false;
 
             foreach (var entity in entityList)
             {
-                var entityPosition = TilemapReader.ChangeWorldToLocalPosition(entity.transform.position);
+                var entityPosition = TilemapManager.ChangeWorldToLocalPosition(entity.transform.position);
                 if (entityPosition == tileLocalPosition && entity is T)
                     return true;
             }
@@ -36,11 +36,11 @@ namespace GameEntity
         public bool TryGetEntityOnTile<T>(Vector3Int tileLocalPosition, out Entity entity) where T : Entity
         {
             entity = null;
-            if (!TilemapReader.HasTile(tileLocalPosition)) return false;
+            if (!TilemapManager.HasTile(tileLocalPosition)) return false;
 
             foreach (var e in entityList)
             {
-                var entityPosition = TilemapReader.ChangeWorldToLocalPosition(e.transform.position);
+                var entityPosition = TilemapManager.ChangeWorldToLocalPosition(e.transform.position);
                 if (entityPosition == tileLocalPosition && e is T)
                 {
                     entity = e;

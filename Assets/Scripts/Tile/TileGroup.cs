@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class TileGroup : MonoBehaviour, IEnumerable, IGraphicsDisplay
 {
-    [SerializeField] TilemapReader TilemapReader;
+    [SerializeField] TilemapManager TilemapManager;
     private Dictionary<Vector2Int, VisibilityTile> tileDictionary = new Dictionary<Vector2Int, VisibilityTile>();
 
     public void CreateClones(VisibilityTile tilePrefab, Vector2Int[] coords, Vector3Int center = default)
@@ -15,9 +15,9 @@ public class TileGroup : MonoBehaviour, IEnumerable, IGraphicsDisplay
         foreach(var coord in coords)
         {
             var tileWorldPosition = center + (Vector3Int)coord;
-            if (!TilemapReader.HasTile(tileWorldPosition)) continue;
+            if (!TilemapManager.HasTile(tileWorldPosition)) continue;
             var visibilityTile = Instantiate(tilePrefab, this.transform).GetComponent<VisibilityTile>();
-            visibilityTile.transform.position = TilemapReader.ChangeLocalToWorldPosition(tileWorldPosition);
+            visibilityTile.transform.position = TilemapManager.ChangeLocalToWorldPosition(tileWorldPosition);
             if (tileDictionary.ContainsKey(coord))
             {
                 Destroy(tileDictionary[coord].gameObject);

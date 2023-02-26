@@ -5,31 +5,28 @@ using UnityEngine.Tilemaps;
 
 public class Room
 {
-    public enum ThemeType { Grassland, Deadmine, Ancientremains };
-    public enum RoomType { Normal, BossRoom };
+	public enum ThemeType { Grassland, Deadmine, Ancientremains };
+	public enum RoomType { Normal, BossRoom };
 
 	(int width, int height) size;
 	(int x, int y) position;
 	(int x, int y) door;
 
-	ThemeType themeType;
-	RoomType roomType;
 	TileBase[,] tileBases;
 
 	public (int x, int y) Door { get => door; }
 	public (int x, int y) Position { get => position; }
+	public (int width, int height) Size { get => size; }
 
-	public Room((int, int) size, ThemeType themeType, RoomType roomType, TileBase[,] tileBases, (int, int) door, (int, int) position)
+	public Room((int, int) size, TileBase[,] tileBases, (int, int) door, (int, int) position)
 	{
 		this.size = size;
-		this.themeType = themeType;
-		this.roomType = roomType;
 		this.tileBases = tileBases;
 		this.door = door;
 		this.position = position;
 	}
 
-	public static Room CreateRandomRoom((int width, int height) size, ThemeType themeType, RoomType roomType, TileBase[] groundTiles, TileBase[] wallTiles, TileBase door, (int x, int y) roomPosition)
+	public static Room CreateRandomRoom((int width, int height) size, TileBase[] groundTiles, TileBase[] wallTiles, TileBase door, (int x, int y) roomPosition)
 	{
 		TileBase[,] tileBases = new TileBase[size.width, size.height];
 		Random rand = new Random();
@@ -56,7 +53,7 @@ public class Room
 
 		tileBases[doorPos.x,doorPos.y] = door;
 
-		Room room = new Room(size, themeType, roomType, tileBases, doorPos, roomPosition);
+		Room room = new Room(size, tileBases, doorPos, roomPosition);
 
 		return room;
     }

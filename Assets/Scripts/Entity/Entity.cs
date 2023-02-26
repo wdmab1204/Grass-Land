@@ -14,8 +14,8 @@ namespace GameEntity
             }
         }
         public System.Action<int> OnHealthChanged;
-        [SerializeField] protected TilemapReader TilemapReader;
-        public Vector3Int LocalPosition => TilemapReader.ChangeWorldToLocalPosition(this.transform.position);
+        [SerializeField] protected TilemapManager TilemapManager;
+        public Vector3Int LocalPosition => TilemapManager.ChangeWorldToLocalPosition(this.transform.position);
         public Vector3 WorldPosition => this.transform.position;
         public abstract void TakeDamage(Entity attacker, int damage);
         public abstract void Recovery(int amount);

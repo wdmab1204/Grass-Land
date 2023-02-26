@@ -25,7 +25,7 @@ public class Portal : Entity
     // Start is called before the first frame update
     void Start()
     {
-        this.transform.position = TilemapReader.RepositioningTheWorld(this.transform.position);
+        this.transform.position = TilemapManager.RepositioningTheWorld(this.transform.position);
     }
 
     // Update is called once per frame

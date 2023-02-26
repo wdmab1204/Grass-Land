@@ -26,11 +26,10 @@ public class MonsterActor : TurnActor
         "[-1,-1][0,-1][1,-1]";
     private Vector2Int[] attackRangeCoords;
     [SerializeField] private BehaviourState currentState = BehaviourState.IDLE;
-    private Navigation navigation;
-    private Vector3Int LocalPosition { get => TilemapReader.ChangeWorldToLocalPosition(this.transform.position); }
+    private Vector3Int LocalPosition { get => tilemapManager.ChangeWorldToLocalPosition(this.transform.position); }
     [SerializeField] private VisibilityTile scanRagneTilePrefab;
     [SerializeField] private VisibilityTile attackRangeTilePrefab;
-    [SerializeField] private TilemapReader TilemapReader;
+    [SerializeField] private TilemapManager tilemapManager;
     [SerializeField] private EntityManager EntityManager;
     [SerializeField] private TileGroup TileGroup;
     private Entity target = null;
@@ -65,8 +64,8 @@ public class MonsterActor : TurnActor
         switch (currentState)
         {
             case BehaviourState.CHASE:
-                navigation.SetDestination(target.transform.position);
-                yield return navigation.GoDestination((TileNode)LocalPosition, end: navigation.Destination, this.transform, 1);
+                tilemapManager.Navigation.SetDestination(target.transform.position);
+                yield return tilemapManager.Navigation.GoDestination((TileNode)LocalPosition, end: tilemapManager.Navigation.Destination, this.transform, 1);
                 currentState = BehaviourState.IDLE;
                 break;
             case BehaviourState.ATTACK:
@@ -80,7 +79,7 @@ public class MonsterActor : TurnActor
                     var obj = Instantiate(throwObject);
                     obj.transform.position = this.transform.position;
                     var nVector = (target.transform.position - obj.transform.position).normalized;
-                    while (Vector3.Distance(TilemapReader.ChangeWorldToLocalPosition(obj.transform.position), TilemapReader.ChangeWorldToLocalPosition(target.transform.position)) > 0.0f)
+                    while (Vector3.Distance(tilemapManager.ChangeWorldToLocalPosition(obj.transform.position), tilemapManager.ChangeWorldToLocalPosition(target.transform.position)) > 0.0f)
                     {
                         Debug.Log(Vector3.Distance(obj.transform.position, target.transform.position));
                         obj.transform.position += nVector * Time.deltaTime * 1.0f;
@@ -129,8 +128,7 @@ public class MonsterActor : TurnActor
 
     private void Awake()
     {
-        navigation = new Navigation(TilemapReader);
-        this.transform.position = TilemapReader.RepositioningTheWorld(this.transform.position);
+        this.transform.position = tilemapManager.RepositioningTheWorld(this.transform.position);
         ActorObject = this.gameObject;
         scanRangeCoords = CardNameSpace.Base.CoordConverter.ConvertToCoords(scanRangeString);
         attackRangeCoords = CardNameSpace.Base.CoordConverter.ConvertToCoords(attackRangeString);

@@ -13,16 +13,18 @@ public class GameRuleSystem : MonoBehaviour
     [SerializeField] private FollowCamera camera;
 
     [Space(10)]
-    [SerializeField] private MapGenerator mapGenerator;
+    [SerializeField] private TilemapManager tilemapManager;
 
-    private void Start()
+    private void Awake()
     {
         var objArr = SceneManager.GetActiveScene().GetRootGameObjects();
         for (int i = 0; i < objArr.Length; i++)
             if (objArr[i].TryGetComponent<TurnActor>(out TurnActor actor) && actor.isActiveAndEnabled)
                 turnManager.JoinActor(actor);
 
-        mapGenerator.CreateMapAndApply(Room.ThemeType.Grassland, Room.RoomType.Normal, (15, 15));
+        tilemapManager.InitializeMapAndApply((Room.ThemeType.Grassland, Room.RoomType.Normal), (15, 15));
+        tilemapManager.InitializeNavigation();
+
         if (currentCoroutine != null) StopCoroutine(currentCoroutine);
         currentCoroutine = StartCoroutine(StartTurnSystemCoroutine());
 

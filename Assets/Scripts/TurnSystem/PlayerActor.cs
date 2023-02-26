@@ -29,10 +29,9 @@ public class PlayerActor : TurnActor
 {
     public GameObject ActorObject { get; set; }
     public ActorState ActorState { get; set; }
-    [SerializeField] private TilemapReader tilemapReader;
+    [SerializeField] private TilemapManager tilemapManager;
     private Dice<int>[] dices = new Dice<int>[2];
 
-    private Navigation navigation;
     [SerializeField] private DestinationTile highlightTilePrefab0;
     [SerializeField] private DestinationTile highlightTilePrefab1;
     [SerializeField] private DestinationTile highlightTilePrefab2;
@@ -87,24 +86,24 @@ public class PlayerActor : TurnActor
 
     private IEnumerator MoveAction()
     {
-        var centerPoint = tilemapReader.ChangeWorldToLocalPosition(transform.position);
+        var centerPoint = tilemapManager.ChangeWorldToLocalPosition(transform.position);
         Vector3Int[] directions = new Vector3Int[4] { Vector3Int.right, Vector3Int.left, Vector3Int.up, Vector3Int.down };
         //rightup, leftdown, leftup, rightdown
         for (int i = 0; i < highlightTiles.Length; i++)
         {
             var nearbyCoordinate = centerPoint + directions[i];
-            if (tilemapReader.HasTile(nearbyCoordinate))
+            if (tilemapManager.HasTile(nearbyCoordinate))
             {
-                highlightTiles[i].transform.position = tilemapReader.ChangeLocalToWorldPosition(nearbyCoordinate);
+                highlightTiles[i].transform.position = tilemapManager.ChangeLocalToWorldPosition(nearbyCoordinate);
                 highlightTiles[i].Show();
             }
         }
 
-        yield return navigation.WaitForClickDestination();
+        yield return tilemapManager.Navigation.WaitForClickDestination();
 
-        var destination = navigation.Destination;
+        var destination = tilemapManager.Navigation.Destination;
 
-        var worldDestinationPosition = tilemapReader.ChangeLocalToWorldPosition(destination.position);
+        var worldDestinationPosition = tilemapManager.ChangeLocalToWorldPosition(destination.position);
 
         var coll = Physics2D.OverlapPoint(worldDestinationPosition);
 
@@ -115,7 +114,7 @@ public class PlayerActor : TurnActor
             highlightTiles[i].Hide();
         }
 
-        yield return navigation.GoDestination(end: destination, actor: transform);
+        yield return tilemapManager.Navigation.GoDestination(end: destination, actor: transform);
 
         if(EntityManager.TryGetEntityOnTile<Portal>(playerEntity.LocalPosition, out Entity portal))
         {
@@ -127,27 +126,31 @@ public class PlayerActor : TurnActor
     private void Awake()
     {
         ActorObject = this.gameObject;
-        navigation = new Navigation(tilemapReader);
-        this.transform.position = tilemapReader.RepositioningTheWorld(this.transform.position);
 
         dices[0] = new Dice<int>(new int[6] { 1, 2, 3, 4, 5, 6 });
         dices[1] = new Dice<int>(new int[6] { 1, 2, 3, 4, 5, 6 });
         var movePoint = dices[0].GetRandomValue() + dices[1].GetRandomValue();
 
         highlightTiles = new DestinationTile[4];
+    }
+
+    private void Start()
+    {
+        this.transform.position = tilemapManager.RepositioningTheWorld(this.transform.position);
 
         highlightTiles[0] = Instantiate(highlightTilePrefab0.gameObject).GetComponent<DestinationTile>();
-        highlightTiles[0].clickEvent = navigation.SetDestination;
+        highlightTiles[0].clickEvent = tilemapManager.Navigation.SetDestination;
         highlightTiles[1] = Instantiate(highlightTilePrefab1.gameObject).GetComponent<DestinationTile>();
-        highlightTiles[1].clickEvent = navigation.SetDestination;
+        highlightTiles[1].clickEvent = tilemapManager.Navigation.SetDestination;
         highlightTiles[2] = Instantiate(highlightTilePrefab2.gameObject).GetComponent<DestinationTile>();
-        highlightTiles[2].clickEvent = navigation.SetDestination;
+        highlightTiles[2].clickEvent = tilemapManager.Navigation.SetDestination;
         highlightTiles[3] = Instantiate(highlightTilePrefab3.gameObject).GetComponent<DestinationTile>();
-        highlightTiles[3].clickEvent = navigation.SetDestination;
+        highlightTiles[3].clickEvent = tilemapManager.Navigation.SetDestination;
         playerEntity.OnDeath = () =>
         {
             SpriteAnimator.Play("Player-Death");
         };
+
 
     }
 }
