@@ -64,8 +64,10 @@ public class MonsterActor : TurnActor
         switch (currentState)
         {
             case BehaviourState.CHASE:
-                tilemapManager.Navigation.SetDestination(target.transform.position);
-                yield return tilemapManager.Navigation.GoDestination((TileNode)LocalPosition, end: tilemapManager.Navigation.Destination, this.transform, 1);
+                int moveDistance = 1;
+                Navigation<TileNode>.Path path = tilemapManager.Navigation.GetShortestPath((TileNode)LocalPosition, (TileNode)target.LocalPosition);
+                yield return GoDestination(tilemapManager.ChangeLocalToWorldPosition(path[moveDistance].position));
+
                 currentState = BehaviourState.IDLE;
                 break;
             case BehaviourState.ATTACK:
@@ -128,7 +130,6 @@ public class MonsterActor : TurnActor
 
     private void Awake()
     {
-        this.transform.position = tilemapManager.RepositioningTheWorld(this.transform.position);
         ActorObject = this.gameObject;
         scanRangeCoords = CardNameSpace.Base.CoordConverter.ConvertToCoords(scanRangeString);
         attackRangeCoords = CardNameSpace.Base.CoordConverter.ConvertToCoords(attackRangeString);
@@ -142,6 +143,7 @@ public class MonsterActor : TurnActor
 
     private void Start()
     {
+        this.transform.position = tilemapManager.RepositioningTheWorld(this.transform.position);
         TileGroup.CreateClones(scanRagneTilePrefab, scanRangeCoords, LocalPosition);
         TileGroup.CreateClones(attackRangeTilePrefab, attackRangeCoords, LocalPosition);
 

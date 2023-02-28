@@ -13,8 +13,8 @@ public class TilemapManager : MonoBehaviour
     private TilemapGraph tilemapGraph;
     private ThemeTileGroup themeTileGroup;
 
-    private Navigation navigation;
-    public Navigation Navigation { get => navigation; }
+    private Navigation<TileNode> navigation;
+    public Navigation<TileNode> Navigation { get => navigation; }
     public Graph<TileNode> Graph { get => tilemapGraph; }
 
     private Map map;
@@ -63,6 +63,7 @@ public class TilemapManager : MonoBehaviour
     private void InitMap((Room.ThemeType themeType, Room.RoomType roomType) mapType, (int width, int height) roomSize)
     {
         int padding = 2;
+        List<Room> roomList = new List<Room>();
         for (int i = 0; i < 3; i++)
         {
             for (int j = 0; j < 3; j++)
@@ -88,13 +89,39 @@ public class TilemapManager : MonoBehaviour
                 }
 
                 Room room = Room.CreateRandomRoom(roomSize, theme.grounds, theme.walls, theme.doors[0], (roomPosition.x, roomPosition.y));
-                var doorObject = Instantiate(doorPrefab);
-                doorObject.transform.position = ChangeLocalToWorldPosition(new Vector3Int(room.Position.x + room.Door.x, room.Position.y + room.Door.y, 0));
-
+                roomList.Add(room);
                 map.AddVertex(room);
             }
         }
 
+        map.AddEdge(roomList[0], roomList[1]);
+        map.AddEdge(roomList[0], roomList[3]);
+        map.AddEdge(roomList[1], roomList[2]);
+        map.AddEdge(roomList[1], roomList[4]);
+        map.AddEdge(roomList[2], roomList[5]); 
+        map.AddEdge(roomList[2], roomList[5]); 
+        map.AddEdge(roomList[3], roomList[4]); 
+        map.AddEdge(roomList[3], roomList[6]);
+        map.AddEdge(roomList[4], roomList[5]);
+        map.AddEdge(roomList[4], roomList[7]);
+        map.AddEdge(roomList[5], roomList[8]);
+        map.AddEdge(roomList[6], roomList[7]);
+        map.AddEdge(roomList[7], roomList[8]);
+
+        CreateDoor();
+    }
+
+    private void CreateDoor()
+    {
+        foreach(var room in map.AdjacencyList)
+        {
+            foreach(var nextRoom in room.Value)
+            {
+                var door = Instantiate(doorPrefab);
+                door.transform.position = ChangeLocalToWorldPosition(new Vector3Int(room.Key.Position.x + room.Key.Door.x, room.Key.Position.y + room.Key.Door.y, 0));
+                door.nextPosition = ChangeLocalToWorldPosition(new Vector3Int(nextRoom.Position.x, nextRoom.Position.y, 0));
+            }
+        }
     }
 
     public void InitializeNavigation()
@@ -106,7 +133,7 @@ public class TilemapManager : MonoBehaviour
             Debug.Log(node.position);
         }
 
-        navigation = new Navigation(this);
+        navigation = new Navigation<TileNode>(this.tilemapGraph);
     }
 
 }

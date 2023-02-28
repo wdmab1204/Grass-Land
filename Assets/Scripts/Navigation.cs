@@ -1,69 +1,41 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using KMolenda.Aisd.Graph;
-using UnityEngine.Tilemaps;
 
-public class Navigation
+public class Navigation<T>
 {
-	private TilemapManager tilemapManager;
-	private TileNode destination;
-	public TileNode Destination
-	{
-		get => destination;
-		set => destination = value;
-	}
+    private Graph<T> graph;
 
-	public Navigation(TilemapManager tilemapManager)
-	{
-		this.tilemapManager = tilemapManager;
+    public Navigation(Graph<T> graph)
+    {
+        this.graph = graph;
     }
 
-	public IEnumerator GoDestination(TileNode start, TileNode end, Transform actor, int pathLength = 999)
-	{
-		foreach (var next in tilemapManager.Graph.ShortestPath(start, end))
-		{
-			if (start.Equals(next)) continue;
-			if (pathLength <= 0) break;
-			var nextWorldPos = tilemapManager.ChangeLocalToWorldPosition(next.position);
-			while (Vector3.Distance(actor.position, nextWorldPos) > 0.0f)
-			{
-				actor.position = Vector3.MoveTowards(actor.position, nextWorldPos, Time.deltaTime);
-				yield return null;
-			}
-			pathLength--;
-		}
+    public Path GetShortestPath(T start, T end)
+    {
+        List<T> nodeList = new List<T>();
+        foreach(var node in graph.ShortestPath(start, end))
+        {
+            nodeList.Add(node);
+        }
 
-		destination = null;
-	}
+        Path path = new Path(nodeList.ToArray());
 
-	public IEnumerator GoDestination(TileNode end, Transform actor)
-	{
-		var targetPosition = tilemapManager.ChangeWorldToLocalPosition(actor.position);
-		yield return GoDestination(start: (TileNode)targetPosition, end, actor);
-	}
+        return path;
+    }
 
-	public void SetDestination(Vector3 tileWorldPosition)
-	{
-		var destination = tilemapManager.ChangeWorldToLocalPosition(tileWorldPosition);
+    public class Path
+    {
+        T[] nodes;
 
-		this.destination = (TileNode)destination;
-	}
+        public Path(T[] nodes)
+        {
+            this.nodes = nodes;
+        }
 
-	public IEnumerator WaitForClickDestination()
-	{
-		yield return new WaitUntil(() => destination != null);
-	}
-
-	public TileNode[] GetShortestPathCoordArray(TileNode start, TileNode end)
-	{
-		List<TileNode> coordList = new List<TileNode>();
-		foreach(var coord in tilemapManager.Graph.ShortestPath(start, end))
-		{
-			coordList.Add(coord);
-		}
-
-		return coordList.ToArray();
-	}
+        public T this[int index]
+        {
+            get => nodes[index];
+            set => nodes[index] = value;
+        }
+    }
 }
-

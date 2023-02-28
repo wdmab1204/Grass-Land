@@ -31,7 +31,7 @@ namespace KMolenda.Aisd.Graph
         public Graph(IEnumerable<T> vertices, IEnumerable<Tuple<T, T>> edges)
         {
             foreach (var vertex in vertices) AddVertex(vertex);
-            foreach (var edge in edges) AddEdge(edge);
+            foreach (var edge in edges) AddTwoEdge(edge);
         }
 
         public bool AddVertex(T vertex)
@@ -49,9 +49,22 @@ namespace KMolenda.Aisd.Graph
 
         public IEnumerable<T> Vertices => AdjacencyList.Keys;
 
-        public bool AddEdge(T from, T to) => AddEdge(Tuple.Create(from, to));
+        public bool AddEdge(T from, T to) => AddEdge((from, to));
 
-        public bool AddEdge(Tuple<T, T> edge)
+        public bool AddEdge((T from, T to) edge)
+        {
+            if (AdjacencyList.ContainsKey(edge.Item1) && AdjacencyList.ContainsKey(edge.Item2))
+            {
+                AdjacencyList[edge.Item1].Add(edge.Item2);
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool AddTwoEdge(T from, T to) => AddTwoEdge(Tuple.Create(from, to));
+
+        public bool AddTwoEdge(Tuple<T, T> edge)
         {
             if (AdjacencyList.ContainsKey(edge.Item1) && AdjacencyList.ContainsKey(edge.Item2))
             {

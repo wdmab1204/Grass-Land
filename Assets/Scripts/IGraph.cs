@@ -20,6 +20,6 @@ namespace KMolenda.Aisd.Graph
 
         // dodaje krawędź do grafu
         // jeśli węzłów `from` lub `to` nie ma, nie dodaje, zwraca false
-        bool AddEdge(V from, V to);
+        bool AddTwoEdge(V from, V to);
     }
 }

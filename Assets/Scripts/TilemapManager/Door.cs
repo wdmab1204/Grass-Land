@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class Door : Interactive
 {
-    public Room nextRoom;
+    public Vector3 nextPosition;
     public override void Do(Transform player)
     {
-        if(nextRoom!= null)
+        if(nextPosition != null)
         {
-            player.position = new Vector3(nextRoom.Position.x, nextRoom.Position.y, 0);
+            player.position = nextPosition;
         }
     }
 }

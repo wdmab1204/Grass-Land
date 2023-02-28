@@ -27,8 +27,7 @@ public class DestinationTile : MonoBehaviour, IGraphicsDisplay, IPointerClickHan
 
     public void OnPointerClick(PointerEventData eventData)
     {
-		Debug.Log("click!");
-		clickEvent?.Invoke(this.transform.position);
+
     }
 }
 

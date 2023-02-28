@@ -79,10 +79,10 @@ public class TilemapGraph : Graph<TileNode>
                     AddVertex(new TileNode(n, p, 0));
 
                     //check surrounding , and add vertices;
-                    if (tilemap.HasTile(new Vector3Int(n - 1, p, 0))) AddVertex(new TileNode(n - 1, p, 0)); AddEdge(new TileNode(n, p, 0), new TileNode(n - 1, p, 0));
-                    if (tilemap.HasTile(new Vector3Int(n + 1, p, 0))) AddVertex(new TileNode(n + 1, p, 0)); AddEdge(new TileNode(n, p, 0), new TileNode(n + 1, p, 0));
-                    if (tilemap.HasTile(new Vector3Int(n, p - 1, 0))) AddVertex(new TileNode(n, p - 1, 0)); AddEdge(new TileNode(n, p, 0), new TileNode(n, p - 1, 0));
-                    if (tilemap.HasTile(new Vector3Int(n, p + 1, 0))) AddVertex(new TileNode(n, p + 1, 0)); AddEdge(new TileNode(n, p, 0), new TileNode(n, p + 1, 0));
+                    if (tilemap.HasTile(new Vector3Int(n - 1, p, 0))) AddVertex(new TileNode(n - 1, p, 0)); AddTwoEdge(new TileNode(n, p, 0), new TileNode(n - 1, p, 0));
+                    if (tilemap.HasTile(new Vector3Int(n + 1, p, 0))) AddVertex(new TileNode(n + 1, p, 0)); AddTwoEdge(new TileNode(n, p, 0), new TileNode(n + 1, p, 0));
+                    if (tilemap.HasTile(new Vector3Int(n, p - 1, 0))) AddVertex(new TileNode(n, p - 1, 0)); AddTwoEdge(new TileNode(n, p, 0), new TileNode(n, p - 1, 0));
+                    if (tilemap.HasTile(new Vector3Int(n, p + 1, 0))) AddVertex(new TileNode(n, p + 1, 0)); AddTwoEdge(new TileNode(n, p, 0), new TileNode(n, p + 1, 0));
                 }
                 else
                 {
