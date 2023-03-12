@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using SimpleSpriteAnimator;
 using GameEntity;
 using System;
+using UnityEngine.Tilemaps;
 
 public static class AnimationConverter
 {
@@ -29,7 +30,7 @@ public class PlayerActor : TurnActor
 {
     public GameObject ActorObject { get; set; }
     public ActorState ActorState { get; set; }
-    [SerializeField] private TilemapManager tilemapManager;
+    private Tilemap tilemap;
     private Dice<int>[] dices = new Dice<int>[2];
 
     [SerializeField] private ArrowTileGroup arrowTileGroup;
@@ -83,7 +84,7 @@ public class PlayerActor : TurnActor
 
     private IEnumerator MoveAction()
     {
-        var centerLocalPoint = tilemapManager.ChangeWorldToLocalPosition(transform.position);
+        var centerLocalPoint = tilemap.ChangeWorldToLocalPosition(transform.position);
         Vector3Int[] directions = new Vector3Int[4] { Vector3Int.right, Vector3Int.left, Vector3Int.up, Vector3Int.down };
         //rightup, leftdown, leftup, rightdown
 
@@ -91,9 +92,9 @@ public class PlayerActor : TurnActor
         for (int i = 0; i < arrowTileGroup.childs.Length; i++)
         {
             var nearbyCoordinate = centerLocalPoint + directions[i];
-            if (tilemapManager.HasTile(nearbyCoordinate))
+            if (tilemap.HasTile(nearbyCoordinate))
             {
-                arrowTileGroup.childs[i].transform.position = tilemapManager.ChangeLocalToWorldPosition(nearbyCoordinate);
+                arrowTileGroup.childs[i].transform.position = tilemap.ChangeLocalToWorldPosition(nearbyCoordinate);
                 arrowTileGroup.childs[i].Show();
             }
         }
@@ -135,11 +136,12 @@ public class PlayerActor : TurnActor
         dices[0] = new Dice<int>(new int[6] { 1, 2, 3, 4, 5, 6 });
         dices[1] = new Dice<int>(new int[6] { 1, 2, 3, 4, 5, 6 });
         var movePoint = dices[0].GetRandomValue() + dices[1].GetRandomValue();
+        tilemap = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Tilemap>();
     }
 
     private void Start()
     {
-        this.transform.position = tilemapManager.RepositioningTheWorld(this.transform.position);
+        this.transform.position = tilemap.RepositioningTheWorld(this.transform.position);
 
         arrowTileGroup.ClickEvent += position =>
         {

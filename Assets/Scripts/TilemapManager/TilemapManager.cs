@@ -3,6 +3,37 @@ using System.Collections.Generic;
 using KMolenda.Aisd.Graph;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
+
+namespace UnityEngine.Tilemaps
+{
+    public static class TilemapExtensions
+    {
+        public static Vector3 ChangeLocalToWorldPosition(this Tilemap tilemap, Vector3Int position) => tilemap.GetCellCenterWorld(position);
+
+        public static Vector3Int ChangeWorldToLocalPosition(this Tilemap tilemap, Vector3 worldPosition) => tilemap.WorldToCell(worldPosition);
+
+        public static Vector3 RepositioningTheWorld(this Tilemap tilemap, Vector3 worldPosition) => tilemap.GetCellCenterWorld(tilemap.WorldToCell(worldPosition));
+
+        public static bool HasTile(this Tilemap tilemap, Vector3Int position) => tilemap.HasTile(position);
+
+        public static bool HasTile(this Tilemap tilemap, Vector3 worldPosition) => tilemap.HasTile(ChangeWorldToLocalPosition(tilemap, worldPosition));
+
+        public static Navigation<TileNode> CreateNavigation(this Tilemap tilemap)
+        {
+            TilemapGraph tilemapGraph = new TilemapGraph(tilemap);
+
+            foreach (var node in tilemapGraph.Vertices)
+            {
+                Debug.Log(node.position);
+            }
+
+            Navigation<TileNode> navigation = new Navigation<TileNode>(tilemapGraph);
+
+            return navigation;
+        }
+    }
+}
 
 [RequireComponent(typeof(ThemeTileGroup))]
 public class TilemapManager : MonoBehaviour
@@ -27,16 +58,6 @@ public class TilemapManager : MonoBehaviour
         int roomCount = 9;
         map = new Map(roomCount);
     }
-
-    public Vector3 ChangeLocalToWorldPosition(Vector3Int position) => tilemap.GetCellCenterWorld(position);
-
-    public Vector3Int ChangeWorldToLocalPosition(Vector3 worldPosition) => tilemap.WorldToCell(worldPosition);
-
-    public Vector3 RepositioningTheWorld(Vector3 worldPosition) => tilemap.GetCellCenterWorld(tilemap.WorldToCell(worldPosition));
-
-    public bool HasTile(Vector3Int position) => tilemap.HasTile(position);
-
-    public bool HasTile(Vector3 worldPosition) => tilemap.HasTile(ChangeWorldToLocalPosition(worldPosition));
 
     public void InitializeMapAndApply((Room.ThemeType, Room.RoomType) mapType, (int width, int height) roomSize)
     {
@@ -118,22 +139,22 @@ public class TilemapManager : MonoBehaviour
             foreach(var nextRoom in room.Value)
             {
                 var door = Instantiate(doorPrefab);
-                door.transform.position = ChangeLocalToWorldPosition(new Vector3Int(room.Key.Position.x + room.Key.Door.x, room.Key.Position.y + room.Key.Door.y, 0));
-                door.nextPosition = ChangeLocalToWorldPosition(new Vector3Int(nextRoom.Position.x, nextRoom.Position.y, 0));
+                door.transform.position = tilemap.ChangeLocalToWorldPosition(new Vector3Int(room.Key.Position.x + room.Key.Door.x, room.Key.Position.y + room.Key.Door.y, 0));
+                door.nextPosition = tilemap.ChangeLocalToWorldPosition(new Vector3Int(nextRoom.Position.x, nextRoom.Position.y, 0));
             }
         }
     }
 
-    public void InitializeNavigation()
-    {
-        tilemapGraph = new TilemapGraph(tilemap);
+    //public void InitializeNavigation()
+    //{
+    //    tilemapGraph = new TilemapGraph(tilemap);
 
-        foreach(var node in tilemapGraph.Vertices)
-        {
-            Debug.Log(node.position);
-        }
+    //    foreach(var node in tilemapGraph.Vertices)
+    //    {
+    //        Debug.Log(node.position);
+    //    }
 
-        navigation = new Navigation<TileNode>(this.tilemapGraph);
-    }
+    //    navigation = new Navigation<TileNode>(this.tilemapGraph);
+    //}
 
 }

@@ -17,10 +17,9 @@ namespace GameEntity
         }
         public Action OnDeath;
         public Action<MonsterEntity, PlayerEntity> OnTakeDamage;
-        public override void TakeDamage(Entity attacker, int damage)
+        public override void TakeDamage(int damage)
         {
             Hp -= damage;
-            OnTakeDamage((MonsterEntity)attacker, this);
             if(Hp<=0)
                 OnDeath();
         }
@@ -30,8 +29,9 @@ namespace GameEntity
             Hp += amount;
         }
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             this.MaxHp = Hp;
         }
     }

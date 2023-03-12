@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GameEntity;
 using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
 
 public class Portal : Entity
 {
@@ -11,7 +12,7 @@ public class Portal : Entity
         throw new System.NotImplementedException();
     }
 
-    public override void TakeDamage(Entity attacker, int damage)
+    public override void TakeDamage(int damage)
     {
         throw new System.NotImplementedException();
     }
@@ -25,7 +26,8 @@ public class Portal : Entity
     // Start is called before the first frame update
     void Start()
     {
-        this.transform.position = TilemapManager.RepositioningTheWorld(this.transform.position);
+        this.transform.position = tilemap.RepositioningTheWorld(this.transform.position);
+        
     }
 
     // Update is called once per frame

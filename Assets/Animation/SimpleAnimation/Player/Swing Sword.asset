@@ -21,4 +21,4 @@ MonoBehaviour:
   - sprite: {fileID: 550951263, guid: 6943b8eff805f41869a641ae9b469f58, type: 3}
   - sprite: {fileID: 136867049, guid: 6943b8eff805f41869a641ae9b469f58, type: 3}
   - sprite: {fileID: -1479047457, guid: 6943b8eff805f41869a641ae9b469f58, type: 3}
-  spriteAnimationType: 0
+  spriteAnimationType: 1

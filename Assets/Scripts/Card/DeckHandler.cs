@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using SimpleSpriteAnimator;
 using GameEntity;
+using UnityEngine.Tilemaps;
 
 namespace CardNameSpace
 {
@@ -19,7 +20,7 @@ namespace CardNameSpace
         [SerializeField] private CardPrivew priviewImage;
         [SerializeField] private RangeTile rangeTilePrefab;
         private RangeTile[] rangeTiles = new RangeTile[10];
-        [SerializeField] private TilemapManager TilemapManager;
+        private Tilemap tilemap;
         [SerializeField] private GameRuleSystem GameRuleSystem;
         [SerializeField] private int CardHandlerCount = 3;
         [SerializeField] private SpriteAnimator animator;
@@ -63,11 +64,11 @@ namespace CardNameSpace
                 case CardType.ATTACK:
                     foreach(var tilePosition in card.CardInfo.Ranges)
                     {
-                        var rangeLocalPosition = TilemapManager.ChangeWorldToLocalPosition(currentActorObject.transform.position) + (Vector3Int)tilePosition;
+                        var rangeLocalPosition = tilemap.ChangeWorldToLocalPosition(currentActorObject.transform.position) + (Vector3Int)tilePosition;
                         //공격범위 안에 적이 있는가 ?
                         if (EntityManager.TryGetEntityOnTile<MonsterEntity>(rangeLocalPosition, out Entity target))
                         {
-                            ((MonsterEntity)target).TakeDamage(PlayerEntity, 100);
+                            ((MonsterEntity)target).TakeDamage(100);
                             OnAttackTarget?.Invoke();
                         }
                     }
@@ -104,6 +105,8 @@ namespace CardNameSpace
             var dics = AnimationConverter.GetDics();
             var animationName = dics[card.name];
             animator.Play(animationName);
+            //yield return new WaitForSeconds(animator.AnimationLength);
+            //animator.Play("Drink Potion");
         }
 
         private void ShowPriviewImageDelegate(CardHandler handler)
@@ -125,9 +128,9 @@ namespace CardNameSpace
                 var currentActor = GameRuleSystem.CurrentActor;
                 var worldPosition = currentActor.transform.position;
 
-                var localPosition = TilemapManager.ChangeWorldToLocalPosition(worldPosition);
+                var localPosition = tilemap.ChangeWorldToLocalPosition(worldPosition);
                 var rangePosition = localPosition + (Vector3Int)coord;
-                var rangeWorldPosition = TilemapManager.ChangeLocalToWorldPosition(rangePosition);
+                var rangeWorldPosition = tilemap.ChangeLocalToWorldPosition(rangePosition);
 
                 rangeTiles[i].transform.position = rangeWorldPosition;
                 rangeTiles[i].Show();
@@ -220,6 +223,8 @@ namespace CardNameSpace
             deck.Shuffle();
             DrawCards(CardHandlerCount);
             Hide();
+
+            tilemap = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Tilemap>();
         }
     }
 }

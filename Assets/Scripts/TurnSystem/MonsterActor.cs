@@ -4,6 +4,7 @@ using System.Collections;
 using GameEntity;
 using System.Collections.Generic;
 using SimpleSpriteAnimator;
+using UnityEngine.Tilemaps;
 
 [DisallowMultipleComponent]
 public class MonsterActor : TurnActor
@@ -13,23 +14,25 @@ public class MonsterActor : TurnActor
     public GameObject ActorObject { get; set; }
     [SerializeField] private ActorState ActorState;
 
-    private readonly string scanRangeString =
+    protected readonly string scanRangeString =
         "[2,2][2,1][2,0][2,-1][2,-2]" +
         "[1,2][1,1][1,0][1,-1][1,-2]" +
         "[0,2][0,1][0,0][0,-1][0,-2]" +
         "[-1,2][-1,1][-1,0][-1,-1][-1,-2]" +
         "[-2,2][-2,1][-2,0][-2,-1][-2,-2]";
     private Vector2Int[] scanRangeCoords;
-    private readonly string attackRangeString =
+    protected readonly string attackRangeString =
         "[-1,1][0,1][1,1]" +
         "[-1,0]     [1,0]" +
         "[-1,-1][0,-1][1,-1]";
     private Vector2Int[] attackRangeCoords;
+
     [SerializeField] private BehaviourState currentState = BehaviourState.IDLE;
-    private Vector3Int LocalPosition { get => tilemapManager.ChangeWorldToLocalPosition(this.transform.position); }
+    private Vector3Int LocalPosition { get => tilemap.ChangeWorldToLocalPosition(this.transform.position); }
     [SerializeField] private VisibilityTile scanRagneTilePrefab;
     [SerializeField] private VisibilityTile attackRangeTilePrefab;
-    [SerializeField] private TilemapManager tilemapManager;
+    private Tilemap tilemap;
+    private Navigation<TileNode> navigation;
     [SerializeField] private EntityManager EntityManager;
     [SerializeField] private TileGroup TileGroup;
     private Entity target = null;
@@ -41,7 +44,6 @@ public class MonsterActor : TurnActor
     [SerializeField] private bool isThrowing = false;
     [SerializeField] private GameObject throwObject;
     [SerializeField] private float moveTime;
-
 
     public override IEnumerator ActionCoroutine()
     {
@@ -65,8 +67,8 @@ public class MonsterActor : TurnActor
         {
             case BehaviourState.CHASE:
                 int moveDistance = 1;
-                Navigation<TileNode>.Path path = tilemapManager.Navigation.GetShortestPath((TileNode)LocalPosition, (TileNode)target.LocalPosition);
-                yield return GoDestination(tilemapManager.ChangeLocalToWorldPosition(path[moveDistance].position));
+                Navigation<TileNode>.Path path = navigation.GetShortestPath((TileNode)LocalPosition, (TileNode)target.LocalPosition);
+                yield return GoDestination(tilemap.ChangeLocalToWorldPosition(path[moveDistance].position));
 
                 currentState = BehaviourState.IDLE;
                 break;
@@ -81,7 +83,7 @@ public class MonsterActor : TurnActor
                     var obj = Instantiate(throwObject);
                     obj.transform.position = this.transform.position;
                     var nVector = (target.transform.position - obj.transform.position).normalized;
-                    while (Vector3.Distance(tilemapManager.ChangeWorldToLocalPosition(obj.transform.position), tilemapManager.ChangeWorldToLocalPosition(target.transform.position)) > 0.0f)
+                    while (Vector3.Distance(tilemap.ChangeWorldToLocalPosition(obj.transform.position), tilemap.ChangeWorldToLocalPosition(target.transform.position)) > 0.0f)
                     {
                         Debug.Log(Vector3.Distance(obj.transform.position, target.transform.position));
                         obj.transform.position += nVector * Time.deltaTime * 1.0f;
@@ -89,7 +91,7 @@ public class MonsterActor : TurnActor
                     }
                     Destroy(obj.gameObject);
                 }
-                target.TakeDamage(this.MonsterEntity, 1);
+                target.TakeDamage(1);
                 SpriteAnimator.Play($"{AnimPreifxName}-Idle");
                 currentState = BehaviourState.IDLE;
                 break;
@@ -139,11 +141,14 @@ public class MonsterActor : TurnActor
             SpriteAnimator.Play($"{AnimPreifxName}-Death");
             Destroy(this.gameObject, SpriteAnimator.AnimationLength);
         };
+
+        tilemap = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Tilemap>();
+        navigation = tilemap.CreateNavigation();
     }
 
     private void Start()
     {
-        this.transform.position = tilemapManager.RepositioningTheWorld(this.transform.position);
+        this.transform.position = tilemap.RepositioningTheWorld(this.transform.position);
         TileGroup.CreateClones(scanRagneTilePrefab, scanRangeCoords, LocalPosition);
         TileGroup.CreateClones(attackRangeTilePrefab, attackRangeCoords, LocalPosition);
 

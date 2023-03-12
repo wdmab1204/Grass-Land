@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using CardNameSpace.Base;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class TileGroup : MonoBehaviour, IEnumerable, IGraphicsDisplay
 {
-    [SerializeField] TilemapManager TilemapManager;
+    Tilemap tilemap;
     private Dictionary<Vector2Int, VisibilityTile> tileDictionary = new Dictionary<Vector2Int, VisibilityTile>();
 
     public void CreateClones(VisibilityTile tilePrefab, Vector2Int[] coords, Vector3Int center = default)
@@ -15,9 +16,9 @@ public class TileGroup : MonoBehaviour, IEnumerable, IGraphicsDisplay
         foreach(var coord in coords)
         {
             var tileWorldPosition = center + (Vector3Int)coord;
-            if (!TilemapManager.HasTile(tileWorldPosition)) continue;
+            if (!tilemap.HasTile(tileWorldPosition)) continue;
             var visibilityTile = Instantiate(tilePrefab, this.transform).GetComponent<VisibilityTile>();
-            visibilityTile.transform.position = TilemapManager.ChangeLocalToWorldPosition(tileWorldPosition);
+            visibilityTile.transform.position = tilemap.ChangeLocalToWorldPosition(tileWorldPosition);
             if (tileDictionary.ContainsKey(coord))
             {
                 Destroy(tileDictionary[coord].gameObject);
@@ -26,6 +27,11 @@ public class TileGroup : MonoBehaviour, IEnumerable, IGraphicsDisplay
             tileDictionary.Add(coord, visibilityTile);
             visibilityTile.Show();
         }
+    }
+
+    private void Awake()
+    {
+        tilemap = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Tilemap>();
     }
 
     public void Hide()

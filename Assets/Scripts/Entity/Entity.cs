@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace GameEntity
 {
@@ -14,10 +15,15 @@ namespace GameEntity
             }
         }
         public System.Action<int> OnHealthChanged;
-        [SerializeField] protected TilemapManager TilemapManager;
-        public Vector3Int LocalPosition => TilemapManager.ChangeWorldToLocalPosition(this.transform.position);
+        protected Tilemap tilemap;
+        public Vector3Int LocalPosition => tilemap.ChangeWorldToLocalPosition(this.transform.position);
         public Vector3 WorldPosition => this.transform.position;
-        public abstract void TakeDamage(Entity attacker, int damage);
+        public abstract void TakeDamage(int damage);
         public abstract void Recovery(int amount);
+
+        protected virtual void Awake()
+        {
+            tilemap = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Tilemap>();
+        }
     }
 }

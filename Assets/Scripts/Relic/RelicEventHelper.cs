@@ -63,7 +63,7 @@ public class RelicEventHelper : MonoBehaviour
         {
             OnTakeDamage((attacker, player) =>
             {
-                attacker.TakeDamage(null, 2);
+                attacker.TakeDamage(2);
             });
         }
     }

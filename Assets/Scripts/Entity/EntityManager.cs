@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TurnSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
 using System;
 
 namespace GameEntity
@@ -10,7 +11,7 @@ namespace GameEntity
 	public class EntityManager : MonoBehaviour
 	{
 		private List<Entity> entityList = new List<Entity>();
-        [SerializeField] private TilemapManager TilemapManager;
+        private Tilemap tilemap;
 
         private void Awake()
         {
@@ -18,15 +19,17 @@ namespace GameEntity
             for (int i = 0; i < objArr.Length; i++)
                 if (objArr[i].TryGetComponent<Entity>(out Entity entity))
                     entityList.Add(entity);
+
+            tilemap = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Tilemap>();
         }
 
         public bool IsEntityOnTile<T>(Vector3Int tileLocalPosition) where T : Entity
         {
-            if (TilemapManager.HasTile(tileLocalPosition)) return false;
+            if (tilemap.HasTile(tileLocalPosition)) return false;
 
             foreach (var entity in entityList)
             {
-                var entityPosition = TilemapManager.ChangeWorldToLocalPosition(entity.transform.position);
+                var entityPosition = tilemap.ChangeWorldToLocalPosition(entity.transform.position);
                 if (entityPosition == tileLocalPosition && entity is T)
                     return true;
             }
@@ -36,11 +39,11 @@ namespace GameEntity
         public bool TryGetEntityOnTile<T>(Vector3Int tileLocalPosition, out Entity entity) where T : Entity
         {
             entity = null;
-            if (!TilemapManager.HasTile(tileLocalPosition)) return false;
+            if (!tilemap.HasTile(tileLocalPosition)) return false;
 
             foreach (var e in entityList)
             {
-                var entityPosition = TilemapManager.ChangeWorldToLocalPosition(e.transform.position);
+                var entityPosition = tilemap.ChangeWorldToLocalPosition(e.transform.position);
                 if (entityPosition == tileLocalPosition && e is T)
                 {
                     entity = e;
