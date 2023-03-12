@@ -1,33 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Test : MonoBehaviour
 {
-    public float detectionRadius;
+    public Tilemap tilemap;
 
-    public ContactFilter2D contactFilter = new ContactFilter2D();
-
-    public LayerMask LayerMask;
-
-    void Update()
+    void Start()
     {
-        //Collider2D[] results = new Collider2D[5];
-        //var objectsDetected = Physics2D.OverlapCircle(transform.position, detectionRadius, contactFilter, results);
-
-        //print(results[0].name);
-
-        var detect = Physics2D.OverlapCircleAll(transform.position, detectionRadius, LayerMask);
-        if (detect.Length > 0)
-        {
-            print(detect[0].name);
-        }
-
+        transform.position = tilemap.ChangeLocalToWorldPosition(Vector3Int.zero);
         
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireSphere(transform.position,detectionRadius);
     }
 }

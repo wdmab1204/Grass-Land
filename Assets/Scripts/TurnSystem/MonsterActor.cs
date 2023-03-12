@@ -149,8 +149,8 @@ public class MonsterActor : TurnActor
     private void Start()
     {
         this.transform.position = tilemap.RepositioningTheWorld(this.transform.position);
-        TileGroup.CreateClones(scanRagneTilePrefab, scanRangeCoords, LocalPosition);
-        TileGroup.CreateClones(attackRangeTilePrefab, attackRangeCoords, LocalPosition);
+        //TileGroup.CreateClones(scanRangeCoords, LocalPosition);
+        //TileGroup.CreateClones(attackRangeCoords, LocalPosition);
 
         SpriteAnimator.Play($"{AnimPreifxName}-Idle");
     }

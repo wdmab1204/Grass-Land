@@ -5,98 +5,55 @@ using CardNameSpace.Base;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class TileGroup : MonoBehaviour, IEnumerable, IGraphicsDisplay
+public class TileGroup : MonoBehaviour, IGraphicsDisplay
 {
-    Tilemap tilemap;
-    private Dictionary<Vector2Int, VisibilityTile> tileDictionary = new Dictionary<Vector2Int, VisibilityTile>();
+    private Tilemap tilemap;
+    private Dictionary<Vector3Int, TileBase> tileDictionary = new Dictionary<Vector3Int, TileBase>();
+    private Dictionary<string, TileBase> tilenameDic = new Dictionary<string, TileBase>();
+    public TileBase[] tileArray;
+    public Tilemap dynamicTilemap;
 
-    public void CreateClones(VisibilityTile tilePrefab, Vector2Int[] coords, Vector3Int center = default)
+    public void CreateClones(string name, Range range, Vector3 center = default)
     {
-        if (center == default) center = Vector3Int.zero;
-        foreach(var coord in coords)
+        if (center == default) center = Vector3.zero;
+        var centerLocalPosition = tilemap.ChangeWorldToLocalPosition(center);
+        var tile = tilenameDic[name];
+
+        foreach(var localCoord in range.localCoords)
         {
-            var tileWorldPosition = center + (Vector3Int)coord;
-            if (!tilemap.HasTile(tileWorldPosition)) continue;
-            var visibilityTile = Instantiate(tilePrefab, this.transform).GetComponent<VisibilityTile>();
-            visibilityTile.transform.position = tilemap.ChangeLocalToWorldPosition(tileWorldPosition);
-            if (tileDictionary.ContainsKey(coord))
+            Debug.Log(localCoord);
+            var tileLocalPosition = centerLocalPosition + (Vector3Int)localCoord;
+            if (!tilemap.HasTile(tileLocalPosition)) continue;
+            dynamicTilemap.SetTile(tileLocalPosition, tile);
+            var visibilityTile = Instantiate(tile);
+            if (tileDictionary.ContainsKey(tileLocalPosition))
             {
-                Destroy(tileDictionary[coord].gameObject);
-                tileDictionary.Remove(coord);
+                tileDictionary[tileLocalPosition] = tile;
             }
-            tileDictionary.Add(coord, visibilityTile);
-            visibilityTile.Show();
+            else tileDictionary.Add(tileLocalPosition, visibilityTile);
         }
     }
 
     private void Awake()
     {
         tilemap = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Tilemap>();
+        foreach (var tile in tileArray) tilenameDic.Add(tile.name, tile);
     }
 
     public void Hide()
     {
-        foreach(var value in tileDictionary.Values)
+        foreach (var pair in tileDictionary)
         {
-            value.Hide();
+            dynamicTilemap.SetTile(pair.Key, null);
         }
     }
 
     public void Show()
     {
-        foreach (var value in tileDictionary.Values)
+        foreach(var pair in tileDictionary)
         {
-            value.Show();
+            dynamicTilemap.SetTile(pair.Key, pair.Value);
         }
-    }
-
-    private class MyEnumerator : IEnumerator
-    {
-        public VisibilityTile[] tileArray;
-        int position = -1;
-
-        //constructor
-        public MyEnumerator(VisibilityTile[] arr)
-        {
-            tileArray = arr;
-        }
-        private IEnumerator getEnumerator()
-        {
-            return (IEnumerator)this;
-        }
-        //IEnumerator
-        public bool MoveNext()
-        {
-            position++;
-            return (position < tileArray.Length);
-        }
-        //IEnumerator
-        public void Reset()
-        {
-            position = -1;
-        }
-        //IEnumerator
-        public object Current
-        {
-            get
-            {
-                try
-                {
-                    return tileArray[position];
-                }
-                catch (IndexOutOfRangeException)
-                {
-                    throw new InvalidOperationException();
-                }
-            }
-        }
-    }
-
-    public IEnumerator GetEnumerator()
-    {
-        VisibilityTile[] arr = new VisibilityTile[tileDictionary.Count];
-        tileDictionary.Values.CopyTo(arr, 0);
-        return new MyEnumerator(arr);
     }
 }
 

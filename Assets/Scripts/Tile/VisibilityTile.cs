@@ -5,6 +5,7 @@ using System.Collections;
 public class VisibilityTile : MonoBehaviour, IGraphicsDisplay
 {
     private SpriteRenderer SpriteRenderer;
+    public string controllerName;
     
     public void Hide()
     {

@@ -14,7 +14,7 @@ namespace BehaviourTree.Tree
 
         protected virtual void Update()
         {
-            rootNode?.Evaluate();
+            Debug.Log(rootNode?.Evaluate());
         }
 
         protected abstract Node SetupBehaviourtree();

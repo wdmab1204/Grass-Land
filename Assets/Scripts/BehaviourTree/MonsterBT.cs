@@ -11,14 +11,14 @@ namespace BehaviourTree.Tree
 	{
         protected readonly string scanRangeString =
         "[2,2][2,1][2,0][2,-1][2,-2]" +
-        "[1,2][1,1][1,0][1,-1][1,-2]" +
-        "[0,2][0,1][0,0][0,-1][0,-2]" +
-        "[-1,2][-1,1][-1,0][-1,-1][-1,-2]" +
+        "[1,2]                [1,-2]" +
+        "[0,2]                [0,-2]" +
+        "[-1,2]               [-1,-2]" +
         "[-2,2][-2,1][-2,0][-2,-1][-2,-2]";
         private Range scanRange;
         protected readonly string attackRangeString =
             "[-1,1][0,1][1,1]" +
-            "[-1,0]     [1,0]" +
+            "[-1,0][0,0][1,0]" +
             "[-1,-1][0,-1][1,-1]";
         private Range attackRange;
 
@@ -26,16 +26,24 @@ namespace BehaviourTree.Tree
 
         private Tilemap tilemap;
 
+        [SerializeField] private TileGroup tilegroup;
+
         protected virtual void Awake()
         {
             tilemap = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Tilemap>();
-            scanRange = new Range(transform, scanRangeString, tilemap);
-            attackRange = new Range(transform, attackRangeString, tilemap);
+            scanRange = new Range(scanRangeString, tilemap);
+            attackRange = new Range(attackRangeString, tilemap);
         }
 
         protected override void Start()
         {
             base.Start();
+
+            tilegroup.CreateClones("range-tile_1", scanRange, transform.position);
+            tilegroup.CreateClones("range-tile_0", attackRange, transform.position);
+            
+            
+
         }
 
         protected override void Update()
