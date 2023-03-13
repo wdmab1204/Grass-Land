@@ -37,13 +37,27 @@ namespace BehaviourTree.Tree
 
         protected override void Start()
         {
-            base.Start();
+            var local = tilemap.ChangeWorldToLocalPosition(this.transform.position);
+            this.transform.position = tilemap.ChangeLocalToWorldPosition(local);
 
             tilegroup.CreateClones("range-tile_1", scanRange, transform.position);
             tilegroup.CreateClones("range-tile_0", attackRange, transform.position);
-            
-            
 
+
+            base.Start();
+
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (scanRange == null) return;
+            foreach(var coord in scanRange.worldCoords)
+            {
+                Gizmos.DrawCube(transform.position + coord, Vector3Int.one);
+                //Gizmos.DrawCube(coord, Vector3Int.one);
+            }
+
+            Gizmos.color = Color.red;
         }
 
         protected override void Update()
@@ -57,7 +71,7 @@ namespace BehaviourTree.Tree
             {
                 new Sequence(new List<Node>()
                 {
-                    new CheckTargetInFOVRange(scanRange),
+                    new CheckTargetInFOVRange(transform, scanRange),
                     new TaskGoToTarget(transform),
                 })
                 , new TaskIdle()
@@ -71,10 +85,12 @@ namespace BehaviourTree.Tree
     {
         private readonly LayerMask playerLayerMask;
 
-        private Range range;
+        Transform transform;
+        Range range;
         
-        public CheckTargetInFOVRange(Range range)
+        public CheckTargetInFOVRange(Transform transform, Range range)
         {
+            this.transform = transform;
             this.range = range;
         }
 
@@ -85,19 +101,19 @@ namespace BehaviourTree.Tree
             {
                 foreach (var coord in range.worldCoords)
                 {
-                    var result = Physics2D.OverlapCircleAll(coord, 1.0f, 1<<LayerMask.NameToLayer("Player"));
+                    Vector3 tileWorldPosition = transform.position + coord;
+                    var result = Physics2D.OverlapCircleAll(tileWorldPosition, 1.0f, 1<<LayerMask.NameToLayer("Player"));
                     if (result.Length > 0)
                     {
                         parent.parent.SetData("target", result[0].transform);
                         state = NodeState.SUCCESS;
-                        return state;
-                    }
-                    else
-                    {
-                        state = NodeState.FAILURE;
+
                         return state;
                     }
                 }
+
+                state = NodeState.FAILURE;
+                return state;
             }
 
             return NodeState.SUCCESS;

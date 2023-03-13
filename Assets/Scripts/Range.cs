@@ -14,6 +14,7 @@ public class Range
 		worldCoords = new Vector3[localCoords.Length];
 		for(int i=0; i<localCoords.Length; i++)
 		{
+			//var worldCoord = tilemap.ChangeLocalToWorldPosition((Vector3Int)localCoords[i]);
 			var worldCoord = tilemap.ChangeLocalToWorldPosition((Vector3Int)localCoords[i]);
 			worldCoords[i] = worldCoord;
 		}

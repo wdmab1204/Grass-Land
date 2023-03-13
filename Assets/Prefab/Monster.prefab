@@ -111,7 +111,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6940485641464070511}
-  - component: {fileID: 6940485641464070510}
   m_Layer: 0
   m_Name: TileGroup
   m_TagString: Untagged
@@ -134,19 +133,6 @@ Transform:
   m_Father: {fileID: 6940485642278723844}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6940485641464070510
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6940485641464070544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2899d86f945fe42b5bba609b5cf7c55b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TilemapReader: {fileID: 0}
 --- !u!1 &6940485642278723849
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,6 +144,8 @@ GameObject:
   - component: {fileID: 6940485642278723844}
   - component: {fileID: 6940485642278723848}
   - component: {fileID: 6940485642278723843}
+  - component: {fileID: 1972058013}
+  - component: {fileID: 1972058017}
   m_Layer: 0
   m_Name: Monster
   m_TagString: Untagged
@@ -189,7 +177,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6940485642278723849}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c34948852863491683435cda3569e46, type: 3}
   m_Name: 
@@ -198,12 +186,14 @@ MonoBehaviour:
   currentState: 0
   scanRagneTilePrefab: {fileID: 2560490859828915807, guid: 01cc8c25025f646f384b94675494d703, type: 3}
   attackRangeTilePrefab: {fileID: 2667704628365121922, guid: 9c55025fe0a814424a5ba5f38b128fd2, type: 3}
-  TilemapReader: {fileID: 0}
   EntityManager: {fileID: 0}
-  TileGroup: {fileID: 6940485641464070510}
+  TileGroup: {fileID: 0}
   SpriteAnimator: {fileID: 6940485640804368720}
   MonsterEntity: {fileID: 6940485642278723843}
   AnimPreifxName: Golem
+  isThrowing: 0
+  throwObject: {fileID: 0}
+  moveTime: 0
 --- !u!114 &6940485642278723843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,3 +207,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 5
+--- !u!114 &1972058013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6940485642278723849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e54a4cfcd5c44f79a9098f51fc9c27d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layermask:
+    serializedVersion: 2
+    m_Bits: 64
+  tilegroup: {fileID: 1972058017}
+--- !u!114 &1972058017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6940485642278723849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2899d86f945fe42b5bba609b5cf7c55b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileArray:
+  - {fileID: 11400000, guid: c651bd8f1fa674acea561b1ef7b1b98b, type: 2}
+  - {fileID: 11400000, guid: 969f044fe9c79420498306c41818534a, type: 2}
+  dynamicTilemap: {fileID: 0}
