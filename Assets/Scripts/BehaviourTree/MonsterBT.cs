@@ -37,27 +37,25 @@ namespace BehaviourTree.Tree
 
         protected override void Start()
         {
-            var local = tilemap.ChangeWorldToLocalPosition(this.transform.position);
-            this.transform.position = tilemap.ChangeLocalToWorldPosition(local);
+
+            base.Start();
+            transform.position = tilemap.RepositioningTheWorld(transform.position);
 
             tilegroup.CreateClones("range-tile_1", scanRange, transform.position);
             tilegroup.CreateClones("range-tile_0", attackRange, transform.position);
-
-
-            base.Start();
+            
 
         }
 
         private void OnDrawGizmos()
         {
             if (scanRange == null) return;
+
             foreach(var coord in scanRange.worldCoords)
             {
-                Gizmos.DrawCube(transform.position + coord, Vector3Int.one);
-                //Gizmos.DrawCube(coord, Vector3Int.one);
+                Vector3 worldPos = transform.position + coord;
+                Gizmos.DrawCube(worldPos, Vector3Int.one);
             }
-
-            Gizmos.color = Color.red;
         }
 
         protected override void Update()
@@ -99,9 +97,9 @@ namespace BehaviourTree.Tree
             object target = GetData("target");
             if (target == null)
             {
-                foreach (var coord in range.worldCoords)
+                foreach (var cellWorldPosition in range.worldCoords)
                 {
-                    Vector3 tileWorldPosition = transform.position + coord;
+                    Vector3 tileWorldPosition = transform.position + cellWorldPosition;
                     var result = Physics2D.OverlapCircleAll(tileWorldPosition, 1.0f, 1<<LayerMask.NameToLayer("Player"));
                     if (result.Length > 0)
                     {

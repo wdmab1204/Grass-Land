@@ -15,7 +15,7 @@ public class Range
 		for(int i=0; i<localCoords.Length; i++)
 		{
 			//var worldCoord = tilemap.ChangeLocalToWorldPosition((Vector3Int)localCoords[i]);
-			var worldCoord = tilemap.ChangeLocalToWorldPosition((Vector3Int)localCoords[i]);
+			var worldCoord = tilemap.CellToWorld((Vector3Int)localCoords[i]);
 			worldCoords[i] = worldCoord;
 		}
     }
