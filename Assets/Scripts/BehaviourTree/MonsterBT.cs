@@ -4,6 +4,8 @@ using BehaviourTree.Tree;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using GameEntity;
+using SimpleSpriteAnimator;
+using static UnityEngine.GraphicsBuffer;
 
 namespace BehaviourTree.Tree
 {
@@ -75,6 +77,12 @@ namespace BehaviourTree.Tree
             {
                 new Sequence(new List<Node>()
                 {
+                    new CheckTargetInAttackRange(transform,attackRange),
+                    new TaskAttackToTarget(transform),
+                })
+                ,
+                new Sequence(new List<Node>()
+                {
                     new CheckTargetInFOVRange(transform, scanRange),
                     new TaskGoToTarget(transform,navigation, tileGroup),
                 })
@@ -106,7 +114,7 @@ namespace BehaviourTree.Tree
                 foreach (var cellWorldPosition in range.worldCoords)
                 {
                     Vector3 tileWorldPosition = transform.position + cellWorldPosition;
-                    var result = Physics2D.OverlapCircleAll(tileWorldPosition, 1.0f, playerLayerMask);
+                    var result = Physics2D.OverlapCircleAll(tileWorldPosition, 0.3f, 1 << LayerMask.NameToLayer("Player"));
                     if (result.Length > 0)
                     {
                         parent.parent.SetData("target", result[0].transform);
@@ -129,6 +137,7 @@ namespace BehaviourTree.Tree
         private Transform transform;
         private Navigation navigation;
         private TileGroup tilegroup;
+        private SpriteAnimator anim;
         private float speed = 1.0f;
 
         Vector3 nextPosition;
@@ -140,6 +149,7 @@ namespace BehaviourTree.Tree
             this.transform = transform;
             this.navigation = navigation;
             this.tilegroup = tilegroup;
+            this.anim = transform.GetChild(0).GetComponent<SpriteAnimator>();
             calledInitMethod = false;
         }
 
@@ -148,6 +158,8 @@ namespace BehaviourTree.Tree
             int moveDistance = 1;
             Navigation.Path path = navigation.GetShortestPath(transform.position, target.position);
             nextPosition = path[moveDistance];
+
+            anim.Play("Golem-Idle");
 
             tilegroup.Hide();
         }
@@ -187,8 +199,8 @@ namespace BehaviourTree.Tree
 
     class TaskIdle : Node
     {
-        private float _waitTime = 1.0f;
-        private float _waitCounter = 0.0f;
+        private float waitTime = 1.0f;
+        private float waitCounter = 0.0f;
         public TaskIdle()
         {
 
@@ -197,35 +209,115 @@ namespace BehaviourTree.Tree
         public override NodeState Evaluate()
         {
             //idle animation
-            _waitCounter += Time.deltaTime;
-            if (_waitCounter < _waitTime)
+            waitCounter += Time.deltaTime;
+            if (waitCounter < waitTime)
             {
                 state = NodeState.RUNNING;
                 return state;
             }
             else
             {
-                _waitCounter = 0;
-                Debug.Log("suceess!!");
+                waitCounter = 0;
                 state = NodeState.SUCCESS;
                 return state;
             }
         }
     }
 
-    class TaskAttackToTarget : Node
+    class CheckTargetInAttackRange : Node
     {
-        private Entity entity;
-        public TaskAttackToTarget(Transform transform)
+        private readonly LayerMask playerLayerMask = 1 << LayerMask.NameToLayer("Player");
+
+        Transform transform;
+        Range range;
+        SpriteAnimator anim;
+
+        public CheckTargetInAttackRange(Transform transform, Range range)
         {
-            entity = transform.GetComponent<Entity>();
+            this.transform = transform;
+            this.range = range;
+            this.anim = transform.GetChild(0).GetComponent<SpriteAnimator>();
         }
 
         public override NodeState Evaluate()
         {
-            GameEntity.Entity entity = ((Transform)GetData("target")).GetComponent<GameEntity.Entity>();
-            entity.TakeDamage(10);
-            return NodeState.SUCCESS;
+            object target = GetData("target");
+
+            if (target == null)
+            {
+                state = NodeState.FAILURE;
+                return state;
+            }
+
+            foreach (var cellWorldPosition in range.worldCoords)
+            {
+                Vector3 tileWorldPosition = transform.position + cellWorldPosition;
+                var result = Physics2D.OverlapCircleAll(tileWorldPosition, 1.0f, playerLayerMask);
+                if (result.Length > 0)
+                {
+                    parent.parent.SetData("target", result[0].transform);
+                    state = NodeState.SUCCESS;
+
+                    return state;
+                }
+            }
+
+            state = NodeState.FAILURE;
+            return state;
+
+        }
+    }
+
+    class TaskAttackToTarget : Node
+    {
+        private SpriteAnimator anim;
+
+        private float waitTime;
+        private float waitCounter = 0.0f;
+        private bool calledInitMethod = false;
+
+        public TaskAttackToTarget(Transform transform)
+        {
+            anim = transform.GetChild(0).GetComponent<SpriteAnimator>();
+            waitTime = anim.GetAnimationTime("Golem-Attack");
+        }
+
+        void Init()
+        {
+            anim.Play("Golem-Attack");
+        }
+
+        public override NodeState Evaluate()
+        {
+            if (calledInitMethod == false)
+            {
+                Init();
+                calledInitMethod = true;
+            }
+
+            waitCounter += Time.deltaTime;
+            if (waitCounter < waitTime)
+            {
+                state = NodeState.RUNNING;
+                return state;
+            }
+            else
+            {
+                Transform target = (Transform)GetData("target");
+                if (target == null)
+                {
+                    state = NodeState.FAILURE;
+                    return state;
+                }
+
+                Debug.Log(target.name);
+                target.GetComponent<Entity>().TakeDamage(1);
+
+                waitCounter = 0;
+                calledInitMethod = false;
+                state = NodeState.SUCCESS;
+                return state;
+            }
         }
     }
 }

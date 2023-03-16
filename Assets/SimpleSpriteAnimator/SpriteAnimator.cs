@@ -89,6 +89,12 @@ namespace SimpleSpriteAnimator
         }
 
         public float AnimationLength { get { return (float)CurrentAnimation.Frames.Count / CurrentAnimation.FPS; } }
+
+        public float GetAnimationTime(string name)
+        {
+            var animation = GetAnimationByName(name);
+            return animation.Frames.Count / animation.FPS;
+        }
  
         private SpriteAnimation GetAnimationByName(string name)
         {
