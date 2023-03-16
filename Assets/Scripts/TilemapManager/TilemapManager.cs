@@ -19,7 +19,7 @@ namespace UnityEngine.Tilemaps
 
         public static bool HasTile(this Tilemap tilemap, Vector3 worldPosition) => tilemap.HasTile(ChangeWorldToLocalPosition(tilemap, worldPosition));
 
-        public static Navigation<TileNode> CreateNavigation(this Tilemap tilemap)
+        public static Navigation CreateNavigation(this Tilemap tilemap)
         {
             TilemapGraph tilemapGraph = new TilemapGraph(tilemap);
 
@@ -28,7 +28,7 @@ namespace UnityEngine.Tilemaps
                 Debug.Log(node.position);
             }
 
-            Navigation<TileNode> navigation = new Navigation<TileNode>(tilemapGraph);
+            Navigation navigation = new Navigation(tilemapGraph);
 
             return navigation;
         }
@@ -44,8 +44,8 @@ public class TilemapManager : MonoBehaviour
     private TilemapGraph tilemapGraph;
     private ThemeTileGroup themeTileGroup;
 
-    private Navigation<TileNode> navigation;
-    public Navigation<TileNode> Navigation { get => navigation; }
+    private Navigation navigation;
+    public Navigation Navigation { get => navigation; }
     public Graph<TileNode> Graph { get => tilemapGraph; }
 
     private Map map;

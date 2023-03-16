@@ -25,9 +25,12 @@ public class GameRuleSystem : MonoBehaviour
         tilemapManager.InitializeMapAndApply((Room.ThemeType.Grassland, Room.RoomType.Normal), (15, 15));
         //tilemapManager.InitializeNavigation();
 
+    }
+
+    private void Start()
+    {
         if (currentCoroutine != null) StopCoroutine(currentCoroutine);
         currentCoroutine = StartCoroutine(StartTurnSystemCoroutine());
-
     }
 
     private IEnumerator StartTurnSystemCoroutine()

@@ -3,18 +3,21 @@ using System.Collections;
 
 namespace BehaviourTree.Tree
 {
-	public abstract class Tree : MonoBehaviour
-	{
+    public abstract class Tree
+    {
         private Node rootNode;
 
-        protected virtual void Start()
+        private NodeState currentRootNodeState = NodeState.FAILURE;
+        public NodeState CurrentRootNodeState => currentRootNodeState;
+
+        public virtual void Initialize()
         {
             rootNode = SetupBehaviourtree();
         }
 
-        protected virtual void Update()
+        public virtual void Update()
         {
-            Debug.Log(rootNode?.Evaluate());
+            currentRootNodeState = rootNode.Evaluate();
         }
 
         protected abstract Node SetupBehaviourtree();

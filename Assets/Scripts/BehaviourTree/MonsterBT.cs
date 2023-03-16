@@ -1,6 +1,6 @@
 ﻿
 using System.Collections.Generic;
-using BehaviourTree.Tree.GuartBT;
+using BehaviourTree.Tree;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using GameEntity;
@@ -26,28 +26,34 @@ namespace BehaviourTree.Tree
 
         private Tilemap tilemap;
 
-        [SerializeField] private TileGroup tilegroup;
+        private Navigation navigation;
 
-        protected virtual void Awake()
+        private TileGroup tileGroup;
+
+        Transform transform;
+
+        public MonsterBT(Transform transform, TileGroup tileGroup)
+        {
+            this.transform = transform;
+            this.tileGroup = tileGroup;
+        }
+
+        public override void Initialize()
         {
             tilemap = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Tilemap>();
+            navigation = tilemap.CreateNavigation();
             scanRange = new Range(scanRangeString, tilemap);
             attackRange = new Range(attackRangeString, tilemap);
-        }
 
-        protected override void Start()
-        {
+            base.Initialize();
 
-            base.Start();
             transform.position = tilemap.RepositioningTheWorld(transform.position);
 
-            tilegroup.CreateClones("range-tile_1", scanRange, transform.position);
-            tilegroup.CreateClones("range-tile_0", attackRange, transform.position);
-            
-
+            tileGroup.CreateClones("range-tile_1", scanRange, transform.position);
+            tileGroup.CreateClones("range-tile_0", attackRange, transform.position);
         }
 
-        private void OnDrawGizmos()
+        public void OnDrawGizmos()
         {
             if (scanRange == null) return;
 
@@ -58,7 +64,7 @@ namespace BehaviourTree.Tree
             }
         }
 
-        protected override void Update()
+        public override void Update()
         {
             base.Update();
         }
@@ -70,7 +76,7 @@ namespace BehaviourTree.Tree
                 new Sequence(new List<Node>()
                 {
                     new CheckTargetInFOVRange(transform, scanRange),
-                    new TaskGoToTarget(transform),
+                    new TaskGoToTarget(transform,navigation, tileGroup),
                 })
                 , new TaskIdle()
             });
@@ -81,7 +87,7 @@ namespace BehaviourTree.Tree
 
     class CheckTargetInFOVRange : Node
     {
-        private readonly LayerMask playerLayerMask;
+        private readonly LayerMask playerLayerMask = 1 << LayerMask.NameToLayer("Player");
 
         Transform transform;
         Range range;
@@ -100,7 +106,7 @@ namespace BehaviourTree.Tree
                 foreach (var cellWorldPosition in range.worldCoords)
                 {
                     Vector3 tileWorldPosition = transform.position + cellWorldPosition;
-                    var result = Physics2D.OverlapCircleAll(tileWorldPosition, 1.0f, 1<<LayerMask.NameToLayer("Player"));
+                    var result = Physics2D.OverlapCircleAll(tileWorldPosition, 1.0f, playerLayerMask);
                     if (result.Length > 0)
                     {
                         parent.parent.SetData("target", result[0].transform);
@@ -120,26 +126,62 @@ namespace BehaviourTree.Tree
 
     class TaskGoToTarget : Node
     {
-        private UnityEngine.Transform transform;
-        public TaskGoToTarget(Transform transform)
+        private Transform transform;
+        private Navigation navigation;
+        private TileGroup tilegroup;
+        private float speed = 1.0f;
+
+        Vector3 nextPosition;
+
+        private bool calledInitMethod;
+
+        public TaskGoToTarget(Transform transform, Navigation navigation, TileGroup tilegroup)
         {
             this.transform = transform;
+            this.navigation = navigation;
+            this.tilegroup = tilegroup;
+            calledInitMethod = false;
+        }
+
+        void Init(Transform target)
+        {
+            int moveDistance = 1;
+            Navigation.Path path = navigation.GetShortestPath(transform.position, target.position);
+            nextPosition = path[moveDistance];
+
+            tilegroup.Hide();
         }
 
         public override NodeState Evaluate()
         {
             Transform target = (Transform)GetData("target");
 
-            if (target == null) return NodeState.FAILURE;
-
-            if (Vector2.Distance(transform.position, target.position) > 0.01f)
+            if (calledInitMethod == false)
             {
-                transform.position = Vector3.MoveTowards(
-                    transform.position, target.position, GuardBT.speed * Time.deltaTime);
+                Init(target);
+                calledInitMethod = true;
             }
 
-            state = NodeState.RUNNING;
-            return state;
+            if (Vector3.Distance(transform.position, nextPosition) > 0.01f)
+            {
+                // 목표 위치까지 이동 벡터 계산
+                Vector3 direction = (nextPosition - transform.position).normalized;
+                Vector3 movement = direction * 1 * Time.deltaTime;
+
+                transform.position += movement;
+
+                state = NodeState.RUNNING;
+                return state;
+            }
+            else
+            {
+                state = NodeState.SUCCESS;
+                calledInitMethod = false;
+                return state;
+            }
+
+
+            
         }
     }
 
@@ -147,7 +189,6 @@ namespace BehaviourTree.Tree
     {
         private float _waitTime = 1.0f;
         private float _waitCounter = 0.0f;
-        private bool _waiting;
         public TaskIdle()
         {
 
@@ -156,8 +197,19 @@ namespace BehaviourTree.Tree
         public override NodeState Evaluate()
         {
             //idle animation
-
-            return NodeState.RUNNING;
+            _waitCounter += Time.deltaTime;
+            if (_waitCounter < _waitTime)
+            {
+                state = NodeState.RUNNING;
+                return state;
+            }
+            else
+            {
+                _waitCounter = 0;
+                Debug.Log("suceess!!");
+                state = NodeState.SUCCESS;
+                return state;
+            }
         }
     }
 
