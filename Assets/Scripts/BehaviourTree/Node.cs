@@ -140,10 +140,21 @@ namespace BehaviourTree
         }
     }
 
-    public class ConditionNode : Node
+    public class Decorator : Node
+    {
+        protected Node childNode;
+        public Decorator(Node childNode)
+        {
+            this.childNode = childNode;
+        }
+
+        public override NodeState Evaluate() => NodeState.FAILURE;
+    }
+
+    public class Condition : Node
     {
         private Func<bool> condition;
-        public ConditionNode(Func<bool> condition)
+        public Condition(Func<bool> condition)
         {
             this.condition = condition;
         }

@@ -9,7 +9,7 @@ using static UnityEngine.GraphicsBuffer;
 
 namespace BehaviourTree.Tree
 {
-	public class MonsterBT : Tree
+	public class MeleeMonsterBT : Tree
 	{
         protected readonly string scanRangeString =
         "[2,2][2,1][2,0][2,-1][2,-2]" +
@@ -17,24 +17,22 @@ namespace BehaviourTree.Tree
         "[0,2]                [0,-2]" +
         "[-1,2]               [-1,-2]" +
         "[-2,2][-2,1][-2,0][-2,-1][-2,-2]";
-        private Range scanRange;
+        protected Range scanRange;
         protected readonly string attackRangeString =
             "[-1,1][0,1][1,1]" +
             "[-1,0][0,0][1,0]" +
             "[-1,-1][0,-1][1,-1]";
-        private Range attackRange;
-
-        public LayerMask layermask;
+        protected Range attackRange;
 
         private Tilemap tilemap;
 
-        private Navigation navigation;
+        protected Navigation navigation;
 
-        private TileGroup tileGroup;
+        protected TileGroup tileGroup;
 
-        Transform transform;
+        protected Transform transform;
 
-        public MonsterBT(Transform transform, TileGroup tileGroup)
+        public MeleeMonsterBT(Transform transform, TileGroup tileGroup)
         {
             this.transform = transform;
             this.tileGroup = tileGroup;
@@ -55,15 +53,45 @@ namespace BehaviourTree.Tree
             tileGroup.CreateClones("range-tile_0", attackRange, transform.position);
         }
 
-        public void OnDrawGizmos()
+        public override void Update()
         {
-            if (scanRange == null) return;
+            base.Update();
+        }
 
-            foreach(var coord in scanRange.worldCoords)
+        protected override Node SetupBehaviourtree()
+        {
+            Node root = new Selector(new List<Node>()
             {
-                Vector3 worldPos = transform.position + coord;
-                Gizmos.DrawCube(worldPos, Vector3Int.one);
-            }
+                new Sequence(new List<Node>()
+                {
+                    new CheckTargetInAttackRange(transform,attackRange),
+                    new TaskMeleeAttackToTarget(transform),
+                })
+                ,
+                new Sequence(new List<Node>()
+                {
+                    new CheckTargetInFOVRange(transform, scanRange),
+                    new TaskGoToTarget(transform,navigation, tileGroup),
+                })
+                , new TaskIdle()
+            });
+
+            return root;
+        }
+    }
+
+    public class ThrowMonsterBT : MeleeMonsterBT
+    {
+        GameObject throwObject;
+
+        public ThrowMonsterBT(Transform transform, TileGroup tileGroup, GameObject throwObject) : base(transform,tileGroup)
+        {
+            this.throwObject = throwObject;
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
         }
 
         public override void Update()
@@ -78,7 +106,7 @@ namespace BehaviourTree.Tree
                 new Sequence(new List<Node>()
                 {
                     new CheckTargetInAttackRange(transform,attackRange),
-                    new TaskAttackToTarget(transform),
+                    new TaskThrowAttackToTarget(transform, throwObject),
                 })
                 ,
                 new Sequence(new List<Node>()
@@ -159,7 +187,7 @@ namespace BehaviourTree.Tree
             Navigation.Path path = navigation.GetShortestPath(transform.position, target.position);
             nextPosition = path[moveDistance];
 
-            anim.Play("Golem-Idle");
+            anim.Play("Idle");
 
             tilegroup.Hide();
         }
@@ -191,9 +219,6 @@ namespace BehaviourTree.Tree
                 calledInitMethod = false;
                 return state;
             }
-
-
-            
         }
     }
 
@@ -241,21 +266,12 @@ namespace BehaviourTree.Tree
 
         public override NodeState Evaluate()
         {
-            object target = GetData("target");
-
-            if (target == null)
-            {
-                state = NodeState.FAILURE;
-                return state;
-            }
-
             foreach (var cellWorldPosition in range.worldCoords)
             {
                 Vector3 tileWorldPosition = transform.position + cellWorldPosition;
                 var result = Physics2D.OverlapCircleAll(tileWorldPosition, 1.0f, playerLayerMask);
                 if (result.Length > 0)
                 {
-                    parent.parent.SetData("target", result[0].transform);
                     state = NodeState.SUCCESS;
 
                     return state;
@@ -268,7 +284,7 @@ namespace BehaviourTree.Tree
         }
     }
 
-    class TaskAttackToTarget : Node
+    class TaskMeleeAttackToTarget : Node
     {
         private SpriteAnimator anim;
 
@@ -276,15 +292,15 @@ namespace BehaviourTree.Tree
         private float waitCounter = 0.0f;
         private bool calledInitMethod = false;
 
-        public TaskAttackToTarget(Transform transform)
+        public TaskMeleeAttackToTarget(Transform transform)
         {
             anim = transform.GetChild(0).GetComponent<SpriteAnimator>();
-            waitTime = anim.GetAnimationTime("Golem-Attack");
+            waitTime = anim.GetAnimationTime("Attack");
         }
 
         void Init()
         {
-            anim.Play("Golem-Attack");
+            anim.Play("Attack");
         }
 
         public override NodeState Evaluate()
@@ -310,10 +326,61 @@ namespace BehaviourTree.Tree
                     return state;
                 }
 
-                Debug.Log(target.name);
                 target.GetComponent<Entity>().TakeDamage(1);
 
                 waitCounter = 0;
+                calledInitMethod = false;
+                state = NodeState.SUCCESS;
+                return state;
+            }
+        }
+    }
+
+    class TaskThrowAttackToTarget : Node
+    {
+        private SpriteAnimator anim;
+        private GameObject throwObjectPrefab;
+
+        private bool calledInitMethod = false;
+        private GameObject throwObject;
+        private Transform target;
+
+        public TaskThrowAttackToTarget(Transform transform, GameObject throwObjectPrefab)
+        {
+            this.throwObjectPrefab = throwObjectPrefab;
+            anim = transform.GetChild(0).GetComponent<SpriteAnimator>();
+        }
+
+        void Init()
+        {
+            anim.Play("Attack");
+            throwObject = GameObject.Instantiate(throwObjectPrefab);
+            target = (Transform)GetData("target");
+        }
+
+        public override NodeState Evaluate()
+        {
+            if (calledInitMethod == false)
+            {
+                Init();
+                calledInitMethod = true;
+            }
+
+            if (Vector3.Distance(throwObject.transform.position, target.position) > 0.01f)
+            {
+                // 목표 위치까지 이동 벡터 계산
+                Vector3 direction = (target.position - throwObject.transform.position).normalized;
+                Vector3 movement = direction * 1 * Time.deltaTime;
+
+                target.transform.position += movement;
+
+                state = NodeState.RUNNING;
+                return state;
+            }
+            else
+            {
+                target.GetComponent<Entity>().TakeDamage(1);
+
                 calledInitMethod = false;
                 state = NodeState.SUCCESS;
                 return state;

@@ -21,7 +21,6 @@ public class TileGroup : MonoBehaviour, IGraphicsDisplay
 
         foreach(var localCoord in range.localCoords)
         {
-            Debug.Log(localCoord);
             var tileLocalPosition = centerLocalPosition + (Vector3Int)localCoord;
             if (!tilemap.HasTile(tileLocalPosition)) continue;
             dynamicTilemap.SetTile(tileLocalPosition, tile);

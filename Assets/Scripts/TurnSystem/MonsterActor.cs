@@ -17,12 +17,12 @@ public class MonsterActor : TurnActor
 
     private Tilemap tilemap;
     private Navigation navigation;
-    [SerializeField] private TileGroup TileGroup;
-    [SerializeField] private SpriteAnimator SpriteAnimator;
-    [SerializeField] private MonsterEntity MonsterEntity;
+    private TileGroup tilegroup;
+    private SpriteAnimator animator;
+    private MonsterEntity entity;
     [SerializeField] private string AnimPreifxName = "Golem";
 
-    MonsterBT behaviourTree;
+    MeleeMonsterBT behaviourTree;
 
 
     public override IEnumerator ActionCoroutine()
@@ -31,19 +31,23 @@ public class MonsterActor : TurnActor
         {
             behaviourTree.Update();
             yield return null;
-        } while (behaviourTree.CurrentRootNodeState != BehaviourTree.NodeState.SUCCESS);
+        } while (behaviourTree.CurrentRootNodeState == BehaviourTree.NodeState.RUNNING);
 
         ActorState = ActorState.End;
     }
 
     private void Awake()
     {
+        tilegroup = GetComponent<TileGroup>();
+        animator = transform.GetChild(0).GetComponent<SpriteAnimator>();
+        entity = GetComponent<MonsterEntity>();
+
         ActorObject = this.gameObject;
 
-        MonsterEntity.deathAction = () =>
+        entity.deathAction = () =>
         {
-            SpriteAnimator.Play($"{AnimPreifxName}-Death");
-            Destroy(this.gameObject, SpriteAnimator.AnimationLength);
+            animator.Play("Death");
+            Destroy(this.gameObject, animator.AnimationLength);
         };
 
         tilemap = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Tilemap>();
@@ -53,11 +57,11 @@ public class MonsterActor : TurnActor
     private void Start()
     {
         this.transform.position = tilemap.RepositioningTheWorld(this.transform.position);
-        behaviourTree = new MonsterBT(this.transform, TileGroup);
+        behaviourTree = new MeleeMonsterBT(this.transform, tilegroup);
         behaviourTree.Initialize();
 
 
-        SpriteAnimator.Play($"{AnimPreifxName}-Idle");
+        animator.Play("Idle");
     }
 }
 

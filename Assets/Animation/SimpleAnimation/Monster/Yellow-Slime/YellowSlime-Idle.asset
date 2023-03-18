@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e6f6b396aaad8409ac6804e2834b12, type: 3}
   m_Name: YellowSlime-Idle
   m_EditorClassIdentifier: 
-  animationName: YellowSlime-Idle
+  animationName: Idle
   fps: 6
   frames:
   - sprite: {fileID: 1113572962, guid: a220d734c6fdd48a3b849f53b11d9a53, type: 3}

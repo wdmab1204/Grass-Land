@@ -751,6 +751,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dampTime: 0.15
   target: {fileID: 657235441}
+--- !u!1 &1282641601 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 477794682381969767, guid: f274628e9f872417a8cffd2f3d1c83f8, type: 3}
+  m_PrefabInstance: {fileID: 7417702708537375016}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1282641605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1282641601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2899d86f945fe42b5bba609b5cf7c55b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileArray:
+  - {fileID: 11400000, guid: c651bd8f1fa674acea561b1ef7b1b98b, type: 2}
+  - {fileID: 11400000, guid: 969f044fe9c79420498306c41818534a, type: 2}
+  dynamicTilemap: {fileID: 1684586131}
 --- !u!1 &1289227039
 GameObject:
   m_ObjectHideFlags: 0
@@ -3720,7 +3741,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 477794682381969767, guid: f274628e9f872417a8cffd2f3d1c83f8, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 477794682381969770, guid: f274628e9f872417a8cffd2f3d1c83f8, type: 3}
       propertyPath: m_RootOrder

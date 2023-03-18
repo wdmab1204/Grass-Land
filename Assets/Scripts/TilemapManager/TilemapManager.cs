@@ -23,11 +23,6 @@ namespace UnityEngine.Tilemaps
         {
             TilemapGraph tilemapGraph = new TilemapGraph(tilemap);
 
-            foreach (var node in tilemapGraph.Vertices)
-            {
-                Debug.Log(node.position);
-            }
-
             Navigation navigation = new Navigation(tilemapGraph);
 
             return navigation;

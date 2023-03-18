@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e6f6b396aaad8409ac6804e2834b12, type: 3}
   m_Name: YellowSlime-Death
   m_EditorClassIdentifier: 
-  animationName: YellowSlime-Death
+  animationName: Death
   fps: 30
   frames: []
   spriteAnimationType: 1
