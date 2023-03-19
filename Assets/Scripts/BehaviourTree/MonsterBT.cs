@@ -5,26 +5,12 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using GameEntity;
 using SimpleSpriteAnimator;
-using static UnityEngine.GraphicsBuffer;
 
 namespace BehaviourTree.Tree
 {
-	public class MeleeMonsterBT : Tree
-	{
-        protected readonly string scanRangeString =
-        "[2,2][2,1][2,0][2,-1][2,-2]" +
-        "[1,2]                [1,-2]" +
-        "[0,2]                [0,-2]" +
-        "[-1,2]               [-1,-2]" +
-        "[-2,2][-2,1][-2,0][-2,-1][-2,-2]";
-        protected Range scanRange;
-        protected readonly string attackRangeString =
-            "[-1,1][0,1][1,1]" +
-            "[-1,0][0,0][1,0]" +
-            "[-1,-1][0,-1][1,-1]";
-        protected Range attackRange;
-
-        private Tilemap tilemap;
+    public abstract class MonsterBT : Tree
+    {
+        protected Tilemap tilemap;
 
         protected Navigation navigation;
 
@@ -32,25 +18,55 @@ namespace BehaviourTree.Tree
 
         protected Transform transform;
 
-        public MeleeMonsterBT(Transform transform, TileGroup tileGroup)
+        protected Range scanRange;
+
+        protected Range attackRange;
+
+        protected string scanRangeString;
+
+        protected string attackRangeString;
+
+        public MonsterBT(Transform transform, TileGroup tileGroup)
         {
             this.transform = transform;
             this.tileGroup = tileGroup;
+
+            tilemap = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Tilemap>();
+            navigation = tilemap.CreateNavigation();
         }
 
         public override void Initialize()
         {
-            tilemap = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Tilemap>();
-            navigation = tilemap.CreateNavigation();
-            scanRange = new Range(scanRangeString, tilemap);
-            attackRange = new Range(attackRangeString, tilemap);
-
             base.Initialize();
 
             transform.position = tilemap.RepositioningTheWorld(transform.position);
 
             tileGroup.CreateClones("range-tile_1", scanRange, transform.position);
             tileGroup.CreateClones("range-tile_0", attackRange, transform.position);
+        }
+    }
+
+    public class MeleeMonsterBT : MonsterBT
+	{
+        public MeleeMonsterBT(Transform transform, TileGroup tileGroup) : base(transform, tileGroup)
+        {
+            scanRangeString =
+            "[2,2][2,1][2,0][2,-1][2,-2]" +
+            "[1,2]                [1,-2]" +
+            "[0,2]                [0,-2]" +
+            "[-1,2]               [-1,-2]" +
+            "[-2,2][-2,1][-2,0][-2,-1][-2,-2]";
+            attackRangeString =
+                "[-1,1][0,1][1,1]" +
+                "[-1,0][0,0][1,0]" +
+                "[-1,-1][0,-1][1,-1]";
+            scanRange = new Range(scanRangeString, tilemap);
+            attackRange = new Range(attackRangeString, tilemap);
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
         }
 
         public override void Update()
@@ -80,13 +96,23 @@ namespace BehaviourTree.Tree
         }
     }
 
-    public class ThrowMonsterBT : MeleeMonsterBT
+    public class ThrowMonsterBT : MonsterBT
     {
         GameObject throwObject;
 
         public ThrowMonsterBT(Transform transform, TileGroup tileGroup, GameObject throwObject) : base(transform,tileGroup)
         {
             this.throwObject = throwObject;
+            scanRangeString =
+            "[2,2][2,1][2,0][2,-1][2,-2]" +
+            "[1,2]                [1,-2]" +
+            "[0,2]                [0,-2]" +
+            "[-1,2]               [-1,-2]" +
+            "[-2,2][-2,1][-2,0][-2,-1][-2,-2]";
+            attackRangeString =
+                "[-1,1][0,1][1,1]" +
+                "[-1,0][0,0][1,0]" +
+                "[-1,-1][0,-1][1,-1]";
         }
 
         public override void Initialize()
@@ -295,7 +321,7 @@ namespace BehaviourTree.Tree
         public TaskMeleeAttackToTarget(Transform transform)
         {
             anim = transform.GetChild(0).GetComponent<SpriteAnimator>();
-            waitTime = anim.GetAnimationTime("Attack");
+            //waitTime = anim.GetAnimationTime("Attack");
         }
 
         void Init()
@@ -330,6 +356,7 @@ namespace BehaviourTree.Tree
 
                 waitCounter = 0;
                 calledInitMethod = false;
+                anim.Play("Idle");
                 state = NodeState.SUCCESS;
                 return state;
             }

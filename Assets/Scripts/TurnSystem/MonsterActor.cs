@@ -20,18 +20,17 @@ public class MonsterActor : TurnActor
     private TileGroup tilegroup;
     private SpriteAnimator animator;
     private MonsterEntity entity;
-    [SerializeField] private string AnimPreifxName = "Golem";
 
-    MeleeMonsterBT behaviourTree;
+    MonsterBT bt;
 
 
     public override IEnumerator ActionCoroutine()
     {
         do
         {
-            behaviourTree.Update();
+            bt.Update();
             yield return null;
-        } while (behaviourTree.CurrentRootNodeState == BehaviourTree.NodeState.RUNNING);
+        } while (bt.CurrentRootNodeState == BehaviourTree.NodeState.RUNNING);
 
         ActorState = ActorState.End;
     }
@@ -57,8 +56,8 @@ public class MonsterActor : TurnActor
     private void Start()
     {
         this.transform.position = tilemap.RepositioningTheWorld(this.transform.position);
-        behaviourTree = new MeleeMonsterBT(this.transform, tilegroup);
-        behaviourTree.Initialize();
+        bt = new MeleeMonsterBT(this.transform, tilegroup);
+        bt.Initialize();
 
 
         animator.Play("Idle");
