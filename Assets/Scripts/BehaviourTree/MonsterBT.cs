@@ -39,8 +39,6 @@ namespace BehaviourTree.Tree
         {
             base.Initialize();
 
-            transform.position = tilemap.RepositioningTheWorld(transform.position);
-
             tileGroup.CreateClones("range-tile_1", scanRange, transform.position);
             tileGroup.CreateClones("range-tile_0", attackRange, transform.position);
         }

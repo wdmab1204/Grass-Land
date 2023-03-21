@@ -5,11 +5,17 @@ using UnityEngine.Tilemaps;
 
 public class Test : MonoBehaviour
 {
-    public Tilemap tilemap;
+    public ParticleSystem particle;
 
     void Start()
     {
-        transform.position = tilemap.ChangeLocalToWorldPosition(Vector3Int.zero);
-        
+        StartCoroutine(a());
+    }
+
+    IEnumerator a()
+    {
+        particle.Play();
+        yield return new WaitForSeconds(2.0f);
+        particle.Stop();
     }
 }

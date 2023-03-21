@@ -12,7 +12,6 @@ public class MonsterActor : TurnActor
 {
     enum BehaviourState { IDLE,CHASE,ATTACK };
 
-    public GameObject ActorObject { get; set; }
     [SerializeField] private ActorState ActorState;
 
     private Tilemap tilemap;
@@ -22,7 +21,6 @@ public class MonsterActor : TurnActor
     private MonsterEntity entity;
 
     MonsterBT bt;
-
 
     public override IEnumerator ActionCoroutine()
     {
@@ -41,8 +39,6 @@ public class MonsterActor : TurnActor
         animator = transform.GetChild(0).GetComponent<SpriteAnimator>();
         entity = GetComponent<MonsterEntity>();
 
-        ActorObject = this.gameObject;
-
         entity.deathAction = () =>
         {
             animator.Play("Death");
@@ -58,9 +54,6 @@ public class MonsterActor : TurnActor
         this.transform.position = tilemap.RepositioningTheWorld(this.transform.position);
         bt = new MeleeMonsterBT(this.transform, tilegroup);
         bt.Initialize();
-
-
-        animator.Play("Idle");
     }
 }
 
