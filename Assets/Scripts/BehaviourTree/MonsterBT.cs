@@ -18,18 +18,10 @@ namespace BehaviourTree.Tree
 
         protected Transform transform;
 
-        protected Range scanRange;
-
-        protected Range attackRange;
-
-        protected string scanRangeString;
-
-        protected string attackRangeString;
-
-        public MonsterBT(Transform transform, TileGroup tileGroup)
+        public MonsterBT(Transform transform)
         {
             this.transform = transform;
-            this.tileGroup = tileGroup;
+            this.tileGroup = transform.GetComponent<TileGroup>();
 
             tilemap = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Tilemap>();
             navigation = tilemap.CreateNavigation();
@@ -38,15 +30,23 @@ namespace BehaviourTree.Tree
         public override void Initialize()
         {
             base.Initialize();
-
-            tileGroup.CreateClones("range-tile_1", scanRange, transform.position);
-            tileGroup.CreateClones("range-tile_0", attackRange, transform.position);
+            SetupTileGroup();
         }
+
+        protected abstract void SetupTileGroup();
     }
 
     public class MeleeMonsterBT : MonsterBT
 	{
-        public MeleeMonsterBT(Transform transform, TileGroup tileGroup) : base(transform, tileGroup)
+        protected Range scanRange;
+
+        protected Range attackRange;
+
+        protected string scanRangeString;
+
+        protected string attackRangeString;
+
+        public MeleeMonsterBT(Transform transform, TileGroup tileGroup) : base(transform)
         {
             scanRangeString =
             "[2,2][2,1][2,0][2,-1][2,-2]" +
@@ -92,13 +92,27 @@ namespace BehaviourTree.Tree
 
             return root;
         }
+
+        protected override void SetupTileGroup()
+        {
+            tileGroup.CreateClones("range-tile_1", scanRange, transform.position);
+            tileGroup.CreateClones("range-tile_0", attackRange, transform.position);
+        }
     }
 
     public class ThrowMonsterBT : MonsterBT
     {
         GameObject throwObject;
 
-        public ThrowMonsterBT(Transform transform, TileGroup tileGroup, GameObject throwObject) : base(transform,tileGroup)
+        protected Range scanRange;
+
+        protected Range attackRange;
+
+        protected string scanRangeString;
+
+        protected string attackRangeString;
+
+        public ThrowMonsterBT(Transform transform, TileGroup tileGroup, GameObject throwObject) : base(transform)
         {
             this.throwObject = throwObject;
             scanRangeString =
@@ -142,6 +156,12 @@ namespace BehaviourTree.Tree
             });
 
             return root;
+        }
+
+        protected override void SetupTileGroup()
+        {
+            tileGroup.CreateClones("range-tile_1", scanRange, transform.position);
+            tileGroup.CreateClones("range-tile_0", attackRange, transform.position);
         }
     }
 

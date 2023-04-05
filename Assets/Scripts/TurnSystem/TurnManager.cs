@@ -24,6 +24,7 @@ namespace TurnSystem
 			currentActor = actor;
 			actors.Enqueue(actor);
 
+			UnityEngine.Debug.Log(actor.name);
 			return actor;
 		}
 

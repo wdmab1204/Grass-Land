@@ -10,12 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 04e6f6b396aaad8409ac6804e2834b12, type: 3}
-  m_Name: Biggest Slime-Jump Down
+  m_Name: Biggest Slime-Jumping
   m_EditorClassIdentifier: 
-  animationName: Jump Down
-  fps: 2
+  animationName: Jumping
+  fps: 6
   frames:
+  - sprite: {fileID: 317565028, guid: a220d734c6fdd48a3b849f53b11d9a53, type: 3}
+  - sprite: {fileID: -1348487934, guid: a220d734c6fdd48a3b849f53b11d9a53, type: 3}
+  - sprite: {fileID: 856877546, guid: a220d734c6fdd48a3b849f53b11d9a53, type: 3}
   - sprite: {fileID: -396491058, guid: a220d734c6fdd48a3b849f53b11d9a53, type: 3}
   - sprite: {fileID: -1707417160, guid: a220d734c6fdd48a3b849f53b11d9a53, type: 3}
   - sprite: {fileID: -1582567240, guid: a220d734c6fdd48a3b849f53b11d9a53, type: 3}
-  spriteAnimationType: 0
+  spriteAnimationType: 1

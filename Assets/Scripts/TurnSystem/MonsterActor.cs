@@ -7,6 +7,8 @@ using SimpleSpriteAnimator;
 using UnityEngine.Tilemaps;
 using BehaviourTree.Tree;
 
+public enum BTType { MELEE, THROW, BOSS}
+
 [DisallowMultipleComponent]
 public class MonsterActor : TurnActor
 {
@@ -19,6 +21,8 @@ public class MonsterActor : TurnActor
     private TileGroup tilegroup;
     private SpriteAnimator animator;
     private MonsterEntity entity;
+
+    public BTType bttype;
 
     MonsterBT bt;
 
@@ -52,7 +56,11 @@ public class MonsterActor : TurnActor
     private void Start()
     {
         this.transform.position = tilemap.RepositioningTheWorld(this.transform.position);
-        bt = new MeleeMonsterBT(this.transform, tilegroup);
+
+        if (bttype == BTType.MELEE)
+            bt = new MeleeMonsterBT(this.transform, tilegroup);
+        else if (bttype == BTType.BOSS)
+            bt = new BossBT(transform);
         bt.Initialize();
     }
 }

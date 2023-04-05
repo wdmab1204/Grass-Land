@@ -38,6 +38,7 @@ public class GameRuleSystem : MonoBehaviour
         while (true)
         {
             var currentActor = turnManager.UpdateTurn();
+
             CurrentActorName = currentActor.name;
             camera.target = currentActor.transform;
 

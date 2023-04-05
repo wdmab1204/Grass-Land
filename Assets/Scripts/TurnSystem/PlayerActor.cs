@@ -153,8 +153,6 @@ public class PlayerActor : TurnActor
         {
             SpriteAnimator.Play("Player-Death");
         };
-
-
     }
 }
 
