@@ -44,6 +44,7 @@ public class TilemapManager : MonoBehaviour
     public Graph<TileNode> Graph { get => tilemapGraph; }
 
     private Map map;
+    public Room currentRoom;
 
     private void Awake()
     {
