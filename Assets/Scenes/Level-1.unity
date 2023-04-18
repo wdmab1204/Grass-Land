@@ -254,7 +254,7 @@ GameObject:
   - component: {fileID: 657235446}
   m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -751,27 +751,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dampTime: 0.15
   target: {fileID: 657235441}
---- !u!1 &1282641601 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 477794682381969767, guid: f274628e9f872417a8cffd2f3d1c83f8, type: 3}
-  m_PrefabInstance: {fileID: 7417702708537375016}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1282641605
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1282641601}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2899d86f945fe42b5bba609b5cf7c55b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tileArray:
-  - {fileID: 11400000, guid: c651bd8f1fa674acea561b1ef7b1b98b, type: 2}
-  - {fileID: 11400000, guid: 969f044fe9c79420498306c41818534a, type: 2}
-  dynamicTilemap: {fileID: 1684586131}
 --- !u!1 &1289227039
 GameObject:
   m_ObjectHideFlags: 0
@@ -2125,17 +2104,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1972058017 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1972058017, guid: c272055006dc6445bbeffb1c0d26fe42, type: 3}
-  m_PrefabInstance: {fileID: 6940485641559709679}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2899d86f945fe42b5bba609b5cf7c55b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2029758605
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2401,7 +2369,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 982435692969721365, guid: 5354ff18597a94dd2bb2e7bc7fe8833c, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 982435692969721365, guid: 5354ff18597a94dd2bb2e7bc7fe8833c, type: 3}
       propertyPath: m_TagString
@@ -2504,29 +2472,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3452696307978934064, guid: 5070b88f90bf64149a33601a4fde8329, type: 3}
-      propertyPath: TilemapReader
+    - target: {fileID: 1876034316722274488, guid: 5070b88f90bf64149a33601a4fde8329, type: 3}
+      propertyPath: dynamicTilemap
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3452696308256716630, guid: 5070b88f90bf64149a33601a4fde8329, type: 3}
-      propertyPath: EntityManager
-      value: 
-      objectReference: {fileID: 1902137600}
-    - target: {fileID: 3452696308256716630, guid: 5070b88f90bf64149a33601a4fde8329, type: 3}
-      propertyPath: TilemapReader
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3452696308256716630, guid: 5070b88f90bf64149a33601a4fde8329, type: 3}
-      propertyPath: tilemapManager
-      value: 
-      objectReference: {fileID: 1551243294}
+      objectReference: {fileID: 1684586131}
     - target: {fileID: 3452696308256716631, guid: 5070b88f90bf64149a33601a4fde8329, type: 3}
       propertyPath: m_Name
       value: Yellow Slime
-      objectReference: {fileID: 0}
-    - target: {fileID: 3452696308256716631, guid: 5070b88f90bf64149a33601a4fde8329, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3452696308256716634, guid: 5070b88f90bf64149a33601a4fde8329, type: 3}
       propertyPath: m_RootOrder
@@ -2572,10 +2524,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3452696308256716637, guid: 5070b88f90bf64149a33601a4fde8329, type: 3}
-      propertyPath: TilemapReader
-      value: 
-      objectReference: {fileID: 1551243294}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5070b88f90bf64149a33601a4fde8329, type: 3}
 --- !u!1001 &5831088259482422184
@@ -3631,10 +3579,6 @@ PrefabInstance:
       propertyPath: dynamicTilemap
       value: 
       objectReference: {fileID: 1684586131}
-    - target: {fileID: 6940485640804368721, guid: c272055006dc6445bbeffb1c0d26fe42, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.25
-      objectReference: {fileID: 0}
     - target: {fileID: 6940485642278723844, guid: c272055006dc6445bbeffb1c0d26fe42, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -3679,28 +3623,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6940485642278723848, guid: c272055006dc6445bbeffb1c0d26fe42, type: 3}
-      propertyPath: TileGroup
-      value: 
-      objectReference: {fileID: 1972058017}
-    - target: {fileID: 6940485642278723848, guid: c272055006dc6445bbeffb1c0d26fe42, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6940485642278723848, guid: c272055006dc6445bbeffb1c0d26fe42, type: 3}
-      propertyPath: EntityManager
-      value: 
-      objectReference: {fileID: 1902137600}
     - target: {fileID: 6940485642278723849, guid: c272055006dc6445bbeffb1c0d26fe42, type: 3}
       propertyPath: m_Name
       value: Golem
       objectReference: {fileID: 0}
     - target: {fileID: 6940485642278723849, guid: c272055006dc6445bbeffb1c0d26fe42, type: 3}
-      propertyPath: m_TagString
-      value: Mob
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1972058013, guid: c272055006dc6445bbeffb1c0d26fe42, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c272055006dc6445bbeffb1c0d26fe42, type: 3}
 --- !u!1001 &7390153454354053371
 PrefabInstance:
@@ -3769,6 +3700,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game Rule System
       objectReference: {fileID: 0}
+    - target: {fileID: 7390153452749296396, guid: f495b23f64d3e4f1da17557ec7d130e0, type: 3}
+      propertyPath: m_TagString
+      value: GameController
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f495b23f64d3e4f1da17557ec7d130e0, type: 3}
 --- !u!1001 &7417702708537375016
@@ -3778,41 +3713,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 477794681030183168, guid: f274628e9f872417a8cffd2f3d1c83f8, type: 3}
-      propertyPath: TilemapReader
+    - target: {fileID: 1282641605, guid: f274628e9f872417a8cffd2f3d1c83f8, type: 3}
+      propertyPath: dynamicTilemap
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 477794682381969766, guid: f274628e9f872417a8cffd2f3d1c83f8, type: 3}
-      propertyPath: isThrowing
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 477794682381969766, guid: f274628e9f872417a8cffd2f3d1c83f8, type: 3}
-      propertyPath: throwObject
-      value: 
-      objectReference: {fileID: 2555588436571584396, guid: 9c55025fe0a814424a5ba5f38b128fd2, type: 3}
-    - target: {fileID: 477794682381969766, guid: f274628e9f872417a8cffd2f3d1c83f8, type: 3}
-      propertyPath: EntityManager
-      value: 
-      objectReference: {fileID: 1902137600}
-    - target: {fileID: 477794682381969766, guid: f274628e9f872417a8cffd2f3d1c83f8, type: 3}
-      propertyPath: TilemapReader
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 477794682381969766, guid: f274628e9f872417a8cffd2f3d1c83f8, type: 3}
-      propertyPath: tilemapManager
-      value: 
-      objectReference: {fileID: 1551243294}
+      objectReference: {fileID: 1684586131}
     - target: {fileID: 477794682381969767, guid: f274628e9f872417a8cffd2f3d1c83f8, type: 3}
       propertyPath: m_Name
       value: Green Slime
       objectReference: {fileID: 0}
     - target: {fileID: 477794682381969767, guid: f274628e9f872417a8cffd2f3d1c83f8, type: 3}
       propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 477794682381969767, guid: f274628e9f872417a8cffd2f3d1c83f8, type: 3}
-      propertyPath: m_TagString
-      value: Mob
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 477794682381969770, guid: f274628e9f872417a8cffd2f3d1c83f8, type: 3}
       propertyPath: m_RootOrder
@@ -3858,10 +3769,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 477794682381969773, guid: f274628e9f872417a8cffd2f3d1c83f8, type: 3}
-      propertyPath: TilemapReader
-      value: 
-      objectReference: {fileID: 1551243294}
-    m_RemovedComponents:
-    - {fileID: 477794681030183168, guid: f274628e9f872417a8cffd2f3d1c83f8, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f274628e9f872417a8cffd2f3d1c83f8, type: 3}

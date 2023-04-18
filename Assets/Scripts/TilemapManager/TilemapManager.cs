@@ -4,6 +4,7 @@ using KMolenda.Aisd.Graph;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using TurnSystem;
 
 namespace UnityEngine.Tilemaps
 {
@@ -46,13 +47,22 @@ public class TilemapManager : MonoBehaviour
     private Map map;
     public Room currentRoom;
 
+    List<GameObject> mobObjects = new List<GameObject>();
+
+    GameRuleSystem gameRuleSystem;
+
     private void Awake()
     {
         themeTileGroup = GetComponent<ThemeTileGroup>();
         tilemap = GetComponent<Tilemap>();
+        gameRuleSystem = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameRuleSystem>();
 
         int roomCount = 9;
         map = new Map(roomCount);
+
+        mobObjects.Add(Resources.Load<GameObject>("Mob/Green Slime"));
+        mobObjects.Add(Resources.Load<GameObject>("Mob/Yellow Slime"));
+        mobObjects.Add(Resources.Load<GameObject>("Mob/Golem"));
     }
 
     public void InitializeMapAndApply((Room.ThemeType, Room.RoomType) mapType, (int width, int height) roomSize)
@@ -61,7 +71,7 @@ public class TilemapManager : MonoBehaviour
         ApplyMap();
     }
 
-    public void ApplyMap()
+    void ApplyMap()
     {
         if (map == null) throw new System.NullReferenceException();
 
@@ -106,10 +116,14 @@ public class TilemapManager : MonoBehaviour
                 }
 
                 Room room = Room.CreateRandomRoom(roomSize, theme.grounds, theme.walls, theme.doors[0], (roomPosition.x, roomPosition.y));
+                //room.InstantiateMobs();
                 roomList.Add(room);
                 map.AddVertex(room);
+                map.SetObjects(room, mobObjects);
             }
         }
+
+        gameRuleSystem.SetActorQueueInRoom(roomList[0]);
 
         map.AddEdge(roomList[0], roomList[1]);
         map.AddEdge(roomList[0], roomList[3]);
@@ -125,10 +139,12 @@ public class TilemapManager : MonoBehaviour
         map.AddEdge(roomList[6], roomList[7]);
         map.AddEdge(roomList[7], roomList[8]);
 
+        currentRoom = roomList[0];
+
         CreateDoor();
     }
 
-    private void CreateDoor()
+    void CreateDoor()
     {
         foreach(var room in map.AdjacencyList)
         {
@@ -139,6 +155,24 @@ public class TilemapManager : MonoBehaviour
                 door.nextPosition = tilemap.ChangeLocalToWorldPosition(new Vector3Int(nextRoom.Position.x, nextRoom.Position.y, 0));
             }
         }
+    }
+
+    public void InstantiateMobsInMap()
+    {
+        foreach(var room in map.AdjacencyList)
+        {
+            room.Key.InstantiateMobs();
+        }
+    }
+
+    public List<TurnActor> GetActorsInCurrentRoom()
+    {
+        List<TurnActor> turnActors = new List<TurnActor>();
+        foreach(var obj in map.GetObjects(currentRoom))
+        {
+            turnActors.Add(obj.GetComponent<TurnActor>());
+        }
+        return turnActors;
     }
 
     //public void InitializeNavigation()

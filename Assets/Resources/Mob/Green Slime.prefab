@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 477794681030183169}
+  - component: {fileID: 477794681030183168}
   m_Layer: 0
   m_Name: TileGroup
   m_TagString: Untagged
@@ -31,6 +32,20 @@ Transform:
   m_Father: {fileID: 477794682381969770}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &477794681030183168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 477794681030183422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2899d86f945fe42b5bba609b5cf7c55b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileArray: []
+  dynamicTilemap: {fileID: 0}
 --- !u!1 &477794681436129596
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,10 +159,10 @@ GameObject:
   - component: {fileID: 477794682381969770}
   - component: {fileID: 477794682381969766}
   - component: {fileID: 477794682381969773}
-  - component: {fileID: 1282641605}
+  - component: {fileID: 4862181137435655547}
   m_Layer: 0
   m_Name: Green Slime
-  m_TagString: Mob
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -196,7 +211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 5
---- !u!114 &1282641605
+--- !u!114 &4862181137435655547
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

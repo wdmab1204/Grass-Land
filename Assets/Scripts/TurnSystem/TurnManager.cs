@@ -18,6 +18,11 @@ namespace TurnSystem
 			actors.Enqueue(turnActor);
 		}
 
+		public void AllRemoveActor()
+		{
+			actors.Clear();
+		}
+
 		public TurnActor UpdateTurn()
 		{
 			var actor = actors.Dequeue();

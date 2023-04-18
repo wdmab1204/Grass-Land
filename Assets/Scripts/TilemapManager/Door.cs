@@ -12,6 +12,9 @@ public class Door : Interactive
             TilemapManager tilemapManager = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<TilemapManager>();
             tilemapManager.currentRoom = nextRoom;
             player.position = new Vector3(nextRoom.Position.x, nextRoom.Position.y);
+
+            GameRuleSystem gameRuleSystem = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameRuleSystem>();
+            gameRuleSystem.SetActorQueueInRoom(nextRoom);
         }
     }
 }

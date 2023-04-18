@@ -146,7 +146,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2899d86f945fe42b5bba609b5cf7c55b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TilemapReader: {fileID: 0}
+  tileArray: []
+  dynamicTilemap: {fileID: 0}
 --- !u!1 &3452696308256716631
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,13 +159,14 @@ GameObject:
   - component: {fileID: 3452696308256716634}
   - component: {fileID: 3452696308256716630}
   - component: {fileID: 3452696308256716637}
+  - component: {fileID: 1876034316722274488}
   m_Layer: 0
   m_Name: Yellow Slime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3452696308256716634
 Transform:
   m_ObjectHideFlags: 0
@@ -195,15 +197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActorState: 0
-  currentState: 0
-  scanRagneTilePrefab: {fileID: 2560490859828915807, guid: 01cc8c25025f646f384b94675494d703, type: 3}
-  attackRangeTilePrefab: {fileID: 2667704628365121922, guid: 9c55025fe0a814424a5ba5f38b128fd2, type: 3}
-  TilemapReader: {fileID: 0}
-  EntityManager: {fileID: 0}
-  TileGroup: {fileID: 3452696307978934064}
-  SpriteAnimator: {fileID: 3452696307310876430}
-  MonsterEntity: {fileID: 3452696308256716637}
-  AnimPreifxName: YellowSlime
+  bttype: 0
 --- !u!114 &3452696308256716637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,3 +211,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 5
+--- !u!114 &1876034316722274488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3452696308256716631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2899d86f945fe42b5bba609b5cf7c55b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileArray:
+  - {fileID: 11400000, guid: c651bd8f1fa674acea561b1ef7b1b98b, type: 2}
+  - {fileID: 11400000, guid: 969f044fe9c79420498306c41818534a, type: 2}
+  dynamicTilemap: {fileID: 0}

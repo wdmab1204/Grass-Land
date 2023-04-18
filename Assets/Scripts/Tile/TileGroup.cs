@@ -36,6 +36,7 @@ public class TileGroup : MonoBehaviour, IGraphicsDisplay
     private void Awake()
     {
         tilemap = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Tilemap>();
+        dynamicTilemap = tilemap.transform.parent.GetChild(1).GetComponent<Tilemap>();
         foreach (var tile in tileArray) tilenameDic.Add(tile.name, tile);
     }
 

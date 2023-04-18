@@ -1,7 +1,9 @@
 ﻿using System;
 using UnityEngine.Tilemaps;
-
-
+using UnityEngine;
+using Random = System.Random;
+using System.Collections.Generic;
+using TurnSystem;
 
 public class Room
 {
@@ -13,17 +15,31 @@ public class Room
 	(int x, int y) door;
 
 	TileBase[,] tileBases;
+	List<GameObject> mobs = new List<GameObject>();
+	Tilemap tilemap;
 
 	public (int x, int y) Door { get => door; }
 	public (int x, int y) Position { get => position; }
+	public Vector3 WorldPosition { get => tilemap.ChangeLocalToWorldPosition(new Vector3Int(position.x, position.y)); }
 	public (int width, int height) Size { get => size; }
-
+	public (int width, int height) FloorSize { get => (size.width - 1, size.height - 1); }
+		
 	public Room((int, int) size, TileBase[,] tileBases, (int, int) door, (int, int) position)
 	{
 		this.size = size;
 		this.tileBases = tileBases;
 		this.door = door;
 		this.position = position;
+
+		tilemap = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Tilemap>();
+
+		GameObject mob1 = Resources.Load<GameObject>("Mob/Green Slime");
+		GameObject mob2 = Resources.Load<GameObject>("Mob/Yellow Slime");
+		GameObject mob3 = Resources.Load<GameObject>("Mob/Golem");
+
+		mobs.Add(mob1);
+		mobs.Add(mob2);
+		mobs.Add(mob3);
 	}
 
 	public static Room CreateRandomRoom((int width, int height) size, TileBase[] groundTiles, TileBase[] wallTiles, TileBase door, (int x, int y) roomPosition)
@@ -57,6 +73,64 @@ public class Room
 
 		return room;
     }
+
+	public GameObject[] GetMobs()
+	{
+		return mobs.ToArray();
+	}
+
+	public TurnActor[] GetActors()
+	{
+		List<TurnActor> list = new List<TurnActor>();
+		foreach(var obj in mobs)
+		{
+			if(obj.TryGetComponent<TurnActor>(out TurnActor turnActor))
+			{
+				list.Add(turnActor);
+			}
+		}
+
+		return list.ToArray();
+	}
+
+	public T[] Gets<T>(int layerMask = - 1)
+	{
+		List<T> list = new List<T>();
+		bool useLayerMask = true;
+		if (layerMask == -1) useLayerMask = false;
+		for(int i=0; i < size.height; i++)
+		{
+			for(int j=0; j<size.width; j++)
+			{
+				var worldCell = WorldPosition + tilemap.ChangeLocalToWorldPosition(new Vector3Int(i, j));
+
+				if (useLayerMask)
+					list.Add(Physics2D.OverlapCircle(worldCell, 0.3f, layerMask).GetComponent<T>());
+				else
+					list.Add(Physics2D.OverlapCircle(worldCell, 0.3f).GetComponent<T>());
+            }
+        }
+
+		return list.ToArray();
+	}
+
+	public void InstantiateMobs()
+	{
+		Random rand = new Random();
+
+		foreach(var mobPrefab in mobs)
+		{
+			GameObject mob = GameObject.Instantiate(mobPrefab);
+
+			int x = rand.Next(0, size.width);
+			int y = rand.Next(0, size.height);
+
+			Vector3Int localPosition = new Vector3Int(position.x + x, position.y + y);
+
+			mob.transform.position = tilemap.ChangeLocalToWorldPosition(localPosition);
+		}
+	}
+
 
 	public TileBase GetTile(int x, int y) => tileBases[x, y];
 

@@ -7,8 +7,10 @@ using System.Collections.Generic;
 
 public class GameRuleSystem : MonoBehaviour
 {
+    TurnActor player;
+
     TurnManager turnManager = new TurnManager();
-    private Coroutine currentCoroutine = null;
+    Coroutine currentCoroutine = null;
     [SerializeField] private string CurrentActorName = "";
     [SerializeField] private FollowCamera camera;
 
@@ -17,21 +19,76 @@ public class GameRuleSystem : MonoBehaviour
 
     private void Awake()
     {
-        var objArr = SceneManager.GetActiveScene().GetRootGameObjects();
-        for (int i = 0; i < objArr.Length; i++)
-            if (objArr[i].TryGetComponent<TurnActor>(out TurnActor actor) && actor.isActiveAndEnabled)
-                turnManager.JoinActor(actor);
-
-        tilemapManager.InitializeMapAndApply((Room.ThemeType.Grassland, Room.RoomType.Normal), (15, 15));
-        //tilemapManager.InitializeNavigation();
-
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<TurnActor>();
     }
 
     private void Start()
     {
+        //var objArr = SceneManager.GetActiveScene().GetRootGameObjects();
+        //for (int i = 0; i < objArr.Length; i++)
+        //    if (objArr[i].TryGetComponent<TurnActor>(out TurnActor actor) && actor.isActiveAndEnabled)
+        //        turnManager.JoinActor(actor);
+
         if (currentCoroutine != null) StopCoroutine(currentCoroutine);
         currentCoroutine = StartCoroutine(StartTurnSystemCoroutine());
     }
+
+    void ReadyGame()
+    {
+        // 맵 그리
+        DrawMap();
+
+        //몬스터 생성
+        InstantiateMobs();
+
+        //플레이어 시작위치 정하기
+        InitPlayerPosition();
+
+        //턴 순서 정하기
+        ClearQueue();
+        EnqueueTurnOrder();
+    }
+
+    void DrawMap()
+    {
+        tilemapManager.InitializeMapAndApply((Room.ThemeType.Grassland, Room.RoomType.Normal), (15, 15));
+    }
+
+    void InstantiateMobs()
+    {
+        tilemapManager.InstantiateMobsInMap();
+    }
+
+    void InitPlayerPosition()
+    {
+        player.transform.position = tilemapManager.currentRoom.WorldPosition;
+    }
+
+    void EnqueueTurnOrder()
+    {
+        foreach (var mobActor in tilemapManager.currentRoom.Gets<TurnActor>())
+            turnManager.JoinActor(mobActor);
+
+        turnManager.JoinActor(player);
+    }
+
+    void ClearQueue()
+    {
+        turnManager.AllRemoveActor();
+    }
+
+    public void SetActorQueueInRoom(Room room)
+    {
+        var actors = room.GetActors();
+
+        foreach (var actor in actors)
+        {
+            turnManager.JoinActor(actor);
+        }
+        turnManager.JoinActor(player);
+
+    }
+
 
     private IEnumerator StartTurnSystemCoroutine()
     {
