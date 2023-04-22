@@ -33,6 +33,13 @@ namespace TurnSystem
 			return actor;
 		}
 
+		public void LogTurnQueue()
+		{
+			foreach(var e in actors)
+			{
+				UnityEngine.Debug.Log(e.name);
+			}
+		}
 		
 	}
 }

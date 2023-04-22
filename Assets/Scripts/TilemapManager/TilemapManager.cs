@@ -45,17 +45,16 @@ public class TilemapManager : MonoBehaviour
     public Graph<TileNode> Graph { get => tilemapGraph; }
 
     private Map map;
-    public Room currentRoom;
+
+    private Transform player;
 
     List<GameObject> mobObjects = new List<GameObject>();
-
-    GameRuleSystem gameRuleSystem;
 
     private void Awake()
     {
         themeTileGroup = GetComponent<ThemeTileGroup>();
         tilemap = GetComponent<Tilemap>();
-        gameRuleSystem = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameRuleSystem>();
+        player = GameObject.FindGameObjectWithTag("Player").transform;
 
         int roomCount = 9;
         map = new Map(roomCount);
@@ -69,6 +68,29 @@ public class TilemapManager : MonoBehaviour
     {
         InitMap(mapType, roomSize);
         ApplyMap();
+    }
+
+    public Room GetCurrentVisitedRoom()
+    {
+        Vector3 position = player.position;
+
+        foreach(var room in map.Vertices)
+        {
+            if (IsPlayerInsideRoom(room))
+            {
+                return room;
+            }
+        }
+
+        return null;
+
+        bool IsPlayerInsideRoom(Room room)
+        {
+            bool insideX = room.WorldPosition.x <= position.x && (room.WorldPosition.x + room.FloorSize.width) >= position.x;
+            bool insideY = room.WorldPosition.y <= position.y && (room.WorldPosition.y + room.FloorSize.height) >= position.y;
+
+            return insideX && insideY;
+        }
     }
 
     void ApplyMap()
@@ -123,8 +145,6 @@ public class TilemapManager : MonoBehaviour
             }
         }
 
-        gameRuleSystem.SetActorQueueInRoom(roomList[0]);
-
         map.AddEdge(roomList[0], roomList[1]);
         map.AddEdge(roomList[0], roomList[3]);
         map.AddEdge(roomList[1], roomList[2]);
@@ -138,8 +158,6 @@ public class TilemapManager : MonoBehaviour
         map.AddEdge(roomList[5], roomList[8]);
         map.AddEdge(roomList[6], roomList[7]);
         map.AddEdge(roomList[7], roomList[8]);
-
-        currentRoom = roomList[0];
 
         CreateDoor();
     }
@@ -159,20 +177,10 @@ public class TilemapManager : MonoBehaviour
 
     public void InstantiateMobsInMap()
     {
-        foreach(var room in map.AdjacencyList)
+        foreach (var room in map.AdjacencyList)
         {
             room.Key.InstantiateMobs();
         }
-    }
-
-    public List<TurnActor> GetActorsInCurrentRoom()
-    {
-        List<TurnActor> turnActors = new List<TurnActor>();
-        foreach(var obj in map.GetObjects(currentRoom))
-        {
-            turnActors.Add(obj.GetComponent<TurnActor>());
-        }
-        return turnActors;
     }
 
     //public void InitializeNavigation()

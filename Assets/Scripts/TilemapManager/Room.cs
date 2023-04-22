@@ -93,7 +93,9 @@ public class Room
 		return list.ToArray();
 	}
 
-	public T[] Gets<T>(int layerMask = - 1)
+	public T[] Gets<T>() => Gets<T>(-1);
+
+	public T[] Gets<T>(LayerMask layerMask)
 	{
 		List<T> list = new List<T>();
 		bool useLayerMask = true;
@@ -102,12 +104,21 @@ public class Room
 		{
 			for(int j=0; j<size.width; j++)
 			{
-				var worldCell = WorldPosition + tilemap.ChangeLocalToWorldPosition(new Vector3Int(i, j));
+				Vector3Int localPosition = new Vector3Int(position.x + i, position.y + j);
+				var worldCell = tilemap.ChangeLocalToWorldPosition(localPosition);
+				Debug.Log(worldCell);
 
+				Collider2D col = null;
 				if (useLayerMask)
-					list.Add(Physics2D.OverlapCircle(worldCell, 0.3f, layerMask).GetComponent<T>());
-				else
-					list.Add(Physics2D.OverlapCircle(worldCell, 0.3f).GetComponent<T>());
+                {
+					col = Physics2D.OverlapCircle(worldCell, 0.3f, layerMask);
+                }
+                else
+				{
+					col = Physics2D.OverlapCircle(worldCell, 0.3f);
+                }
+
+				if (col != null && col.transform.parent.TryGetComponent<T>(out T result)) list.Add(result);
             }
         }
 

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 477794681030183169}
   - component: {fileID: 477794681030183168}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TileGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,8 @@ GameObject:
   - component: {fileID: 477794681436129599}
   - component: {fileID: 477794681436129601}
   - component: {fileID: 477794681436129598}
-  m_Layer: 0
+  - component: {fileID: 3171634483835992559}
+  m_Layer: 7
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,6 +149,32 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5fba9e4e1e667413f86c0a9b1b081246, type: 2}
   - {fileID: 11400000, guid: e2c06a93a760e4018a10dc9f1cab0136, type: 2}
   playAutomatically: 0
+--- !u!61 &3171634483835992559
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 477794681436129596}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.3125}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 0.625, y: 0.625}
+    newSize: {x: 3, y: 3}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.625, y: 0.625}
+  m_EdgeRadius: 0
 --- !u!1 &477794682381969767
 GameObject:
   m_ObjectHideFlags: 0
@@ -160,7 +187,7 @@ GameObject:
   - component: {fileID: 477794682381969766}
   - component: {fileID: 477794682381969773}
   - component: {fileID: 4862181137435655547}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Green Slime
   m_TagString: Untagged
   m_Icon: {fileID: 0}

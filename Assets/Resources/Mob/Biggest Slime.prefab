@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 982435692969721364}
   - component: {fileID: 982435692969721375}
   - component: {fileID: 7922921247139965117}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Biggest Slime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActorState: 0
+  bttype: 0
 --- !u!114 &982435692969721375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -88,7 +89,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 982435693245324915}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TileGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,7 +122,8 @@ GameObject:
   - component: {fileID: 982435693647044173}
   - component: {fileID: 982435693647044147}
   - component: {fileID: 982435693647044172}
-  m_Layer: 0
+  - component: {fileID: 528720727761506969}
+  m_Layer: 7
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,6 +214,32 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3fcc59eb4cf0d4378923077de22670f9, type: 2}
   - {fileID: 11400000, guid: 42dc05b6fb78b4066a579f95c4b064e8, type: 2}
   playAutomatically: 0
+--- !u!61 &528720727761506969
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982435693647044174}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.8125}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 2.1875, y: 1.625}
+    newSize: {x: 3, y: 3}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.1875, y: 1.625}
+  m_EdgeRadius: 0
 --- !u!1 &2765102073673354513
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,7 +251,7 @@ GameObject:
   - component: {fileID: 6182393036990359304}
   - component: {fileID: 4990256355131255179}
   - component: {fileID: 2228711168009542861}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}

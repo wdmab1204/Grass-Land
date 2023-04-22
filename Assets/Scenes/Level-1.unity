@@ -3579,6 +3579,14 @@ PrefabInstance:
       propertyPath: dynamicTilemap
       value: 
       objectReference: {fileID: 1684586131}
+    - target: {fileID: 6940485640804368722, guid: c272055006dc6445bbeffb1c0d26fe42, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6940485641464070544, guid: c272055006dc6445bbeffb1c0d26fe42, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 6940485642278723844, guid: c272055006dc6445bbeffb1c0d26fe42, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -3628,8 +3636,12 @@ PrefabInstance:
       value: Golem
       objectReference: {fileID: 0}
     - target: {fileID: 6940485642278723849, guid: c272055006dc6445bbeffb1c0d26fe42, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6940485642278723849, guid: c272055006dc6445bbeffb1c0d26fe42, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c272055006dc6445bbeffb1c0d26fe42, type: 3}

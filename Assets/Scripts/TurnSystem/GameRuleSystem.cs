@@ -24,16 +24,13 @@ public class GameRuleSystem : MonoBehaviour
 
     private void Start()
     {
-        //var objArr = SceneManager.GetActiveScene().GetRootGameObjects();
-        //for (int i = 0; i < objArr.Length; i++)
-        //    if (objArr[i].TryGetComponent<TurnActor>(out TurnActor actor) && actor.isActiveAndEnabled)
-        //        turnManager.JoinActor(actor);
+        StartCoroutine(ReadyGame());
 
-        if (currentCoroutine != null) StopCoroutine(currentCoroutine);
-        currentCoroutine = StartCoroutine(StartTurnSystemCoroutine());
+        //if (currentCoroutine != null) StopCoroutine(currentCoroutine);
+        //currentCoroutine = StartCoroutine(StartTurnSystemCoroutine());
     }
 
-    void ReadyGame()
+    IEnumerator ReadyGame()
     {
         // 맵 그리
         DrawMap();
@@ -41,12 +38,21 @@ public class GameRuleSystem : MonoBehaviour
         //몬스터 생성
         InstantiateMobs();
 
+        yield return new WaitForSeconds(1);
+
+        //var arr = Physics2D.OverlapCircleAll(Vector2.zero, 100f);
+        //foreach (var ar in arr) Debug.Log(ar.name);
+
         //플레이어 시작위치 정하기
         InitPlayerPosition();
 
         //턴 순서 정하기
         ClearQueue();
         EnqueueTurnOrder();
+
+        turnManager.LogTurnQueue();
+
+        yield return StartTurnSystemCoroutine();
     }
 
     void DrawMap()
@@ -61,13 +67,25 @@ public class GameRuleSystem : MonoBehaviour
 
     void InitPlayerPosition()
     {
-        player.transform.position = tilemapManager.currentRoom.WorldPosition;
+        player.transform.position = tilemapManager.GetCurrentVisitedRoom().WorldPosition;
     }
 
     void EnqueueTurnOrder()
     {
-        foreach (var mobActor in tilemapManager.currentRoom.Gets<TurnActor>())
+        var actors = tilemapManager.GetCurrentVisitedRoom().Gets<TurnActor>(1 << LayerMask.NameToLayer("Monster"));
+        foreach (var mobActor in actors)
             turnManager.JoinActor(mobActor);
+
+        turnManager.JoinActor(player);
+    }
+
+    public void UpdateTurnOrderQueue()
+    {
+        var currentVisitedRoom = tilemapManager.GetCurrentVisitedRoom();
+
+        var actors = currentVisitedRoom.Gets<TurnActor>();
+
+        foreach (var actor in actors) turnManager.JoinActor(actor);
 
         turnManager.JoinActor(player);
     }
@@ -108,7 +126,7 @@ public class GameRuleSystem : MonoBehaviour
 
     private void OnDisable()
     {
-        StopCoroutine(currentCoroutine);
+        //StopCoroutine(currentCoroutine);
     }
 }
 
