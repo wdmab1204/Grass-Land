@@ -133,8 +133,8 @@ public class Room
 		{
 			GameObject mob = GameObject.Instantiate(mobPrefab);
 
-			int x = rand.Next(0, size.width);
-			int y = rand.Next(0, size.height);
+			int x = rand.Next(0, FloorSize.width);
+			int y = rand.Next(0, FloorSize.height);
 
 			Vector3Int localPosition = new Vector3Int(position.x + x, position.y + y);
 
