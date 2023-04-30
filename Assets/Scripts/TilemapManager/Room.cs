@@ -106,7 +106,7 @@ public class Room
 			{
 				Vector3Int localPosition = new Vector3Int(position.x + i, position.y + j);
 				var worldCell = tilemap.ChangeLocalToWorldPosition(localPosition);
-				Debug.Log(worldCell);
+				//Debug.Log(worldCell);
 
 				Collider2D col = null;
 				if (useLayerMask)

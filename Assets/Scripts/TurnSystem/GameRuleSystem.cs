@@ -38,7 +38,7 @@ public class GameRuleSystem : MonoBehaviour
         //몬스터 생성
         InstantiateMobs();
 
-        yield return new WaitForSeconds(1);
+        yield return null;
 
         //var arr = Physics2D.OverlapCircleAll(Vector2.zero, 100f);
         //foreach (var ar in arr) Debug.Log(ar.name);

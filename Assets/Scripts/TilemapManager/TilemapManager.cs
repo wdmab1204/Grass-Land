@@ -177,9 +177,9 @@ public class TilemapManager : MonoBehaviour
 
     public void InstantiateMobsInMap()
     {
-        foreach (var room in map.AdjacencyList)
+        foreach (var room in map.Vertices)
         {
-            room.Key.InstantiateMobs();
+            room.InstantiateMobs();
         }
     }
 
