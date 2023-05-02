@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
+  m_Name: water-edge-5
+  m_EditorClassIdentifier: 
+  m_AnimatedSprites:
+  - {fileID: -265724537, guid: ce7ee4e5b9578480c8d16534718a8acf, type: 3}
+  - {fileID: -646683800, guid: ce7ee4e5b9578480c8d16534718a8acf, type: 3}
+  - {fileID: -344533221, guid: ce7ee4e5b9578480c8d16534718a8acf, type: 3}
+  - {fileID: -1752551781, guid: ce7ee4e5b9578480c8d16534718a8acf, type: 3}
+  - {fileID: 282168363, guid: ce7ee4e5b9578480c8d16534718a8acf, type: 3}
+  - {fileID: 347920121, guid: ce7ee4e5b9578480c8d16534718a8acf, type: 3}
+  - {fileID: 1914338627, guid: ce7ee4e5b9578480c8d16534718a8acf, type: 3}
+  - {fileID: 1715066324, guid: ce7ee4e5b9578480c8d16534718a8acf, type: 3}
+  m_MinSpeed: 8
+  m_MaxSpeed: 8
+  m_AnimationStartTime: 0
+  m_AnimationStartFrame: 0
+  m_TileColliderType: 1
