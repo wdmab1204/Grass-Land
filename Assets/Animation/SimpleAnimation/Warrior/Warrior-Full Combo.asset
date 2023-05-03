@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04e6f6b396aaad8409ac6804e2834b12, type: 3}
+  m_Name: Warrior-Full Combo
+  m_EditorClassIdentifier: 
+  animationName: Full Combo
+  fps: 10
+  frames:
+  - sprite: {fileID: -1963017910, guid: 33aa488eab88b46ae885f6842a1f5cec, type: 3}
+  - sprite: {fileID: -491432665, guid: 33aa488eab88b46ae885f6842a1f5cec, type: 3}
+  - sprite: {fileID: 1041760643, guid: 33aa488eab88b46ae885f6842a1f5cec, type: 3}
+  - sprite: {fileID: 465863836, guid: 33aa488eab88b46ae885f6842a1f5cec, type: 3}
+  - sprite: {fileID: 1004876868, guid: 33aa488eab88b46ae885f6842a1f5cec, type: 3}
+  - sprite: {fileID: -1504494305, guid: 33aa488eab88b46ae885f6842a1f5cec, type: 3}
+  - sprite: {fileID: 1354008155, guid: 33aa488eab88b46ae885f6842a1f5cec, type: 3}
+  - sprite: {fileID: 1354008155, guid: 33aa488eab88b46ae885f6842a1f5cec, type: 3}
+  - sprite: {fileID: 1614867223, guid: 33aa488eab88b46ae885f6842a1f5cec, type: 3}
+  - sprite: {fileID: 1481646410, guid: 33aa488eab88b46ae885f6842a1f5cec, type: 3}
+  - sprite: {fileID: 1526117026, guid: 33aa488eab88b46ae885f6842a1f5cec, type: 3}
+  - sprite: {fileID: 1983576442, guid: 33aa488eab88b46ae885f6842a1f5cec, type: 3}
+  - sprite: {fileID: -601701004, guid: 33aa488eab88b46ae885f6842a1f5cec, type: 3}
+  - sprite: {fileID: -547848551, guid: 33aa488eab88b46ae885f6842a1f5cec, type: 3}
+  - sprite: {fileID: 16386809, guid: 33aa488eab88b46ae885f6842a1f5cec, type: 3}
+  - sprite: {fileID: -561083339, guid: 33aa488eab88b46ae885f6842a1f5cec, type: 3}
+  - sprite: {fileID: -594346785, guid: 33aa488eab88b46ae885f6842a1f5cec, type: 3}
+  - sprite: {fileID: -1368912053, guid: 33aa488eab88b46ae885f6842a1f5cec, type: 3}
+  - sprite: {fileID: 2130023032, guid: 33aa488eab88b46ae885f6842a1f5cec, type: 3}
+  - sprite: {fileID: -964881470, guid: 33aa488eab88b46ae885f6842a1f5cec, type: 3}
+  - sprite: {fileID: -1111165427, guid: 33aa488eab88b46ae885f6842a1f5cec, type: 3}
+  - sprite: {fileID: -131497706, guid: 33aa488eab88b46ae885f6842a1f5cec, type: 3}
+  - sprite: {fileID: 609300091, guid: 33aa488eab88b46ae885f6842a1f5cec, type: 3}
+  spriteAnimationType: 0

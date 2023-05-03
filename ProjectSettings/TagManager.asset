@@ -49,3 +49,6 @@ TagManager:
   - name: Entity
     uniqueID: 2961779629
     locked: 0
+  - name: Structure
+    uniqueID: 1423851159
+    locked: 0

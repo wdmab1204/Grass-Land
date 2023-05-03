@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04e6f6b396aaad8409ac6804e2834b12, type: 3}
+  m_Name: Warrior-Single Swing 3
+  m_EditorClassIdentifier: 
+  animationName: Single Swing 3
+  fps: 10
+  frames:
+  - sprite: {fileID: -1617878779, guid: e915985c798de4fd0ba007ff98213b33, type: 3}
+  - sprite: {fileID: -575828114, guid: e915985c798de4fd0ba007ff98213b33, type: 3}
+  - sprite: {fileID: -1197994749, guid: e915985c798de4fd0ba007ff98213b33, type: 3}
+  - sprite: {fileID: 975219038, guid: e915985c798de4fd0ba007ff98213b33, type: 3}
+  - sprite: {fileID: 1567322466, guid: e915985c798de4fd0ba007ff98213b33, type: 3}
+  - sprite: {fileID: -189064853, guid: e915985c798de4fd0ba007ff98213b33, type: 3}
+  - sprite: {fileID: 1400744290, guid: e915985c798de4fd0ba007ff98213b33, type: 3}
+  - sprite: {fileID: -31098506, guid: e915985c798de4fd0ba007ff98213b33, type: 3}
+  - sprite: {fileID: 1293575883, guid: e915985c798de4fd0ba007ff98213b33, type: 3}
+  - sprite: {fileID: -1287129153, guid: e915985c798de4fd0ba007ff98213b33, type: 3}
+  - sprite: {fileID: 623547142, guid: e915985c798de4fd0ba007ff98213b33, type: 3}
+  - sprite: {fileID: -1120322079, guid: e915985c798de4fd0ba007ff98213b33, type: 3}
+  - sprite: {fileID: -62311068, guid: e915985c798de4fd0ba007ff98213b33, type: 3}
+  - sprite: {fileID: 82203626, guid: e915985c798de4fd0ba007ff98213b33, type: 3}
+  - sprite: {fileID: -479453777, guid: e915985c798de4fd0ba007ff98213b33, type: 3}
+  - sprite: {fileID: -400055318, guid: e915985c798de4fd0ba007ff98213b33, type: 3}
+  spriteAnimationType: 0
