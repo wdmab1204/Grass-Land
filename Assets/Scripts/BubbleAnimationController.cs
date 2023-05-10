@@ -6,6 +6,7 @@ public class BubbleAnimationController : MonoBehaviour
 {
     SpriteRenderer bubbleSprite;
     Animator bubbleAnim;
+    Transform target;
 
     public float radius = 5f;
 

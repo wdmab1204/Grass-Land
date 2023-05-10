@@ -1,0 +1,129 @@
+.button-blue {
+    height: 80px;
+    background-color: rgb(94, 122, 224);
+    font-size: 51px;
+    border-top-left-radius: 22px;
+    border-bottom-left-radius: 22px;
+    border-top-right-radius: 22px;
+    border-bottom-right-radius: 22px;
+    width: 100%;
+    translate: 0 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    justify-content: flex-start;
+    align-items: flex-start;
+    transition-duration: 0.5s;
+    transition-timing-function: ease-out-elastic;
+}
+
+.button-blue:hover {
+    scale: 1.1 1.1;
+}
+
+.button-blue:active {
+    background-color: rgb(0, 163, 241);
+}
+
+.text--title {
+    font-size: 103px;
+    color: rgb(0, 0, 0);
+    margin-top: 0;
+    margin-bottom: 0;
+    -unity-text-align: upper-center;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    -unity-font-style: bold;
+}
+
+.text--paragraph {
+    color: rgb(0, 0, 0);
+    flex-wrap: wrap;
+    font-size: 41px;
+    flex-direction: column;
+    display: flex;
+    white-space: normal;
+    border-left-color: rgb(255, 0, 0);
+    border-right-color: rgb(255, 0, 0);
+    border-top-color: rgb(255, 0, 0);
+    border-bottom-color: rgb(255, 0, 0);
+    border-left-width: 4px;
+    border-right-width: 4px;
+    border-top-width: 4px;
+    border-bottom-width: 4px;
+    padding-left: 80px;
+    padding-right: 80px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.bottomsheet {
+    align-items: center;
+    width: 50%;
+    height: 100%;
+    background-color: rgb(255, 255, 255);
+    border-top-left-radius: 40px;
+    border-bottom-left-radius: 40px;
+    transition-timing-function: ease-out-bounce;
+    transition-duration: 1s;
+    translate: 100% 0;
+    position: absolute;
+}
+
+.bottomsheet--up {
+    translate: 0 0;
+}
+
+.scrim {
+    width: 100%;
+    height: 100%;
+    flex-grow: 1;
+    background-color: rgba(0, 0, 0, 0.81);
+    opacity: 0;
+    transition-duration: 0.2s;
+}
+
+.scrim--fadein {
+    opacity: 1;
+}
+
+.image--boy {
+    background-image: url('project://database/Assets/EPIC%20RPG%20World%20Pack%20-%20Grass%20Land%20V.%201.4.3/UI/NPC%20Vendor%20-%20avatar.png?fileID=21300000&guid=1ddf7005fdcc04861bf684e21c512f4c&type=3#NPC Vendor - avatar');
+    width: 256px;
+    height: 256px;
+    translate: 0 0;
+    justify-content: flex-end;
+    flex-direction: column;
+    transition-duration: 2s;
+    transition-timing-function: ease-out-cubic;
+}
+
+.image--boy--inair {
+    translate: -400px -600px;
+}
+
+.image--warrior {
+    background-image: url('project://database/Assets/EPIC%20RPG%20World%20Pack%20-%20Grass%20Land%20V.%201.4.3/Characters/warrior-idle.png?fileID=1827955735&guid=3cfbabdb6db3046b7902740423cf5064&type=3#warrior-idle_0');
+    width: 720px;
+    height: 480px;
+    transition-duration: 1s;
+}
+
+.image--warrior--up {
+    translate: 0 -50px;
+}

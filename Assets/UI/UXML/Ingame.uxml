@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/USS/Ingame%20Style.uss?fileID=7433441132597879392&amp;guid=9a1856c17b38b47d8a4687e52a3bc856&amp;type=3#Ingame Style" />
+    <ui:VisualElement style="width: 100%; height: 100%; flex-direction: column-reverse;">
+        <ui:VisualElement name="Card_Panel" style="width: 100%; height: 300px; flex-direction: row; justify-content: center; background-color: rgba(0, 0, 0, 0.22); align-items: flex-start;">
+            <ui:VisualElement name="Card_Image" class="card--default" />
+            <ui:VisualElement name="Card_Image" class="card--default" style="display: flex; background-image: url(&apos;project://database/Assets/EPIC%20RPG%20World%20Pack%20-%20Grass%20Land%20V.%201.4.3/Tilesets/CardImages.png?fileID=-1043910610&amp;guid=7df550d94f5144e16b8354efa10b9c2f&amp;type=3#CardImages_2&apos;);" />
+            <ui:VisualElement name="Card_Image" class="card--default" style="display: flex; background-image: url(&apos;project://database/Assets/EPIC%20RPG%20World%20Pack%20-%20Grass%20Land%20V.%201.4.3/Tilesets/CardImages.png?fileID=-129071252&amp;guid=7df550d94f5144e16b8354efa10b9c2f&amp;type=3#CardImages_1&apos;);" />
+            <ui:VisualElement name="Card_Image" class="card--default" style="display: flex; background-image: url(&apos;project://database/Assets/EPIC%20RPG%20World%20Pack%20-%20Grass%20Land%20V.%201.4.3/Tilesets/CardImages.png?fileID=175791942&amp;guid=7df550d94f5144e16b8354efa10b9c2f&amp;type=3#CardImages_3&apos;);" />
+            <ui:VisualElement name="Card_Image" class="card--default" style="display: flex; background-image: url(&apos;project://database/Assets/EPIC%20RPG%20World%20Pack%20-%20Grass%20Land%20V.%201.4.3/Tilesets/CardImages.png?fileID=-1529982094&amp;guid=7df550d94f5144e16b8354efa10b9c2f&amp;type=3#CardImages_4&apos;);" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

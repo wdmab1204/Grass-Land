@@ -1,0 +1,27 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/USS/Sample%20Style.uss?fileID=7433441132597879392&amp;guid=0b5f811a82db24519bafbb964c24aa5c&amp;type=3#Sample Style" />
+    <ui:VisualElement style="background-color: rgba(255, 0, 0, 0); width: 100%; height: 100%; flex-direction: row; flex-wrap: nowrap;">
+        <ui:VisualElement style="background-color: rgba(255, 231, 0, 0); width: 50%; height: 100%; flex-direction: row; justify-content: space-around; align-items: center;">
+            <ui:VisualElement name="Image_Boy" class="image--boy image--boy--inair" />
+            <ui:VisualElement name="Image_Robot" style="background-image: url(&apos;project://database/Assets/EPIC%20RPG%20World%20Pack%20-%20Grass%20Land%20V.%201.4.3/UI/NPC%20Blacksmith%20-%20avatar.png?fileID=21300000&amp;guid=63031b96d7af64f43a74773415aedd37&amp;type=3#NPC Blacksmith - avatar&apos;); width: 256px; height: 256px; justify-content: flex-start;" />
+        </ui:VisualElement>
+        <ui:VisualElement style="background-color: rgb(255, 255, 255); width: 50%; height: 100%; flex-direction: column; justify-content: space-between;">
+            <ui:VisualElement style="padding-top: 40px; padding-bottom: 40px;">
+                <ui:Label text="Quanquam" display-tooltip-when-elided="true" class="text--title" />
+                <ui:Label text="Will this be rolled out to LTS versions of Unity?&#10;We are working with the old sprite packer for a game in full production and would like to stay on an LTS version if possible, but are also having some really long sprite atlas creation times. For now we are disabling sprite atlas creation in the editor (only builds). We don&apos;t want to use the old v2 because of it&apos;s limitations in not being able to add folders. We are working with huge sprites for 4K, so things are taking a while" display-tooltip-when-elided="true" class="text--paragraph" />
+            </ui:VisualElement>
+            <ui:VisualElement style="justify-content: center; width: 100%; height: 150px;">
+                <ui:Button text="Button" display-tooltip-when-elided="true" name="button_open" class="button-blue" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Container-Bottom" style="width: 100%; height: 100%; position: absolute; flex-direction: row-reverse; display: flex; translate: 0 0;">
+            <ui:VisualElement name="Scrim" class="scrim scrim--fadein" />
+            <ui:VisualElement name="Bottom-Sheet" class="bottomsheet">
+                <ui:Label text="Sprite Atlas v2" display-tooltip-when-elided="true" class="text--title" style="padding-top: 60px; padding-bottom: 60px;" />
+                <ui:VisualElement name="image_warrior" class="image--warrior image--warrior--up" />
+                <ui:Label text="Read more on the current Sprite Atlas v2 manual page here." display-tooltip-when-elided="true" class="text--paragraph" style="margin-top: 100px; margin-bottom: 100px; margin-left: 80px; margin-right: 80px; -unity-text-align: upper-center;" />
+                <ui:Button display-tooltip-when-elided="true" name="button_close" style="position: absolute; left: 0; bottom: 558px; width: 90px; height: 90px; border-left-width: 0; border-right-width: 0; border-top-width: 0; border-bottom-width: 0; border-top-left-radius: 0; border-bottom-left-radius: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; background-color: rgba(88, 88, 88, 0); background-image: url(&apos;project://database/Packages/com.unity.collab-proxy/Editor/Collaborate/Assets/Icons/undo-dark@2x.png?fileID=2800000&amp;guid=9af18154bd2effd4f813d58651798b5d&amp;type=3#undo-dark@2x&apos;); -unity-background-image-tint-color: rgb(135, 135, 135);" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

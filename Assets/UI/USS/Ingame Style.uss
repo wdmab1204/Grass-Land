@@ -1,0 +1,19 @@
+.card--default {
+    background-image: url('project://database/Assets/EPIC%20RPG%20World%20Pack%20-%20Grass%20Land%20V.%201.4.3/Tilesets/CardImages.png?fileID=-996063684&guid=7df550d94f5144e16b8354efa10b9c2f&type=3#CardImages_0');
+    width: 292px;
+    height: 456px;
+    scale: 0.5 0.5;
+    margin-left: -90px;
+    margin-right: -90px;
+    margin-top: 0;
+    margin-bottom: 0;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    transition-duration: 0.15s;
+}
+
+.card--bigger {
+    display: flex;
+    translate: 0 -45px;
+    scale: 0.6 0.6;
+}
