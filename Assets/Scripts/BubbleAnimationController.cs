@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class BubbleAnimationController : MonoBehaviour
 {
@@ -8,12 +9,19 @@ public class BubbleAnimationController : MonoBehaviour
     Animator bubbleAnim;
     Transform target;
 
-    public float radius = 5f;
+    public UIDocument ui;
 
     void Awake()
     {
-        bubbleSprite = transform.GetChild(0).GetComponent<SpriteRenderer>();
-        bubbleAnim = transform.GetChild(0).GetComponent<Animator>();
+        bubbleSprite = transform.GetComponent<SpriteRenderer>();
+        bubbleAnim = transform.GetComponent<Animator>();
+
+        //ui.enabled = false;
+    }
+
+    public void EnterCombatMode()
+    {
+        ui.enabled = true;
     }
 
     private void Start()
@@ -42,12 +50,6 @@ public class BubbleAnimationController : MonoBehaviour
     {
         time = -1;
         bubbleAnim.SetFloat("Time", time);
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, radius);
     }
 
     public void Flip()
