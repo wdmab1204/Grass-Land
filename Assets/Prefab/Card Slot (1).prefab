@@ -221,8 +221,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   preset: 0
-  onEnableBehaviour: 0
-  onDisableBehaviour: 0
+  onEnableBehaviour: 2
+  onDisableBehaviour: 2
 --- !u!114 &1912497763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,7 +269,7 @@ MonoBehaviour:
   targetGO: {fileID: 0}
   tweenTargetIsTargetGO: 1
   delay: 0
-  duration: 0.5
+  duration: 2
   easeType: 25
   easeCurve:
     serializedVersion: 2

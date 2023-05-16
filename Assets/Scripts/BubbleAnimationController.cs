@@ -9,19 +9,10 @@ public class BubbleAnimationController : MonoBehaviour
     Animator bubbleAnim;
     Transform target;
 
-    public UIDocument ui;
-
     void Awake()
     {
-        bubbleSprite = transform.GetComponent<SpriteRenderer>();
-        bubbleAnim = transform.GetComponent<Animator>();
-
-        //ui.enabled = false;
-    }
-
-    public void EnterCombatMode()
-    {
-        ui.enabled = true;
+        bubbleSprite = transform.GetChild(0).GetComponent<SpriteRenderer>();
+        bubbleAnim = transform.GetChild(0).GetComponent<Animator>();
     }
 
     private void Start()
