@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using DG.Tweening;
 
 public class DragAndDrop : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler
 {
@@ -14,6 +15,8 @@ public class DragAndDrop : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginD
     public Sprite targetSprite;
     Sprite originalSprite;
     Vector2 originalSizeDelta;
+    Tween scaleTween;
+    bool scaleTweenPlaying = false;
 
     private void Awake()
     {
@@ -58,6 +61,13 @@ public class DragAndDrop : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginD
             image.sprite = targetSprite;
             image.rectTransform.sizeDelta = new Vector2(100,100);
             image.rectTransform.localScale = Vector3.one;
+
+            if (scaleTweenPlaying==false)
+            {
+                scaleTween = image.rectTransform.DOScale(Vector3.one * 1.5f, 0.2f) // 스케일이 2배로 커짐
+                .SetLoops(-1, LoopType.Yoyo); // 애니메이션을 반복하고, 역방향으로 되돌아옴
+                scaleTweenPlaying = true;
+            }
         }
     }
 
@@ -69,5 +79,7 @@ public class DragAndDrop : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginD
         image.sprite = originalSprite;
         image.rectTransform.sizeDelta = originalSizeDelta;
         image.rectTransform.localScale = new Vector3(0.5f, 0.5f);
+        scaleTween?.Kill();
+        scaleTweenPlaying = false;
     }
 }
