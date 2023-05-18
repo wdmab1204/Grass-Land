@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class StartBattle : StateMachineBehaviour
 {
@@ -21,10 +22,7 @@ public class StartBattle : StateMachineBehaviour
     {
         GameObject panel = GameObject.Find("Panel");
 
-        for (int i = 0; i < panel.transform.childCount; i++)
-        {
-            panel.transform.GetChild(i).gameObject.SetActive(true);
-        }
+        panel.transform.DOMoveY(0, 1).SetEase(Ease.OutQuad);
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

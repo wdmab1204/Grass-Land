@@ -13,10 +13,7 @@ public class DrawAnimationController : MonoBehaviour
     {
         if (!showCardUI)
         {
-            for(int i=0; i<panel.transform.childCount; i++)
-            {
-                panel.transform.GetChild(i).gameObject.SetActive(false);
-            }
+            panel.transform.position = new Vector3(panel.transform.position.x, -300);
         }
     }
 

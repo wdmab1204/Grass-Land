@@ -91,6 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 1808286618}
   parentAfterDrag: {fileID: 0}
+  targetSprite: {fileID: -576225929, guid: 2dcd0ded04b2b41bb955eb40c3e20cb7, type: 3}
 --- !u!1 &4501173780309202493
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,7 +222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   preset: 0
-  onEnableBehaviour: 2
+  onEnableBehaviour: 3
   onDisableBehaviour: 2
 --- !u!114 &1912497763
 MonoBehaviour:
@@ -269,7 +270,7 @@ MonoBehaviour:
   targetGO: {fileID: 0}
   tweenTargetIsTargetGO: 1
   delay: 0
-  duration: 2
+  duration: 1
   easeType: 25
   easeCurve:
     serializedVersion: 2
@@ -301,7 +302,7 @@ MonoBehaviour:
   isRelative: 0
   isFrom: 1
   isIndependentUpdate: 0
-  autoKill: 1
+  autoKill: 0
   autoGenerate: 1
   isActive: 1
   isValid: 1
