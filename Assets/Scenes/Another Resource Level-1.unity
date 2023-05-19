@@ -1559,7 +1559,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f3d9b56dbe80475eac42face0f609b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showCardUI: 1
+  showCardUI: 0
   panel: {fileID: 1102730130}
   cardPrefab: {fileID: 4501173780309202493, guid: bbaa4aa73309a44c58d06cf1a2750c94, type: 3}
 --- !u!1 &1247915907

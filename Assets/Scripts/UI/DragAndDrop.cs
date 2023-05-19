@@ -39,6 +39,12 @@ public class DragAndDrop : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginD
 
         Image panel = transform.parent.GetComponent<Image>();
 
+        ImageCursorCheck();
+        
+    }
+
+    void ImageCursorCheck()
+    {
         // 마우스 위치를 캔버스 좌표계로 변환
         Vector2 localPoint;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
@@ -54,15 +60,15 @@ public class DragAndDrop : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginD
             localPoint.y > -panelRect.sizeDelta.y &&
             localPoint.y < panelRect.sizeDelta.y)
         {
-
+            //if cursor in image
         }
         else
         {
             image.sprite = targetSprite;
-            image.rectTransform.sizeDelta = new Vector2(100,100);
+            image.rectTransform.sizeDelta = new Vector2(100, 100);
             image.rectTransform.localScale = Vector3.one;
 
-            if (scaleTweenPlaying==false)
+            if (scaleTweenPlaying == false)
             {
                 scaleTween = image.rectTransform.DOScale(Vector3.one * 1.5f, 0.2f) // 스케일이 2배로 커짐
                 .SetLoops(-1, LoopType.Yoyo); // 애니메이션을 반복하고, 역방향으로 되돌아옴
