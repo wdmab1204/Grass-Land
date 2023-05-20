@@ -59,6 +59,6 @@ public class PlayerMovement : MonoBehaviour
     [ContextMenu("Run")]
     void asdf()
     {
-        anim.Play("Warrior-Run", 0);
+        anim.Play("Warrior-Single Swing 3", 0);
     }
 }
