@@ -7,6 +7,19 @@ public class HitStop : MonoBehaviour
 {
     float originalFixedDeltaTime;
     Tween shakeTween;
+    Rigidbody2D rb;
+    float slowdownFactor = 0.95f; // 감속 계수
+
+    private void Awake()
+    {
+        rb = transform.parent.GetComponent<Rigidbody2D>();
+    }
+
+    private void FixedUpdate()
+    {
+        rb.velocity *= slowdownFactor;
+    }
+
     public void ApplyHitStop(float duration, float timeScale, int count, Vector2 force)
     {
         StartCoroutine(HitStopCoroutine(duration, timeScale, count, force));
@@ -27,7 +40,6 @@ public class HitStop : MonoBehaviour
             Time.fixedDeltaTime = originalFixedDeltaTime;
         }
 
-        Rigidbody2D rb = transform.parent.GetComponent<Rigidbody2D>();
         rb.AddForce(force);
         shakeTween.Kill();
     }
