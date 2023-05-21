@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Tilemap
   - Mob
+  - Skill
   layers:
   - Default
   - TransparentFX

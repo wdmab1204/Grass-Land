@@ -12,8 +12,8 @@ public class StartBattle : StateMachineBehaviour
         Transform me = animator.transform.parent;
         SpriteRenderer spriteRenderer = animator.transform.parent.GetComponent<SpriteRenderer>();
 
-        if (warrior.position.x < me.position.x) spriteRenderer.flipX = true;
-        else spriteRenderer.flipX = false;
+        if (warrior.position.x < me.position.x) animator.transform.localScale = Vector3.one;
+        else animator.transform.localScale = new Vector3(-1, 1, 1);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
