@@ -1,13 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
+using UnityEditor.UIElements;
 
+[RequireComponent(typeof(AudioSource))]
 public class SoundPlayer : MonoBehaviour
 {
     AudioSource audioSource;
     Dictionary<string, AudioClip> audioDictionary = new Dictionary<string, AudioClip>();
     public string[] audioNames;
     public AudioClip[] clips;
+
+
     // Start is called before the first frame update
     void Awake()
     {

@@ -6,6 +6,12 @@ public class ElectricAttack : MonoBehaviour
 {
     public GameObject effectPrefab;
     GameObject effectObject;
+    SoundPlayer player;
+
+    private void Awake()
+    {
+        player = GetComponent<SoundPlayer>();
+    }
 
     public void Play()
     {
@@ -19,6 +25,7 @@ public class ElectricAttack : MonoBehaviour
 
     public IEnumerator PlayEffect()
     {
+        player.Play("Electric");
         effectObject.SetActive(true);
         yield return null;
         Animator animator = effectObject.GetComponent<Animator>();
