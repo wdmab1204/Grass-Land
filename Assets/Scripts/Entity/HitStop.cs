@@ -10,6 +10,8 @@ public class HitStop : MonoBehaviour
     Rigidbody2D rb;
     float slowdownFactor = 0.95f; // 감속 계수
 
+    public SoundPlayer player;
+
     private void Awake()
     {
         rb = transform.parent.GetComponent<Rigidbody2D>();
@@ -27,6 +29,7 @@ public class HitStop : MonoBehaviour
 
     private IEnumerator HitStopCoroutine(float duration, float timeScale, int count, Vector2 force)
     {
+        player.Play("Hit");
         while (count-- > 0)
         {
             originalFixedDeltaTime = Time.fixedDeltaTime;
@@ -43,6 +46,8 @@ public class HitStop : MonoBehaviour
         rb.AddForce(force);
         shakeTween.Kill();
     }
+
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

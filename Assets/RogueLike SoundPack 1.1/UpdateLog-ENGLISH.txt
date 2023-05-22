@@ -1,0 +1,10 @@
+WAVECLUSTER'S ROGUELIKE SOUND PACK
+V1.1
+
+---- Update Log ----
+
+
+16/05/05 : -Added Boost1, Boost2,Boost3,Musket1, Musket2, MusketReload1, MusketReload2.CrystalDamage1,CrystalDamage2,CrystalDead.
+
+16/06/17 : -Added PickMusket,TrapGas,BulletBounce1,BulletBounce2,BulletBounce3.
+           -Corrected a noisy tick at the end of CursorABigClick.wav.
