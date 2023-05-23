@@ -56,9 +56,20 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    [ContextMenu("Run")]
-    void asdf()
+    public void FlipBasedOnTheCursor()
     {
-        anim.Play("Warrior-Single Swing 3", 0);
+        Vector3 mousePosition = Input.mousePosition;
+        mousePosition.z = 1;
+        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        bool isRight = (mouseWorldPosition.x > transform.position.x);
+
+        if (isRight)
+        {
+            transform.localScale = Vector3.one;
+        }
+        else
+        {
+            transform.localScale = new Vector3(-1, 1);
+        }
     }
 }

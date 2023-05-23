@@ -6,6 +6,7 @@ public class Enemy : MonoBehaviour
 {
     Rigidbody2D rb;
     SoundPlayer soundPlayer;
+    Animator animator;
     const float slowdownFactor = 0.95f; // 감속 계수
     public ParticleSystem dust;
     
@@ -14,17 +15,18 @@ public class Enemy : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         soundPlayer = GetComponent<SoundPlayer>();
+        animator = GetComponent<Animator>();
     }
 
     private void FixedUpdate()
     {
-        if (rb != null)
-            rb.velocity *= slowdownFactor;
+        rb.velocity *= slowdownFactor;
     }
 
-    public void PlaySoundHurt()
+    public void Hit()
     {
         soundPlayer.Play("Hit");
+        animator.Play("Enemy1-Hurt");
     }
 
     public void Push(Vector2 force)
@@ -33,5 +35,17 @@ public class Enemy : MonoBehaviour
         var mainModule = dust.main;
         mainModule.duration = force.magnitude / 3.14f;
         dust.Play();
+    }
+
+    public void FlipX(bool isRight)
+    {
+        if (isRight)
+        {
+            transform.localScale = Vector3.one;
+        }
+        else
+        {
+            transform.localScale = new Vector3(-1, 1);
+        }
     }
 }

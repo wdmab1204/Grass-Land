@@ -13,13 +13,15 @@ public class PlayElectricAnimation : MonoBehaviour
         player = GetComponent<SoundPlayer>();
     }
 
-    public void Play()
+    //animation event trigger
+    public void PlayElectric()
     {
         if (effectObject == null)
         {
             effectObject = Instantiate(effectPrefab, transform);
             effectObject.transform.localPosition = new Vector3(1.87f, 0);
         }
+
         StartCoroutine(PlayEffect());
     }
 

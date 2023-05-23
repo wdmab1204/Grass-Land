@@ -27,8 +27,15 @@ public class HitStop : MonoBehaviour
             Time.timeScale = 1f;
             Time.fixedDeltaTime = originalFixedDeltaTime;
         }
-        enemy.PlaySoundHurt();
+        enemy.Hit();
         enemy.Push(force);
+
+        //shield form
+        if (enemy.transform.position.x > transform.parent.position.x)
+            enemy.FlipX(isRight: false);
+        else
+            enemy.FlipX(isRight: true);
+
         shakeTween.Kill();
     }
 

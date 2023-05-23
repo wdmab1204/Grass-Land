@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
+using UnityEngine.Events;
 
 public class DragAndDrop : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler
 {
@@ -17,6 +18,8 @@ public class DragAndDrop : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginD
     Vector2 originalSizeDelta;
     Tween scaleTween;
     bool scaleTweenPlaying = false;
+
+    public UnityEvent skillActionIfDrop;
 
     private void Awake()
     {
@@ -97,6 +100,8 @@ public class DragAndDrop : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginD
         else
         {
             //마우스커서가 패널밖에 있어서 카드가 사용되었을 때
+            skillActionIfDrop.Invoke();
+            Vector3 point = eventData.position;
             Destroy(transform.parent.gameObject);
         }
     }
