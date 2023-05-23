@@ -5,8 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Tilemap
-  - Mob
   - Skill
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -15,8 +15,8 @@ TagManager:
   - Water
   - UI
   - Player
-  - Monster
-  - 
+  - Enemy
+  - Skill
   - 
   - 
   - 

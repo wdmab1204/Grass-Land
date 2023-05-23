@@ -30,6 +30,10 @@ public class SoundPlayer : MonoBehaviour
 
     public void Play(string key)
     {
-        audioSource.PlayOneShot(audioDictionary[key]);
+        if (audioDictionary.ContainsKey(key))
+        {
+            audioSource.PlayOneShot(audioDictionary[key]);
+        }
+        
     }
 }

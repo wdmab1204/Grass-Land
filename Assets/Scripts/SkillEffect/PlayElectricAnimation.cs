@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ElectricAttack : MonoBehaviour
+public class PlayElectricAnimation : MonoBehaviour
 {
     public GameObject effectPrefab;
     GameObject effectObject;
@@ -28,8 +28,11 @@ public class ElectricAttack : MonoBehaviour
         player.Play("Electric");
         effectObject.SetActive(true);
         yield return null;
+
         Animator animator = effectObject.GetComponent<Animator>();
         float animationTime = animator.runtimeAnimatorController.animationClips[0].length;
+
+
         yield return new WaitForSeconds(animationTime);
         effectObject.SetActive(false);
     }

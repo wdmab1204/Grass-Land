@@ -7,33 +7,14 @@ public class HitStop : MonoBehaviour
 {
     float originalFixedDeltaTime;
     Tween shakeTween;
-    Rigidbody2D rb;
-    float slowdownFactor = 0.95f; // 감속 계수
 
-    [Space()]
-    public SoundPlayer player;
-
-    [Space()]
-    public ParticleSystem dust;
-
-    private void Awake()
+    public void ApplyHitStop(float duration, float timeScale, int count, Enemy enemy, Vector2 force)
     {
-        rb = transform.parent.GetComponent<Rigidbody2D>();
+        StartCoroutine(HitStopCoroutine(duration, timeScale, count, enemy, force));
     }
 
-    private void FixedUpdate()
+    private IEnumerator HitStopCoroutine(float duration, float timeScale, int count, Enemy enemy, Vector2 force)
     {
-        rb.velocity *= slowdownFactor;
-    }
-
-    public void ApplyHitStop(float duration, float timeScale, int count, Vector2 force)
-    {
-        StartCoroutine(HitStopCoroutine(duration, timeScale, count, force));
-    }
-
-    private IEnumerator HitStopCoroutine(float duration, float timeScale, int count, Vector2 force)
-    {
-        player.Play("Hit");
         while (count-- > 0)
         {
             originalFixedDeltaTime = Time.fixedDeltaTime;
@@ -46,25 +27,36 @@ public class HitStop : MonoBehaviour
             Time.timeScale = 1f;
             Time.fixedDeltaTime = originalFixedDeltaTime;
         }
-
-        rb.AddForce(force);
-        var mainModule = dust.main;
-        mainModule.duration = 0.002f * force.magnitude;
-        dust.Play();
+        enemy.PlaySoundHurt();
+        enemy.Push(force);
         shakeTween.Kill();
+    }
+
+    private void OnEnable()
+    {
+        var enemy = Physics2D.OverlapBox(transform.position, new Vector2(2.25f, 2.25f), 0, LayerMask.GetMask("Enemy")).GetComponent<Enemy>();
+        Debug.Log(enemy?.name);
+
+        //if fource is 300, dust duration is 0.3, else if 100, duration is 0.1
+        Vector2 force = (enemy.transform.position - transform.parent.position).normalized * 5f;
+
+        ApplyHitStop(duration: 0.5f, timeScale: 0.2f, count: 1, enemy, force);
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //Debug.Log(collision.name);
-        if (collision.CompareTag("Skill"))
-        {
-            //if fource is 300, dust duration is 0.3, else if 100, duration is 0.1
-            Vector2 force = (this.transform.position - collision.transform.parent.position).normalized * 300f;
+        //if (collision.CompareTag("Enemy"))
+        //{
+        //    //if fource is 300, dust duration is 0.3, else if 100, duration is 0.1
+        //    Vector2 force = (collision.transform.position-transform.parent.position).normalized * 300f;
+            
+        //    Enemy enemy = collision.GetComponent<Enemy>();
+        //    enemy.PlaySoundHurt();
+        //    enemy.Push(force);
 
-            ApplyHitStop(duration: 0.3f, timeScale: 0.3f, count: 1, force);
-        }
+        //    ApplyHitStop(duration: 0.3f, timeScale: 0.3f, count: 1, force);
+
+        //}
     }
-
-
 }

@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -996063684, guid: 7df550d94f5144e16b8354efa10b9c2f, type: 3}
+  m_Sprite: {fileID: -129071252, guid: 7df550d94f5144e16b8354efa10b9c2f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -107,6 +107,7 @@ GameObject:
   - component: {fileID: 4501173780309202434}
   - component: {fileID: 1912497764}
   - component: {fileID: 1912497763}
+  - component: {fileID: 1912497765}
   m_Layer: 5
   m_Name: Card Slot (1)
   m_TagString: Untagged
@@ -332,3 +333,16 @@ MonoBehaviour:
   optionalScrambleMode: 0
   optionalShakeRandomnessMode: 0
   optionalString: 
+--- !u!114 &1912497765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4501173780309202493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44b9479f508af4959b33cd411b0edc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectPrefab: {fileID: 8636558911185084805, guid: a4e2fd4109d3746319243b378d94c3e2, type: 3}
