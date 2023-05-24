@@ -5,16 +5,16 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     Rigidbody2D rb;
-    SoundPlayer soundPlayer;
     Animator animator;
     const float slowdownFactor = 0.95f; // 감속 계수
     public ParticleSystem dust;
-    
+
+    [Space()]
+    public AudioSource hitSound;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        soundPlayer = GetComponent<SoundPlayer>();
         animator = GetComponent<Animator>();
     }
 
@@ -25,7 +25,7 @@ public class Enemy : MonoBehaviour
 
     public void PlayHitSFX()
     {
-        soundPlayer.Play("Hit");
+        hitSound.Play();
         animator.Play("Enemy1-Hurt");
     }
 

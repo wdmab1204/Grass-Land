@@ -7,6 +7,7 @@ public class HitStop : MonoBehaviour
 {
     float originalFixedDeltaTime;
     Tween shakeTween;
+    public AudioSource hitSound;
 
     [Header("HitStop Info")]
     public float forceScala = 3;
@@ -40,6 +41,7 @@ public class HitStop : MonoBehaviour
 
             shakeTween = Camera.main.transform.DOShakePosition(shakeDuration, strength, vibrato, randomness).SetUpdate(true); //setupdate : can play during timescale is 0
             enemy.PlayHitSFX();
+            hitSound.Play();
             yield return new WaitForSecondsRealtime(duration);
 
             Time.timeScale = 1f;

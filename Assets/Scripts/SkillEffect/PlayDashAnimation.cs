@@ -11,6 +11,7 @@ public class PlayDashAnimation : MonoBehaviour
 
     //public GameObject effectPrefab;
     public GameObject effectObject;
+    public AudioSource skillSound;
     SoundPlayer player;
     Collider2D col;
 
@@ -34,6 +35,8 @@ public class PlayDashAnimation : MonoBehaviour
         effectObject.SetActive(true);
         Vector3 to = Camera.main.ScreenToWorldPoint(mousePosition);
         to.z = transform.position.z;
+
+        skillSound.Play();
         transform.DOMove(to, 0.5f).SetEase(Ease.OutQuart).OnComplete(() =>
         {
             col.enabled = true;

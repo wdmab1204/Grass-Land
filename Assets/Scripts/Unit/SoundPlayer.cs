@@ -8,32 +8,19 @@ using UnityEditor.UIElements;
 public class SoundPlayer : MonoBehaviour
 {
     AudioSource audioSource;
-    Dictionary<string, AudioClip> audioDictionary = new Dictionary<string, AudioClip>();
-    public string[] audioNames;
-    public AudioClip[] clips;
-
 
     // Start is called before the first frame update
     void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+        this.gameObject.SetActive(false);
     }
 
-    private void Start()
+    private void Update()
     {
-        audioSource.pitch = 1;
-        for (int i=0; i<audioNames.Length; i++)
+        if (!audioSource.isPlaying)
         {
-            audioDictionary.Add(audioNames[i], clips[i]);
+            this.gameObject.SetActive(false);
         }
-    }
-
-    public void Play(string key)
-    {
-        if (audioDictionary.ContainsKey(key))
-        {
-            audioSource.PlayOneShot(audioDictionary[key]);
-        }
-        
     }
 }
