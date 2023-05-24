@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour
         rb.velocity *= slowdownFactor;
     }
 
-    public void Hit()
+    public void PlayHitSFX()
     {
         soundPlayer.Play("Hit");
         animator.Play("Enemy1-Hurt");

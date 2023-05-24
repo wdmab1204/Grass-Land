@@ -5,17 +5,8 @@ using UnityEngine.Tilemaps;
 
 public class Test : MonoBehaviour
 {
-    public ParticleSystem particle;
-
-    void Start()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        StartCoroutine(a());
-    }
-
-    IEnumerator a()
-    {
-        particle.Play();
-        yield return new WaitForSeconds(2.0f);
-        particle.Stop();
+        print(collision.name);
     }
 }
