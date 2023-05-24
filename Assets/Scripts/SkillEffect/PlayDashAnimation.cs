@@ -8,12 +8,17 @@ public class PlayDashAnimation : MonoBehaviour
     Animator animator;
     Vector3 mousePosition;
     const float slowdownFactor = 0.95f; // 감속 계수
-    Rigidbody2D rb;
+
+    public GameObject effectPrefab;
+    GameObject effectObject;
+    SoundPlayer player;
+    Collider2D col;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody2D>();
+        player = GetComponent<SoundPlayer>();
+        col = GetComponent<BoxCollider2D>();
     }
 
     //card unity event 
@@ -24,13 +29,34 @@ public class PlayDashAnimation : MonoBehaviour
 
     public void Dash()
     {
+        col.enabled = false;
+
+        if (effectObject == null)
+        {
+            effectObject = Instantiate(effectPrefab, transform);
+            effectObject.transform.localPosition = Vector3.zero;
+        }
+
+        effectObject.SetActive(true);
         Vector3 to = Camera.main.ScreenToWorldPoint(mousePosition);
         to.z = transform.position.z;
-        transform.DOMove(to, 0.7f).SetEase(Ease.OutQuart);
+        transform.DOMove(to, 0.3f).SetEase(Ease.OutQuart).OnComplete(() =>
+        {
+            col.enabled = true;
+            effectObject.SetActive(false);
+        });
     }
 
-    private void FixedUpdate()
+    public float pushForce = 10f;
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        rb.velocity *= slowdownFactor;
+        if (collision.CompareTag("Enemy") && collision.TryGetComponent<Rigidbody2D>(out Rigidbody2D otherRigidbody))
+        {
+            print(collision.name);
+            //// 충돌한 물체를 밀어내기 위해 힘을 가하기
+            Vector3 pushDirection = collision.transform.position - transform.position;
+            otherRigidbody.AddForce(pushDirection * pushForce, ForceMode2D.Impulse);
+        }
     }
 }
