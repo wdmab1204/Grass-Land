@@ -16,9 +16,8 @@ public class GameRuleSystem : MonoBehaviour
     }
 
     TurnManager turnManager = new TurnManager();
-    Coroutine currentCoroutine = null;
     [SerializeField] private string CurrentActorName = "";
-    [SerializeField] private FollowCamera camera;
+    [SerializeField] private new FollowCamera camera;
 
     private void Awake()
     {
