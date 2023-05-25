@@ -20,6 +20,7 @@ public class Entity : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (rb.velocity.magnitude < 0.1f) dust.Stop();
         rb.velocity *= slowdownFactor;
     }
 
@@ -32,8 +33,6 @@ public class Entity : MonoBehaviour
     public void Push(Vector2 force)
     {
         rb.AddForce(force, ForceMode2D.Impulse);
-        var mainModule = dust.main;
-        mainModule.duration = force.magnitude / 3.14f;
         dust.Play();
     }
 
