@@ -23,13 +23,12 @@ namespace TurnSystem
 			actors.Clear();
 		}
 
-		public TurnActor UpdateTurn()
+		public TurnActor GetNextTurn()
 		{
 			var actor = actors.Dequeue();
 			currentActor = actor;
 			actors.Enqueue(actor);
 
-			UnityEngine.Debug.Log(actor.name);
 			return actor;
 		}
 

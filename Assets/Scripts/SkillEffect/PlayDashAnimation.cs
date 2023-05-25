@@ -41,6 +41,7 @@ public class PlayDashAnimation : MonoBehaviour
         {
             col.enabled = true;
             effectObject.SetActive(false);
+            GameRuleSystem.Instance.Next();
         });
     }
 

@@ -33,5 +33,6 @@ public class PlayElectricAnimation : MonoBehaviour
 
         yield return new WaitForSeconds(animationTime);
         effectObject.SetActive(false);
+        GameRuleSystem.Instance.Next();
     }
 }

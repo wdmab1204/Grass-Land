@@ -21,17 +21,17 @@ public class HitStop : MonoBehaviour
     [Range(1, 50)] public int vibrato = 30;
     [Range(0, 90)] public float randomness = 90;
 
-    public void ApplyHitStop(float duration, float timeScale, int count, Enemy enemy, Vector2 force)
+    public void ApplyHitStop(float duration, float timeScale, int count, Entity enemy, Vector2 force)
     {
         StartCoroutine(HitStopCoroutine(duration, timeScale, count, enemy, force));
     }
 
-    public void ApplyHitStop(Enemy target, Vector2 direction)
+    public void ApplyHitStop(Entity target, Vector2 direction)
     {
         StartCoroutine(HitStopCoroutine(duration, timeScale, count, target, direction * 3));
     }
 
-    private IEnumerator HitStopCoroutine(float duration, float timeScale, int count, Enemy enemy, Vector2 force)
+    private IEnumerator HitStopCoroutine(float duration, float timeScale, int count, Entity entity, Vector2 force)
     {
         while (count-- > 0)
         {
@@ -40,20 +40,20 @@ public class HitStop : MonoBehaviour
             Time.fixedDeltaTime = originalFixedDeltaTime * Time.timeScale;
 
             shakeTween = Camera.main.transform.DOShakePosition(shakeDuration, strength, vibrato, randomness).SetUpdate(true); //setupdate : can play during timescale is 0
-            enemy.PlayHitSFX();
+            entity.PlayHitSFX();
             hitSound.Play();
             yield return new WaitForSecondsRealtime(duration);
 
             Time.timeScale = 1f;
             Time.fixedDeltaTime = originalFixedDeltaTime;
         }
-        enemy.Push(force);
+        entity.Push(force);
 
         //shield form
-        if (enemy.transform.position.x > transform.parent.position.x)
-            enemy.FlipX(isRight: false);
+        if (entity.transform.position.x > transform.parent.position.x)
+            entity.FlipX(isRight: false);
         else
-            enemy.FlipX(isRight: true);
+            entity.FlipX(isRight: true);
 
         shakeTween.Kill();
     }
@@ -73,12 +73,12 @@ public class HitStop : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         print(collision.name);
-        if (collision.CompareTag("Enemy"))
+        if (collision.CompareTag("Enemy") || collision.CompareTag("Player"))
         {
             //if fource is 300, dust duration is 0.3, else if 100, duration is 0.1
             Vector2 force = (collision.transform.position - transform.parent.position).normalized * forceScala;
 
-            Enemy enemy = collision.GetComponent<Enemy>();
+            Entity enemy = collision.GetComponent<Entity>();
 
             ApplyHitStop(duration, timeScale, count, enemy, force);
 

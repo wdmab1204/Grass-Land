@@ -6,7 +6,6 @@ using CardNameSpace.Base;
 using UnityEngine;
 using UnityEngine.UI;
 using SimpleSpriteAnimator;
-using GameEntity;
 using UnityEngine.Tilemaps;
 
 namespace CardNameSpace
@@ -24,8 +23,8 @@ namespace CardNameSpace
         [SerializeField] private GameRuleSystem GameRuleSystem;
         [SerializeField] private int CardHandlerCount = 3;
         [SerializeField] private SpriteAnimator animator;
-        [SerializeField] private EntityManager EntityManager;
-        [SerializeField] private PlayerEntity PlayerEntity;
+        //[SerializeField] private EntityManager EntityManager;
+        //[SerializeField] private PlayerEntity PlayerEntity;
 
         public Action OnAttackTarget;
 
@@ -66,18 +65,18 @@ namespace CardNameSpace
                     {
                         var rangeLocalPosition = tilemap.ChangeWorldToLocalPosition(currentActorObject.transform.position) + (Vector3Int)tilePosition;
                         //공격범위 안에 적이 있는가 ?
-                        if (EntityManager.TryGetEntityOnTile<MonsterEntity>(rangeLocalPosition, out Entity target))
-                        {
-                            ((MonsterEntity)target).TakeDamage(100);
-                            OnAttackTarget?.Invoke();
-                        }
+                        //if (EntityManager.TryGetEntityOnTile<MonsterEntity>(rangeLocalPosition, out Entity target))
+                        //{
+                        //    ((MonsterEntity)target).TakeDamage(100);
+                        //    OnAttackTarget?.Invoke();
+                        //}
                     }
                     break;
                 case CardType.MOVE:
                     break;
                 case CardType.HEAL:
                     var currentActorEntity = currentActorObject.GetComponent<Entity>();
-                    currentActorEntity.Recovery(33);
+                    //currentActorEntity.Recovery(33);
                     break;
             }
         }
@@ -101,10 +100,10 @@ namespace CardNameSpace
 
         private void PlayAnimationDelegate(CardHandler handler)
         {
-            var card = handler.Card.CardInfo;
-            var dics = AnimationConverter.GetDics();
-            var animationName = dics[card.name];
-            animator.Play(animationName);
+            //var card = handler.Card.CardInfo;
+            //var dics = AnimationConverter.GetDics();
+            //var animationName = dics[card.name];
+            //animator.Play(animationName);
             //yield return new WaitForSeconds(animator.AnimationLength);
             //animator.Play("Drink Potion");
         }

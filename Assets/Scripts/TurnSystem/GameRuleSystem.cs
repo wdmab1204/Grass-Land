@@ -7,126 +7,76 @@ using System.Collections.Generic;
 
 public class GameRuleSystem : MonoBehaviour
 {
-    TurnActor player;
+    private static GameRuleSystem instance;
+
+    // 싱글톤 인스턴스에 접근하는 정적 프로퍼티
+    public static GameRuleSystem Instance
+    {
+        get { return instance; }
+    }
 
     TurnManager turnManager = new TurnManager();
     Coroutine currentCoroutine = null;
     [SerializeField] private string CurrentActorName = "";
     [SerializeField] private FollowCamera camera;
 
-    [Space(10)]
-    [SerializeField] private TilemapManager tilemapManager;
-
     private void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<TurnActor>();
+        // 인스턴스가 이미 존재하는 경우 중복 생성을 방지하기 위해 자기 자신을 파괴
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        // 인스턴스를 할당
+        instance = this;
+
+        // 필요한 경우에 따라 유지할 수 있도록 게임 오브젝트 파괴 방지
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
-        StartCoroutine(ReadyGame());
+        foreach (var rootObj in SceneManager.GetActiveScene().GetRootGameObjects())
+        {
+            if (rootObj.TryGetComponent<TurnActor>(out TurnActor actor))
+            {
+                turnManager.JoinActor(actor);
+                print(actor.name);
+            }
+        }
+
+        Next();
 
         //if (currentCoroutine != null) StopCoroutine(currentCoroutine);
-        //currentCoroutine = StartCoroutine(StartTurnSystemCoroutine());
-    }
-
-    IEnumerator ReadyGame()
-    {
-        // 맵 그리
-        DrawMap();
-
-        //몬스터 생성
-        InstantiateMobs();
-
-        yield return null;
-
-        //var arr = Physics2D.OverlapCircleAll(Vector2.zero, 100f);
-        //foreach (var ar in arr) Debug.Log(ar.name);
-
-        //플레이어 시작위치 정하기
-        InitPlayerPosition();
-
-        //턴 순서 정하기
-        ClearQueue();
-        EnqueueTurnOrder();
-
-        turnManager.LogTurnQueue();
-
-        yield return StartTurnSystemCoroutine();
-    }
-
-    void DrawMap()
-    {
-        tilemapManager.InitializeMapAndApply((Room.ThemeType.Grassland, Room.RoomType.Normal), (15, 15));
-    }
-
-    void InstantiateMobs()
-    {
-        tilemapManager.InstantiateMobsInMap();
-    }
-
-    void InitPlayerPosition()
-    {
-        player.transform.position = tilemapManager.GetCurrentVisitedRoom().WorldPosition;
-    }
-
-    void EnqueueTurnOrder()
-    {
-        var actors = tilemapManager.GetCurrentVisitedRoom().Gets<TurnActor>(1 << LayerMask.NameToLayer("Monster"));
-        foreach (var mobActor in actors)
-            turnManager.JoinActor(mobActor);
-
-        turnManager.JoinActor(player);
-    }
-
-    public void UpdateTurnOrderQueue()
-    {
-        var currentVisitedRoom = tilemapManager.GetCurrentVisitedRoom();
-
-        var actors = currentVisitedRoom.Gets<TurnActor>();
-
-        foreach (var actor in actors) turnManager.JoinActor(actor);
-
-        turnManager.JoinActor(player);
-    }
-
-    void ClearQueue()
-    {
-        turnManager.AllRemoveActor();
-    }
-
-    public void SetActorQueueInRoom(Room room)
-    {
-        var actors = room.GetActors();
-
-        foreach (var actor in actors)
-        {
-            turnManager.JoinActor(actor);
-        }
-        turnManager.JoinActor(player);
+        //currentCoroutine = StartCoroutine(TurnSystemCoroutine());
 
     }
 
+    //private IEnumerator TurnSystemCoroutine()
+    //{
+    //    while (true)
+    //    {
+    //        var currentActor = turnManager.UpdateTurn();
 
-    private IEnumerator StartTurnSystemCoroutine()
+    //        CurrentActorName = currentActor.name;
+    //        camera.target = currentActor.transform;
+
+    //        // Wait until the Actor finished his action
+    //        yield return currentActor?.ActionCoroutine();
+    //    }
+    //}
+
+    public void Next()
     {
-        while (true)
-        {
-            var currentActor = turnManager.UpdateTurn();
+        var currentActor = turnManager.GetNextTurn();
+        currentActor.UpdateTurn();
 
-            CurrentActorName = currentActor.name;
-            camera.target = currentActor.transform;
-
-            // Wait until the Actor finished his action
-            yield return currentActor?.ActionCoroutine();
-        }
+        CurrentActorName = currentActor.name;
+        camera.target = currentActor.transform;
     }
 
     public TurnActor CurrentActor { get => turnManager.CurrentActor; }
-
-    private void OnDisable()
-    {
-        //StopCoroutine(currentCoroutine);
-    }
 }
 

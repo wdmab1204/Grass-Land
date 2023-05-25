@@ -6,7 +6,8 @@ namespace TurnSystem
 {
     public abstract class TurnActor : MonoBehaviour
     {
-        public abstract System.Collections.IEnumerator ActionCoroutine();
+        public abstract void UpdateTurn();
+
         public virtual IEnumerator GoDestination(Vector3 targetPosition)
         {
             while (true)

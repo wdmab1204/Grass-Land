@@ -229,7 +229,7 @@ namespace BehaviourTree.Tree
                     var result = Physics2D.OverlapCircle(transform.position + coord, 0.3f, playerLayerMask);
                     if (result != null)
                     {
-                        result.GetComponent<GameEntity.Entity>().TakeDamage(1);
+                        //result.GetComponent<GameEntity.Entity>().TakeDamage(1);
                     }
                 }
 

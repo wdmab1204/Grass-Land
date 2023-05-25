@@ -1,67 +1,26 @@
-﻿using UnityEngine;
+﻿using System.Collections;
 using TurnSystem;
-using System.Collections;
-using GameEntity;
-using System.Collections.Generic;
-using SimpleSpriteAnimator;
-using UnityEngine.Tilemaps;
-using BehaviourTree.Tree;
-
-public enum BTType { MELEE, THROW, BOSS}
+using UnityEngine;
 
 [DisallowMultipleComponent]
 public class MonsterActor : TurnActor
 {
-    enum BehaviourState { IDLE,CHASE,ATTACK };
-
-    [SerializeField] private ActorState ActorState;
-
-    private Tilemap tilemap;
-    private Navigation navigation;
-    private TileGroup tilegroup;
-    private SpriteAnimator animator;
-    private MonsterEntity entity;
-
-    public BTType bttype;
-
-    MonsterBT bt;
-
-    public override IEnumerator ActionCoroutine()
-    {
-        do
-        {
-            bt.Update();
-            yield return null;
-        } while (bt.CurrentRootNodeState == BehaviourTree.NodeState.RUNNING);
-
-        ActorState = ActorState.End;
-    }
+    Animator animator;
+    public new Collider2D collider;
 
     private void Awake()
     {
-        tilegroup = GetComponent<TileGroup>();
-        animator = transform.GetChild(0).GetComponent<SpriteAnimator>();
-        entity = GetComponent<MonsterEntity>();
-
-        entity.deathAction = () =>
-        {
-            animator.Play("Death");
-            Destroy(this.gameObject, animator.AnimationLength);
-        };
-
-        tilemap = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Tilemap>();
-        navigation = tilemap.CreateNavigation();
+        animator = GetComponent<Animator>();
+        collider.enabled = false;
     }
 
-    private void Start()
+    public override void UpdateTurn()
     {
-        this.transform.position = tilemap.RepositioningTheWorld(this.transform.position);
-
-        if (bttype == BTType.MELEE)
-            bt = new MeleeMonsterBT(this.transform, tilegroup);
-        else if (bttype == BTType.BOSS)
-            bt = new BossBT(transform);
-        bt.Initialize();
+        animator.Play("Enemy1-Attack1");
     }
+
+    public void OnCollider() => collider.enabled = true;
+    public void OffCollider() => collider.enabled = false;
+    public void Next() => GameRuleSystem.Instance.Next();
 }
 

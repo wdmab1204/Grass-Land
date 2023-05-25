@@ -11,7 +11,7 @@ public class Door : Interactive
         {
             player.position = new Vector3(nextRoom.Position.x, nextRoom.Position.y);
             GameRuleSystem gameRuleSystem = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameRuleSystem>();
-            gameRuleSystem.UpdateTurnOrderQueue();
+            //gameRuleSystem.UpdateTurnOrderQueue();
         }
     }
 }

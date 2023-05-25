@@ -1,29 +1,51 @@
-﻿using UnityEngine;
-using UnityEngine.Tilemaps;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-namespace GameEntity
+public class Entity : MonoBehaviour
 {
-    public abstract class Entity : MonoBehaviour
-    {
-        private int maxHp;
-        public virtual int MaxHp { get => maxHp; protected set => maxHp = value; }
-        [UnityEngine.SerializeField] private int hp;
-        public virtual int Hp { get => hp; set
-            {
-                hp = value;
-                OnHealthChanged(value);
-            }
-        }
-        public System.Action<int> OnHealthChanged;
-        protected Tilemap tilemap;
-        public Vector3Int LocalPosition => tilemap.ChangeWorldToLocalPosition(this.transform.position);
-        public Vector3 WorldPosition => this.transform.position;
-        public abstract void TakeDamage(int damage);
-        public abstract void Recovery(int amount);
+    Rigidbody2D rb;
+    Animator animator;
+    const float slowdownFactor = 0.95f; // 감속 계수
+    public ParticleSystem dust;
 
-        protected virtual void Awake()
+    [Space()]
+    public AudioSource hitSound;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+    }
+
+    private void FixedUpdate()
+    {
+        rb.velocity *= slowdownFactor;
+    }
+
+    public void PlayHitSFX()
+    {
+        hitSound.Play();
+        animator.Play("Hurt");
+    }
+
+    public void Push(Vector2 force)
+    {
+        rb.AddForce(force, ForceMode2D.Impulse);
+        var mainModule = dust.main;
+        mainModule.duration = force.magnitude / 3.14f;
+        dust.Play();
+    }
+
+    public void FlipX(bool isRight)
+    {
+        if (isRight)
         {
-            tilemap = GameObject.FindGameObjectWithTag("Tilemap").GetComponent<Tilemap>();
+            transform.localScale = Vector3.one;
+        }
+        else
+        {
+            transform.localScale = new Vector3(-1, 1);
         }
     }
 }

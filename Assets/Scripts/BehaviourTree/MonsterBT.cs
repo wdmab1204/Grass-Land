@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using BehaviourTree.Tree;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using GameEntity;
 using SimpleSpriteAnimator;
 
 namespace BehaviourTree.Tree
@@ -370,7 +369,7 @@ namespace BehaviourTree.Tree
                     return state;
                 }
 
-                target.GetComponent<Entity>().TakeDamage(1);
+                //target.GetComponent<Entity>().TakeDamage(1);
 
                 waitCounter = 0;
                 calledInitMethod = false;
@@ -424,7 +423,7 @@ namespace BehaviourTree.Tree
             }
             else
             {
-                target.GetComponent<Entity>().TakeDamage(1);
+                //target.GetComponent<Entity>().TakeDamage(1);
 
                 calledInitMethod = false;
                 state = NodeState.SUCCESS;
