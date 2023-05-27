@@ -6,7 +6,7 @@ using UnityEngine;
 public class MonsterActor : TurnActor
 {
     Animator animator;
-    public new Collider2D collider;
+    public new Collider collider;
 
     private void Awake()
     {

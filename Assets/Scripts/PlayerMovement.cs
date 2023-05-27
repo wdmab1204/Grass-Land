@@ -6,13 +6,13 @@ public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
 
-    private Rigidbody2D rb;
+    private Rigidbody rb;
     private Animator anim;
     private SpriteRenderer sprite;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
     }

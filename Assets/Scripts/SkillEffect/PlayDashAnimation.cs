@@ -13,13 +13,13 @@ public class PlayDashAnimation : MonoBehaviour
     public GameObject effectObject;
     public AudioSource skillSound;
     SoundPlayer player;
-    Collider2D col;
+    Collider col;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
         player = GetComponent<SoundPlayer>();
-        col = GetComponent<Collider2D>();
+        col = GetComponent<Collider>();
     }
 
     //card unity event 

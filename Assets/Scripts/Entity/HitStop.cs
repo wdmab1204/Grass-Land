@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
+public enum Target { PLAYER,ENEMY };
+
 public class HitStop : MonoBehaviour
 {
     float originalFixedDeltaTime;
@@ -14,6 +16,15 @@ public class HitStop : MonoBehaviour
     public float duration = .5f;
     public float timeScale = .2f;
     public int count = 1;
+    public Target target = Target.ENEMY;
+    public string TargetTag
+    {
+        get
+        {
+            if (this.target == Target.PLAYER) return "Player";
+            else return "Enemy";
+        }
+    }
 
     [Header("Shake Cmaera Info")]
     public float shakeDuration = .3f;
@@ -31,7 +42,7 @@ public class HitStop : MonoBehaviour
         StartCoroutine(HitStopCoroutine(duration, timeScale, count, target, direction * 3));
     }
 
-    private IEnumerator HitStopCoroutine(float duration, float timeScale, int count, Entity entity, Vector2 force)
+    private IEnumerator HitStopCoroutine(float duration, float timeScale, int count, Entity entity, Vector3 force)
     {
         while (count-- > 0)
         {
@@ -70,15 +81,16 @@ public class HitStop : MonoBehaviour
 
     //}
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter(Collider other)
     {
-        print(collision.name);
-        if (collision.CompareTag("Enemy") || collision.CompareTag("Player"))
+        print(other.name);
+        if (other.CompareTag(TargetTag))
         {
             //if fource is 300, dust duration is 0.3, else if 100, duration is 0.1
-            Vector2 force = (collision.transform.position - transform.parent.position).normalized * forceScala;
+            Vector3 force = (other.transform.position - transform.parent.position).normalized * forceScala;
+            force.z = 0;
 
-            Entity enemy = collision.GetComponent<Entity>();
+            Entity enemy = other.GetComponent<Entity>();
 
             ApplyHitStop(duration, timeScale, count, enemy, force);
 

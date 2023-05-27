@@ -25,23 +25,23 @@ public class BubbleAnimationController : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (!collision.CompareTag("Player")) return;
+        if (!other.CompareTag("Player")) return;
         time = 0;
     }
 
     float time = 0f;
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerStay(Collider other)
     {
-        if (!collision.CompareTag("Player")) return;
+        if (!other.CompareTag("Player")) return;
         time += Time.deltaTime;
         bubbleAnim.SetFloat("Time", time);
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerExit(Collider other)
     {
-        if (!collision.CompareTag("Player")) return;
+        if (!other.CompareTag("Player")) return;
         time = -1;
         bubbleAnim.SetFloat("Time", time);
     }

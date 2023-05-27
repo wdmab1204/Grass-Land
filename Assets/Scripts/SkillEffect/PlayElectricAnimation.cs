@@ -19,7 +19,7 @@ public class PlayElectricAnimation : MonoBehaviour
         effectObject.transform.localPosition = new Vector3(1.87f, 0);
         effectObject.SetActive(true);
         //오브젝트 활성화, 비활성화할때 초기프레임에 enter,exit는 호출되지 않는다. 호출하기위해 눈에 보이지 않는 물리연산 추가
-        effectObject.transform.parent.GetComponent<Rigidbody2D>().AddForce(new Vector2(0.00001f, 0));
+        effectObject.transform.parent.GetComponent<Rigidbody>().AddForce(new Vector2(0.00001f, 0));
 
         skillSound.Play();
         StartCoroutine(PlayEffect());
