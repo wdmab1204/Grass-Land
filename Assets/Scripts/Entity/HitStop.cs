@@ -83,7 +83,6 @@ public class HitStop : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        print(other.name);
         if (other.CompareTag(TargetTag))
         {
             //if fource is 300, dust duration is 0.3, else if 100, duration is 0.1

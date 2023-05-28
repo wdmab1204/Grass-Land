@@ -14,10 +14,5 @@ public class CardSlot : MonoBehaviour, IDropHandler
             dragAndDrop.parentAfterDrag = transform;
         }
     }
-
-    private void OnEnable()
-    {
-        Debug.Log("create!");
-    }
 }
 

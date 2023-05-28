@@ -6,6 +6,7 @@ public class Entity : MonoBehaviour
 {
     Rigidbody rb;
     Animator animator;
+    SpriteRenderer sprite;
     const float slowdownFactor = 0.95f; // 감속 계수
     public ParticleSystem dust;
 
@@ -16,17 +17,12 @@ public class Entity : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+        sprite = GetComponent<SpriteRenderer>();
     }
-
-    private void FixedUpdate()
-    {
-        //if (string.Compare(gameObject.name, "Warrior") == 0) print(rb.velocity.magnitude);
-        if (rb.velocity.magnitude < 0.1f) dust.Stop();
-    }
-
     float speedThreshold = .1f;
     private void Update()
     {
+        AdjustSortingLayer();
         // 플레이어의 속도를 가져옴
         float speed = rb.velocity.magnitude;
 
@@ -45,6 +41,11 @@ public class Entity : MonoBehaviour
         }
     }
 
+    void AdjustSortingLayer()
+    {
+        sprite.sortingOrder = (int)(transform.position.y * -100);
+    }
+
     public void PlayHitSFX()
     {
         hitSound.Play();
@@ -57,15 +58,27 @@ public class Entity : MonoBehaviour
         dust.Play();
     }
 
+    public void FlipBasedOnTheCursor()
+    {
+        Vector3 mousePosition = Input.mousePosition;
+        mousePosition.z = 1;
+        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        bool isRight = (mouseWorldPosition.x > transform.position.x);
+
+        FlipX(isRight);
+    }
+
     public void FlipX(bool isRight)
     {
         if (isRight)
         {
-            transform.localScale = Vector3.one;
+            //transform.localScale = Vector3.one;
+            sprite.flipX = false;
         }
         else
         {
-            transform.localScale = new Vector3(-1, 1);
+            //transform.localScale = new Vector3(-1, 1);
+            sprite.flipX = true;
         }
     }
 }
