@@ -149,9 +149,10 @@ namespace CardNameSpace
 
         private Card[] CreateCardsFromDatabase()
         {
-            Card[] result = DB.GameDB.GetDataArrayFromDB();
+            //Card[] result = DB.GameDB.GetDataArrayFromDB();
 
-            return result;
+            //return result;
+            return null;
         }
 
         public bool AreHandlersEmpty()

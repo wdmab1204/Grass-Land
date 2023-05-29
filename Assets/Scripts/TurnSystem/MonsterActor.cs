@@ -76,7 +76,7 @@ public class MonsterActor : TurnActor
         directionNormalVector = Quaternion.Euler(0, Random.Range(-15, 15), 0) * directionNormalVector;
         var direction = directionNormalVector * (distance - 0.5f);
 
-        
+
         Ray ray = new Ray(transform.position, direction);
         RaycastHit hit;
         Vector3 dest;

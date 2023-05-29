@@ -36,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // 이동 방향에 따라 이미지 뒤집기
-        sprite.flipX = (moveDir.x < 0);
+        if (moveDir.x < 0) sprite.flipX = true;
+        else if (moveDir.x > 0) sprite.flipX = false;
     }
 }
