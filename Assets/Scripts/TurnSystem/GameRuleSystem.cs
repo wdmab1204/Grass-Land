@@ -42,33 +42,13 @@ public class GameRuleSystem : MonoBehaviour
             if (rootObj.TryGetComponent<TurnActor>(out TurnActor actor))
             {
                 turnManager.JoinActor(actor);
-                print(actor.name);
             }
         }
 
         Next();
-
-        //if (currentCoroutine != null) StopCoroutine(currentCoroutine);
-        //currentCoroutine = StartCoroutine(TurnSystemCoroutine());
-
     }
-
-    //private IEnumerator TurnSystemCoroutine()
-    //{
-    //    while (true)
-    //    {
-    //        var currentActor = turnManager.UpdateTurn();
-
-    //        CurrentActorName = currentActor.name;
-    //        camera.target = currentActor.transform;
-
-    //        // Wait until the Actor finished his action
-    //        yield return currentActor?.ActionCoroutine();
-    //    }
-    //}
-
     public void Next()
-    {
+    { 
         var currentActor = turnManager.GetNextTurn();
         currentActor.UpdateTurn();
 

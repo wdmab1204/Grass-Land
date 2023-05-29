@@ -46,7 +46,7 @@ public class Entity : MonoBehaviour
         sprite.sortingOrder = (int)(transform.position.y * -100);
     }
 
-    public void PlayHitSFX()
+    public void PlayHurtSFX()
     {
         hitSound.Play();
         animator.Play("Hurt");

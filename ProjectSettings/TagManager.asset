@@ -7,17 +7,18 @@ TagManager:
   - Tilemap
   - Skill
   - Enemy
+  - Bubble
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Foot
   - Water
   - UI
   - Player
   - Enemy
   - Skill
-  - 
+  - Ground
   - 
   - 
   - 

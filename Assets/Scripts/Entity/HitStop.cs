@@ -46,46 +46,41 @@ public class HitStop : MonoBehaviour
     {
         while (count-- > 0)
         {
-            originalFixedDeltaTime = Time.fixedDeltaTime;
-            Time.timeScale = timeScale;
-            Time.fixedDeltaTime = originalFixedDeltaTime * Time.timeScale;
+            SetTimeScale(timeScale);
 
-            shakeTween = Camera.main.transform.DOShakePosition(shakeDuration, strength, vibrato, randomness).SetUpdate(true); //setupdate : can play during timescale is 0
-            entity.PlayHitSFX();
+            shakeTween = Camera.main.transform.DOShakePosition(shakeDuration, strength, vibrato, randomness).SetUpdate(true);
+
+            entity.PlayHurtSFX();
             hitSound.Play();
+            
             yield return new WaitForSecondsRealtime(duration);
 
-            Time.timeScale = 1f;
-            Time.fixedDeltaTime = originalFixedDeltaTime;
+            ResetTimeScale();
         }
-        entity.Push(force);
 
-        //shield form
-        if (entity.transform.position.x > transform.parent.position.x)
-            entity.FlipX(isRight: false);
-        else
-            entity.FlipX(isRight: true);
+        entity.Push(force);
+        entity.FlipX(entity.transform.position.x <= transform.parent.position.x);
 
         shakeTween.Kill();
     }
 
-    //private void OnEnable()
-    //{
-    //    var enemy = Physics2D.OverlapBox(transform.position, new Vector2(2.25f, 2.25f), 0, LayerMask.GetMask("Enemy")).GetComponent<Enemy>();
-    //    Debug.Log(enemy?.name);
+    void SetTimeScale(float timeScale)
+    {
+        originalFixedDeltaTime = Time.fixedDeltaTime;
+        Time.timeScale = timeScale;
+        Time.fixedDeltaTime = originalFixedDeltaTime * Time.timeScale;
+    }
 
-    //    //if fource is 300, dust duration is 0.3, else if 100, duration is 0.1
-    //    Vector2 direction = (enemy.transform.position - transform.parent.position).normalized * 1f;
-
-    //    ApplyHitStop(duration: 0.5f, timeScale: 0.2f, count: 1, enemy, direction);
-
-    //}
+    void ResetTimeScale()
+    {
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = originalFixedDeltaTime;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(TargetTag))
         {
-            //if fource is 300, dust duration is 0.3, else if 100, duration is 0.1
             Vector3 force = (other.transform.position - transform.parent.position).normalized * forceScala;
             force.z = 0;
 

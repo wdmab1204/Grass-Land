@@ -8,10 +8,9 @@ public class MonsterActor : TurnActor
 {
     Animator animator;
     public new Collider collider;
-    delegate void AIAction();
+    delegate IEnumerator AIAction();
     AIAction[] actionArray;
     SpriteRenderer sprite;
-    int index = 0;
     Transform player;
 
     private void Awake()
@@ -23,6 +22,7 @@ public class MonsterActor : TurnActor
         {
             Run,
             Attack,
+            RunAndAttack,
         };
     }
 
@@ -33,11 +33,22 @@ public class MonsterActor : TurnActor
 
     public override void UpdateTurn()
     {
-        actionArray[index % actionArray.Length]();
-        index++;
+        StartCoroutine(DoAction());
     }
 
-    void Attack()
+    IEnumerator DoAction()
+    {
+        yield return actionArray[Random.Range(0, actionArray.Length)]();
+        Next();
+    }
+
+    IEnumerator RunAndAttack()
+    {
+        yield return Run();
+        yield return Attack();
+    }
+
+    IEnumerator Attack()
     {
         animator.Play("Enemy1-Attack1");
         if (player.position.x >= transform.position.x)
@@ -50,11 +61,15 @@ public class MonsterActor : TurnActor
             sprite.flipX = true;
             collider.transform.localPosition = new Vector3(-1, collider.transform.localPosition.y, collider.transform.localPosition.z);
         }
+        yield return null;
+
+        float animationTime = animator.GetCurrentAnimatorStateInfo(0).length;
+        yield return new WaitForSeconds(animationTime);
     }
 
     public float distance = 3;
     public LayerMask layerMask;
-    void Run()
+    IEnumerator Run()
     {
         var playerPos = player.position;
         var directionNormalVector = (playerPos - transform.position).normalized;
@@ -85,12 +100,7 @@ public class MonsterActor : TurnActor
         //액션 실행
         Debug.DrawRay(transform.position, direction, Color.blue, 1.0f);
         animator.Play("Run");
-        StartCoroutine(MoveObjectUsingTranslate(dest, 1.5f));
-        //transform.DOMove(dest, 1f).SetEase(Ease.Linear).OnComplete(() =>
-        //{
-        //    Next();
-        //    animator.Play("Idle");
-        //});
+        yield return MoveObjectUsingTranslate(dest, 1.5f);
     }
 
     IEnumerator MoveObjectUsingTranslate(Vector3 targetPosition, float moveDuration)
@@ -102,11 +112,10 @@ public class MonsterActor : TurnActor
         {
             float t = elapsedTime / moveDuration;
             transform.position = Vector3.Lerp(startPosition, targetPosition, t);
-            elapsedTime += Time.deltaTime;
+            elapsedTime += Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
         }
 
-        Next();
         animator.Play("Idle");
     }
 

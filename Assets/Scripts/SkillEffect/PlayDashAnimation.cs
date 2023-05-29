@@ -37,12 +37,54 @@ public class PlayDashAnimation : MonoBehaviour
         to.z = transform.position.z;
 
         skillSound.Play();
-        transform.DOMove(to, 0.5f).SetEase(Ease.OutQuart).OnComplete(() =>
+        //transform.DOMove(to, 0.5f).SetEase(Ease.OutQuart).OnComplete(() =>
+        //{
+        //    col.enabled = true;
+        //    effectObject.SetActive(false);
+        //    GameRuleSystem.Instance.Next();
+        //});
+
+        //StartCoroutine(MoveObjectUsingTranslate(to, 0.5f));
+
+        StartCoroutine(SmoothCoroutine(to, 0.5f));
+    }
+
+    IEnumerator SmoothCoroutine(Vector3 target, float time)
+    {
+        Vector3 velocity = Vector3.zero;
+
+        while (Vector2.Distance(this.transform.position,target)>0.01f)
         {
-            col.enabled = true;
-            effectObject.SetActive(false);
-            GameRuleSystem.Instance.Next();
-        });
+            this.transform.position
+                = Vector3.SmoothDamp(this.transform.position, target, ref velocity, time);
+            yield return null;
+        }
+
+        transform.position = target;
+
+        col.enabled = true;
+        effectObject.SetActive(false);
+        GameRuleSystem.Instance.Next();
+
+        yield return null;
+    }
+
+    IEnumerator MoveObjectUsingTranslate(Vector3 targetPosition, float moveDuration)
+    {
+        float elapsedTime = 0f;
+        Vector3 startPosition = transform.position;
+
+        while (elapsedTime < moveDuration)
+        {
+            float t = elapsedTime / moveDuration;
+            transform.position = Vector3.Lerp(startPosition, targetPosition, t);
+            elapsedTime += Time.deltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+
+        col.enabled = true;
+        effectObject.SetActive(false);
+        GameRuleSystem.Instance.Next();
     }
 
     //public float pushForce = 10f;

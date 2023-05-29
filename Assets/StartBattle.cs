@@ -10,10 +10,12 @@ public class StartBattle : StateMachineBehaviour
     {
         Transform warrior = GameObject.Find("Warrior").transform;
         Transform me = animator.transform.parent;
-        SpriteRenderer spriteRenderer = animator.transform.parent.GetComponent<SpriteRenderer>();
+        SpriteRenderer spriteRenderer = animator.transform.root.GetComponent<SpriteRenderer>();
 
-        if (warrior.position.x < me.position.x) animator.transform.localScale = Vector3.one;
-        else animator.transform.localScale = new Vector3(-1, 1, 1);
+        if (warrior.position.x < me.position.x) spriteRenderer.flipX = true;
+        else spriteRenderer.flipX = false;
+
+        warrior.GetComponent<PlayerMovement>().enabled = false;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -29,7 +31,12 @@ public class StartBattle : StateMachineBehaviour
 
         panel.transform.DOMoveY(0, 1).SetEase(Ease.OutQuad);
 
-        animator.gameObject.SetActive(false);
+        //animator.transform.parent.gameObject.SetActive(false);
+
+        foreach(var obj in GameObject.FindGameObjectsWithTag("Bubble"))
+        {
+            obj.SetActive(false);
+        }
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
